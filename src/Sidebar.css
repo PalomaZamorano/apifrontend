@@ -1,0 +1,25 @@
+.default {
+  background: transparent
+}
+
+.display-enter {
+  
+  transition: all 50ms;
+}
+
+.display-enter-active {
+ 
+  
+  transition: all 50ms;
+}
+
+.display-exit {
+ 
+  transition: all 50ms;
+}
+
+.display-exit-active {
+  
+  
+  transition: all 50ms;
+}
