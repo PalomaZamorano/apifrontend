@@ -14,22 +14,22 @@ class ChartDemo extends Component {
 
   // Add data
   chart.data = [{
-    "country": "USA",
-    "visits": 3025
+    "dimension": "D1",
+    "promedio": 5
 }, {
-  "country": "China",
-  "visits": 1882
+  "dimension": "D2",
+  "promedio": 4
 }, {
-  "country": "Japan",
-  "visits": 1809
+  "dimension": "D3",
+  "promedio": 2
 }, {
-  "country": "Germany",
-  "visits": 1322
+  "dimension": "D4",
+  "promedio": 3
 }];
 
 // Create axes
 let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-categoryAxis.dataFields.category = "country";
+categoryAxis.dataFields.category = "dimension";
 categoryAxis.renderer.grid.template.location = 0;
 categoryAxis.renderer.minGridDistance = 30;
 categoryAxis.renderer.labels.template.horizontalCenter = "right";
@@ -44,8 +44,8 @@ valueAxis.renderer.minWidth = 50;
 // Create series
 let series = chart.series.push(new am4charts.ColumnSeries());
 series.sequencedInterpolation = true;
-series.dataFields.valueY = "visits";
-series.dataFields.categoryX = "country";
+series.dataFields.valueY = "promedio";
+series.dataFields.categoryX = "dimension";
 series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
 series.columns.template.strokeWidth = 0;
 
@@ -77,7 +77,7 @@ chart.cursor = new am4charts.XYCursor();
 
   render() {
     return (
-      <div id="chartdiv" style={{ width: "100%", height: "320px" }}></div>
+      <div id="chartdiv" style={{  height: "320px",width:"100%" }}></div>
     );
   }
 }

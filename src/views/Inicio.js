@@ -51,21 +51,31 @@ class Inicio extends Component{
       return (
         <div  style={{ marginTop:60 }}>
          
-      <Grid container spacing={2} maxWidth="md" minWidth="xs"  className={this.state.useStyles.root} 
-      justify="center" alignContent='space-between'  >
-        <Grid item  xs={5} md={5} >
+      <Grid container spacing={1} maxWidth="md" minWidth="xs"  className={this.state.useStyles.root} 
+      justify='center'>
+
+        <Grid item  xs={5} md={10} >
+          <Paper className={this.state.useStyles.paper}>
+          <Typography variant="h7" component="h2">
+              Promedios por dimensión.
+          </Typography>
+          <ChartDimension/>
+  
+        </Paper>
+        </Grid>  
+        <Grid item  xs={5} md={6} >
           <Paper className={this.state.useStyles.fixsize} >
-          <Typography variant="h5" component="h3">
-              This is a sheet of paper.
+          <Typography variant="h6" component="h2">
+              Ranking promedios profesores.
           </Typography>
           <Ranking/>
           </Paper>
         </Grid>
 
-        <Grid item  xs={3} md={3}  >
+        <Grid item  xs={3} md={2}  >
           <Paper className={this.state.useStyles.fixsize}>
-          <Typography variant="h5" component="h3">
-              This is a sheet of paper.
+          <Typography variant="h6" component="h2">
+              Promedio General
           </Typography>
           <CircularProgressbar value={percentage} text={`${totalEncuestas} `}
           styles={buildStyles({
@@ -79,22 +89,15 @@ class Inicio extends Component{
         </Grid>
 
 
-        <Grid item  xs={5} md={5} >
-          <Paper className={this.state.useStyles.paper}>
-          <Typography variant="h5" component="h3">
-              This is a sheet of paper.
-          </Typography>
-          <ChartDimension/>
-  
-          </Paper>
-        </Grid>   
+         
 
         
-        <Grid item xs={3} md={3}>
+        <Grid item xs={3} md={2}>
           <Paper className={this.state.useStyles.paper} >
-          <Typography variant="h5" component="h3">
-              This is a sheet of paper.
+          <Typography variant="h6" component="h2">
+             Total encuestas
           </Typography>
+          
           <CircularProgressbar
 
            value={percentage}

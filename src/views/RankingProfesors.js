@@ -16,7 +16,7 @@ export default function AlignItemsList() {
   const classes = useStyles();
 
   return (
-    <Table striped bordered hover size="sm" className = {classes.root} style={{ width: "100%", height: "320px" }}>
+    <Table striped bordered hover size="sm" className = {classes.root} style={{  height: "100% " ,width:"100%" }}>
   <thead>
     <tr>
       <th>#</th>

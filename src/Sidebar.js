@@ -11,6 +11,7 @@ import Inicio from './views/Inicio';
 import Tooltip from '@material-ui/core/Tooltip';
 
 
+
 class SideBar extends Component{
     constructor(props){
         super(props);
@@ -113,11 +114,9 @@ class SideBar extends Component{
                         }
                     }}
              >
-               <br/>
-               <br/>
-               <br/>
-              
-                <SideNav.Nav defaultSelected="home" >
+               
+               <SideNav.Toggle onClick={this.Change.bind(this)} />
+                <SideNav.Nav >
                 <Tooltip title="Profesores" placement="right-start" style ={{fontSize: 20}}> 
                     <NavItem eventKey="home">
                         <NavIcon>
