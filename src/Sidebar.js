@@ -3,10 +3,12 @@ import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import { Navbar} from 'react-bootstrap';
 import {CSSTransition} from 'react-transition-group';
 import { FaChalkboardTeacher}  from "react-icons/fa";
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import {Link, Redirect, BrowserRouter as Router, Route} from "react-router-dom";
 import './Sidebar.css';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import Dashboard from './views/Dashboard';
+import Inicio from './views/Inicio';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 class SideBar extends Component{
@@ -87,23 +89,23 @@ class SideBar extends Component{
         >   
         
         <Navbar variant="dark" collapseOnSelect  style={this.state.style} >
-            <Navbar.Brand >Encuesta Docente</Navbar.Brand>
+            <Navbar.Brand  href="/portada" >Encuesta docente</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
             </Navbar.Collapse>
         </Navbar>
-
+        
         </CSSTransition>
 
         </div> 
 
        
-
+        <div >
         <Router>
             <Route render={({ location, history }) => (
              <React.Fragment>
              <SideNav 
-                    style={{backgroundColor: "#2859DE"}}
+                    style={{backgroundColor: "#2859DE", height:"100vh"}}
                     onSelect={(selected) => {
                         const to = '/' + selected;
                         if (location.pathname !== to) {
@@ -111,8 +113,12 @@ class SideBar extends Component{
                         }
                     }}
              >
-                <SideNav.Toggle onClick={this.Change.bind(this)}/>
-                <SideNav.Nav defaultSelected="home">
+               <br/>
+               <br/>
+               <br/>
+              
+                <SideNav.Nav defaultSelected="home" >
+                <Tooltip title="Profesores" placement="right-start" style ={{fontSize: 20}}> 
                     <NavItem eventKey="home">
                         <NavIcon>
                         <FaChalkboardTeacher style={{ fontSize: '1.75em' }} />
@@ -121,7 +127,8 @@ class SideBar extends Component{
                             Profesores
                         </NavText>
                     </NavItem>
-                    <NavItem eventKey="devices">
+                 </Tooltip>   
+                    <NavItem eventKey="inicio">
                         <NavIcon>
                             <i className="fa fa-fw fa-device" style={{ fontSize: '1.75em' }} />
                         </NavIcon>
@@ -131,14 +138,29 @@ class SideBar extends Component{
                     </NavItem>
                 </SideNav.Nav>
              </SideNav>
+             
             <main>
-             <Route  path="/" component ={Dashboard} />
+            
+             <Route path="/inicio" component={props => <Inicio/>} />
+             <Route path="/portada" component={props => <Dashboard/>} />
+             <Route exact path="/">
+                 <Redirect to="/portada" /> 
+             </Route>
+            
+             
                 
             </main>
         </React.Fragment>
          )}
          />
+
+
+       
         </Router>
+        </div>        
+
+
+
         </div>
       );
     }
