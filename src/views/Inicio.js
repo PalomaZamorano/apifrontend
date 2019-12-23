@@ -3,6 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Ranking from './RankingProfesors';
+import axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+
 
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -15,6 +19,7 @@ class Inicio extends Component{
         super(props);
         
         this.state={
+          results: [],
           useStyles : makeStyles(theme => ({
             root: {
               paddingTop: theme.spacing(4),
@@ -43,20 +48,45 @@ class Inicio extends Component{
         }
       }
       
- 
+
+    componentDidMount() {
+
+        axios.get(`http://localhost:3000/profesorsPromGeneral.json`)
+        .then(res => {
+          const results = res.data;
+          this.setState({ results });
+        })
+      }     
 
     render() {
       const percentage = 100;
-      const totalEncuestas = 1000
+      console.log(this.state.results[0])
+      if(this.state.results.length === 0){
+    
+        return(
+          <div>
+             <CircularProgress size={150} color="secondary" />
+          </div>
+  
+        )
+  
+      }
+      else{
       return (
+        
         <div  style={{ marginTop:60 }}>
+       
          
-      <Grid container spacing={1} maxWidth="md" minWidth="xs"  className={this.state.useStyles.root} 
-      justify='center'>
+           
+      <Grid container spacing={1}   className={this.state.useStyles.root} 
+        justify='center' >
+        
+        
+
 
         <Grid item  xs={5} md={10} >
           <Paper className={this.state.useStyles.paper}>
-          <Typography variant="h7" component="h2">
+          <Typography variant="h6" component="h2">
               Promedios por dimensión.
           </Typography>
           <ChartDimension/>
@@ -77,7 +107,7 @@ class Inicio extends Component{
           <Typography variant="h6" component="h2">
               Promedio General
           </Typography>
-          <CircularProgressbar value={percentage} text={`${totalEncuestas} `}
+          <CircularProgressbar value={percentage} text={`${this.state.results[0].promGeneral}.0 `}
           styles={buildStyles({
             // Text size
             textSize: '13px'
@@ -87,7 +117,6 @@ class Inicio extends Component{
           />
           </Paper>
         </Grid>
-
 
          
 
@@ -101,7 +130,7 @@ class Inicio extends Component{
           <CircularProgressbar
 
            value={percentage}
-           text={`${totalEncuestas}`}
+           text={`${this.state.results[0].total_encuestas}`}
            
            styles={buildStyles({
             // Text size
@@ -115,9 +144,9 @@ class Inicio extends Component{
         />
           </Paper>
         </Grid> 
+ 
 
-
-
+  
 
 
 
@@ -126,6 +155,8 @@ class Inicio extends Component{
       >
     </div>
       );
+        }
+        
     }
   }
 

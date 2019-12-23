@@ -1,5 +1,5 @@
 import React from 'react';
-import { Theme, createStyles, makeStyles, useTheme } from '@material-ui/core/styles';
+import {  createStyles, makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 
-const useStyles = makeStyles((theme:Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     card: {
       display: 'flex',
@@ -45,10 +45,10 @@ const useStyles = makeStyles((theme:Theme) =>
 
 export default function Dashboard() {
   const classes = useStyles();
-  const theme = useTheme();
 
   return (
-    <Grid container spacing={3}>
+    <div  >
+    <Grid container spacing={3} >
     <Grid item xs={12}>
     <Card className={classes.card}>
       <div className={classes.details}>
@@ -73,6 +73,6 @@ export default function Dashboard() {
     </Card>
     </Grid>
     </Grid>
-    
+    </div>
   );
 }

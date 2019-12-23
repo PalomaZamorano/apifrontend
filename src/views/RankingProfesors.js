@@ -1,57 +1,74 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { Component }  from 'react';
+import axios from 'axios';
 import { Table } from 'react-bootstrap';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const useStyles = makeStyles(theme => ({
-  root: {
+
+
+ 
+
+
+class Ranking extends Component {
+
+  state = {
+    profesors: [],
+    sums: []
+  }
+  
+  componentDidMount() {
+
+    axios.get(`http://localhost:3000/profesorsRanking.json`)
+    .then(res => {
+      const profesors = res.data;
+      this.setState({ profesors });
+       
+    })
+  }   
+  
+
+render(){
+  
+  if(this.state.profesors.length === 0){
     
-    backgroundColor: theme.palette.background.paper,
-  },
-  inline: {
-    display: 'inline',
-  },
-}));
+    return(
+      <div>
+         <CircularProgress color="secondary" />
+      </div>
 
-export default function AlignItemsList() {
-  const classes = useStyles();
+    )
+
+  }
+  else{
 
   return (
-    <Table striped bordered hover size="sm" className = {classes.root} style={{  height: "100% " ,width:"100%" }}>
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Nombre</th>
-      <th>Promedio dimensiones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>Mark</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Jacob</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Jacob</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>Jacob</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>Jacob</td>
-      <td>@fat</td>
-    </tr>
-    
-  </tbody>
-</Table>
+
+    <div> 
+    { this.state.profesors.reverse().map((profesor,index) => 
+    <Table striped hover size="sm"  style={{  height: "100% " ,width: "100% "}}>
+      <thead>
+      <tr>
+      <th style={{ fontSize:13 }} >#</th>
+      <th  style={{ fontSize:13 }} >   Nombre</th>
+      <th style={{ fontSize:13 }} >Promedio dimensiones</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td style={{ fontSize:13 }}>{index+1}</td>
+      <td  style={{ fontSize:13 }} >{profesor.prof_nombre_corto}</td>
+      <td style={{ fontSize:13 }} >{profesor.prof_proms_results}</td>
+      </tr>
+      </tbody>
+    </Table>
+   )}
+  </div>
   );
+    }
+
 }
+
+  
+
+}
+
+export default Ranking;

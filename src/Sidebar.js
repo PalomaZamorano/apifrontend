@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-import { Navbar} from 'react-bootstrap';
+import SideNav, { NavItem, NavIcon} from '@trendmicro/react-sidenav';
+import { Navbar, Image} from 'react-bootstrap';
 import {CSSTransition} from 'react-transition-group';
 import { FaChalkboardTeacher}  from "react-icons/fa";
-import {Link, Redirect, BrowserRouter as Router, Route} from "react-router-dom";
+import { IoIosStats}  from "react-icons/io";
+import {Redirect, BrowserRouter as Router, Route} from "react-router-dom";
 import './Sidebar.css';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import Dashboard from './views/Dashboard';
@@ -17,7 +18,7 @@ class SideBar extends Component{
         super(props);
         
         this.state={
-         select: false,   
+         select: false,  
          style : {
                 position: 'absolute',
                 top: 0,
@@ -36,6 +37,11 @@ class SideBar extends Component{
         }
       }
       
+
+         
+
+
+
     Change() {
       if (this.state.select === false){  
         this.setState({
@@ -106,7 +112,7 @@ class SideBar extends Component{
             <Route render={({ location, history }) => (
              <React.Fragment>
              <SideNav 
-                    style={{backgroundColor: "#2859DE", height:"100vh"}}
+                    style={{backgroundColor: "#2859DE", height:830}}
                     onSelect={(selected) => {
                         const to = '/' + selected;
                         if (location.pathname !== to) {
@@ -115,32 +121,39 @@ class SideBar extends Component{
                     }}
              >
                
-               <SideNav.Toggle onClick={this.Change.bind(this)} />
                 <SideNav.Nav >
-                <Tooltip title="Profesores" placement="right-start" style ={{fontSize: 20}}> 
-                    <NavItem eventKey="home">
+                <Image src={require('./Icono.png')} rounded   style ={{width:45,height:40, marginTop:5}}/>
+
+
+                <NavItem eventKey="inicio"> 
+                <Tooltip title="Generales" placement="right-start" style ={{fontSize: 20}}> 
+                    <NavItem>     
+                        <NavIcon>
+                        <IoIosStats style={{ fontSize: '1.75em' }} />
+                        </NavIcon>
+                    </NavItem >
+                 </Tooltip> 
+                 </NavItem > 
+
+
+                 <NavItem eventKey="profesores"> 
+                <Tooltip title="Profesores" placement="right-start" style ={{fontSize: 20}}>     
+                    <NavItem>
                         <NavIcon>
                         <FaChalkboardTeacher style={{ fontSize: '1.75em' }} />
                         </NavIcon>
-                        <NavText>
-                            Profesores
-                        </NavText>
                     </NavItem>
-                 </Tooltip>   
-                    <NavItem eventKey="inicio">
-                        <NavIcon>
-                            <i className="fa fa-fw fa-device" style={{ fontSize: '1.75em' }} />
-                        </NavIcon>
-                        <NavText>
-                            Devices
-                        </NavText>
-                    </NavItem>
+
+                </Tooltip> 
+                 </NavItem >
+
                 </SideNav.Nav>
              </SideNav>
              
             <main>
             
              <Route path="/inicio" component={props => <Inicio/>} />
+             <Route path="/profesores" component={props => <Dashboard/>} />
              <Route path="/portada" component={props => <Dashboard/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 
@@ -156,8 +169,7 @@ class SideBar extends Component{
 
        
         </Router>
-        </div>        
-
+        </div>              
 
 
         </div>
