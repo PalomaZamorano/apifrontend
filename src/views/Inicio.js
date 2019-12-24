@@ -36,7 +36,7 @@ class Inicio extends Component{
               
             },
             fixsize: {
-              height: 50            
+              height: '100vh'           
             }, 
             content: {
               flexGrow: 1,
@@ -60,7 +60,6 @@ class Inicio extends Component{
 
     render() {
       const percentage = 100;
-      console.log(this.state.results[0])
       if(this.state.results.length === 0){
     
         return(

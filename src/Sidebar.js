@@ -8,6 +8,7 @@ import {Redirect, BrowserRouter as Router, Route} from "react-router-dom";
 import './Sidebar.css';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import Dashboard from './views/Dashboard';
+import Profesors from './views/ProfesorList';
 import Inicio from './views/Inicio';
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -112,7 +113,7 @@ class SideBar extends Component{
             <Route render={({ location, history }) => (
              <React.Fragment>
              <SideNav 
-                    style={{backgroundColor: "#2859DE", height:830}}
+                    style={{backgroundColor: "#2859DE", height:680}}
                     onSelect={(selected) => {
                         const to = '/' + selected;
                         if (location.pathname !== to) {
@@ -153,7 +154,7 @@ class SideBar extends Component{
             <main>
             
              <Route path="/inicio" component={props => <Inicio/>} />
-             <Route path="/profesores" component={props => <Dashboard/>} />
+             <Route path="/profesores" component={props => <Profesors/>} />
              <Route path="/portada" component={props => <Dashboard/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 

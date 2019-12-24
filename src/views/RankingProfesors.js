@@ -43,24 +43,27 @@ render(){
   return (
 
     <div> 
-    { this.state.profesors.reverse().map((profesor,index) => 
-    <Table striped hover size="sm"  style={{  height: "100% " ,width: "100% "}}>
-      <thead>
+    
+    <Table striped hover bordered size="sm"  style={{  height: "100% " ,width: "100% "}}>
+      <thead> 
       <tr>
-      <th style={{ fontSize:13 }} >#</th>
-      <th  style={{ fontSize:13 }} >   Nombre</th>
-      <th style={{ fontSize:13 }} >Promedio dimensiones</th>
+      <th style={{ fontSize:18 }} >#</th>
+      <th  style={{ fontSize:18 }} >   Nombre</th>
+      <th style={{ fontSize:18 }} >Promedio dimensiones</th>
       </tr>
       </thead>
-      <tbody>
+
+      { this.state.profesors.reverse().map((profesor,index) =>   
+      <tbody  key={profesor.id}>
       <tr>
-      <td style={{ fontSize:13 }}>{index+1}</td>
-      <td  style={{ fontSize:13 }} >{profesor.prof_nombre_corto}</td>
-      <td style={{ fontSize:13 }} >{profesor.prof_proms_results}</td>
+      <td style={{ fontSize:15 }}>{index+1}</td>
+      <td  style={{ fontSize:15 }} >{profesor.prof_nombre_corto}</td>
+      <td style={{ fontSize:15 }} >{profesor.prof_proms_results}</td>
       </tr>
-      </tbody>
+      </tbody>)}
+
     </Table>
-   )}
+   
   </div>
   );
     }
