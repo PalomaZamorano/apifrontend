@@ -8,7 +8,7 @@ import {Redirect, BrowserRouter as Router, Route} from "react-router-dom";
 import './Sidebar.css';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import Dashboard from './views/Dashboard';
-import Profesors from './views/ProfesorList';
+import ProfesorsList from './views/ProfesorList2';
 import Inicio from './views/Inicio';
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -154,7 +154,7 @@ class SideBar extends Component{
             <main>
             
              <Route path="/inicio" component={props => <Inicio/>} />
-             <Route path="/profesores" component={props => <Profesors/>} />
+             <Route path="/profesores" component={props => <ProfesorsList/>} />
              <Route path="/portada" component={props => <Dashboard/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 
