@@ -52,7 +52,7 @@ class ChartDemo extends Component {
     categoryAxis.renderer.labels.template.verticalCenter = "middle";
     categoryAxis.renderer.labels.template.rotation = 270;
     categoryAxis.tooltip.disabled = true;
-    categoryAxis.renderer.minHeight = 110;
+    categoryAxis.renderer.minHeight = 50;
 
     let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.renderer.minWidth = 50;
