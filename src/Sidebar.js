@@ -9,6 +9,7 @@ import './Sidebar.css';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import Dashboard from './views/Dashboard';
 import ProfesorsList from './views/ProfesorList2';
+import Estadistica from './views/Estadistica';
 import Inicio from './views/Inicio';
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -156,6 +157,7 @@ class SideBar extends Component{
              <Route path="/inicio" component={props => <Inicio/>} />
              <Route path="/profesores" component={props => <ProfesorsList/>} />
              <Route path="/portada" component={props => <Dashboard/>} />
+             <Route path="/estadistica" component={props => <Estadistica/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 
              </Route>
