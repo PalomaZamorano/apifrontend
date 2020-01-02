@@ -13,6 +13,14 @@ import { ListGroup } from 'react-bootstrap';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+//Select
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import Divider from '@material-ui/core/Divider';
+
 
 
 am4core.useTheme(am4themes_animated);
@@ -24,6 +32,7 @@ class Estadistica2 extends Component {
         this.state={
           show: false,
           ready:false,
+          curso:0,
           proms:0,
           profesors:[],
           useStyles: makeStyles(theme => ({
@@ -37,7 +46,12 @@ class Estadistica2 extends Component {
                     color: theme.palette.text.secondary,
                     whiteSpace: 'nowrap',
                     marginBottom: theme.spacing(1),
-             }
+             },
+             formControl: {
+                margin: theme.spacing(1),
+                minWidth: 120,
+                
+              }
           }))
         }
     }       
@@ -49,7 +63,7 @@ class Estadistica2 extends Component {
         .then(res => {
             const profesors = res.data; 
             const ready = true;  
-            console.log(profesors)
+            console.log(profesors.cursos)
             const proms = Math.round(profesors.prof_proms_results)
             this.setState({ ready, profesors, proms });
             
@@ -128,6 +142,18 @@ class Estadistica2 extends Component {
         this.setState({ show: false });
       };
 
+    handleChange(event){
+        this.setState({ curso: event.target.value });
+        console.log(this.state.curso)
+      };  
+
+
+    percentage(num, total)
+      {
+        return (num*100)/total;
+      }
+           
+
    
   render() {
 
@@ -155,8 +181,31 @@ class Estadistica2 extends Component {
             style={{ minHeight: '100vh', minWidth: '100vw'  }}>
 
         <Grid item md={12} xs ={6}  style={{width: 850, minHeight: '80vh', minWidth: '80vw'  }} >   
-        <Card  >
-          <div >   
+        <Card>
+
+            <FormControl className={this.state.useStyles.formControl}  style={{marginLeft:30  }}>
+            <InputLabel htmlFor="curso-native-helper">Curso</InputLabel>
+            <NativeSelect
+            value={this.state.curso}
+            onChange={this.handleChange.bind(this)}
+            inputProps={{
+                name: 'curso',
+                id: 'curso-native-helper',
+            }}
+            >
+             { this.state.profesors.cursos.map((curso,index) =>       
+                <option key= {index} value={index}>{curso.curso_cod} - {curso.curso_coord} - {curso.curso_secc}</option>
+             )}
+            </NativeSelect>
+            <FormHelperText>Seleccione el curso del que desea conocer resultados</FormHelperText>
+            </FormControl>
+            <br/>
+            <br/>
+
+            <Divider />
+            <br/>
+
+        <div >   
             <CardContent >
 
                 <Grid container spacing={2} >
@@ -174,8 +223,8 @@ class Estadistica2 extends Component {
                         // Text size
                         textSize: '16px',
                         // Colors
-                        pathColor: '#EA4D04',
-                        textColor: '#5082C1',
+                        pathColor: '#51B4D1',
+                        textColor: '#4A797E',
                         trailColor: '#F09A68',
                         backgroundColor: '#F09A68',
                         })}
@@ -201,7 +250,7 @@ class Estadistica2 extends Component {
                         textSize: '16px',
                         // Colors
                         pathColor: '#EA4D04',
-                        textColor: '#5082C1',
+                        textColor: '#BD724F',
                         trailColor: '#F09A68',
                         backgroundColor: '#F09A68',
                         })}
@@ -223,7 +272,7 @@ class Estadistica2 extends Component {
                         textSize: '16px',
                         // Colors
                         pathColor: '#EA4D04',
-                        textColor: '#5082C1',
+                        textColor: '#BD724F',
                         trailColor: '#F09A68',
                         backgroundColor: '#F09A68',
                         })}
@@ -244,7 +293,7 @@ class Estadistica2 extends Component {
                         textSize: '16px',
                         // Colors
                         pathColor: '#EA4D04',
-                        textColor: '#5082C1',
+                        textColor: '#BD724F',
                         trailColor: '#F09A68',
                         backgroundColor: '#F09A68',
                         })}
@@ -266,7 +315,7 @@ class Estadistica2 extends Component {
                         textSize: '16px',
                         // Colors
                         pathColor: '#EA4D04',
-                        textColor: '#5082C1',
+                        textColor: '#BD724F',
                         trailColor: '#F09A68',
                         backgroundColor: '#F09A68',
                         })}
@@ -292,7 +341,7 @@ class Estadistica2 extends Component {
                     </Paper>
                     </Grid>
 
-                {/* Grida 4 */}            
+                {/* Grida 4  */  }            
                     <Grid item md={12} xs ={10}>
 
                     <Paper className={this.state.useStyles.paper2}>
@@ -303,25 +352,25 @@ class Estadistica2 extends Component {
                         <ListGroup.Item>
                             <ListGroup variant="flush">
                                 <ListGroup.Item>Porcentaje Aprobación</ListGroup.Item>
-                                <ListGroup.Item>11%</ListGroup.Item>
+                                <ListGroup.Item>{`${this.percentage(this.state.profesors.cursos[this.state.curso].curso_aprobados,this.state.profesors.cursos[this.state.curso].curso_inscritos)}%`}</ListGroup.Item>
                             </ListGroup>
                         </ListGroup.Item>
                         <ListGroup.Item>
                         <ListGroup variant="flush">
                             <ListGroup.Item>Porcentaje Reprobación</ListGroup.Item>
-                            <ListGroup.Item>11%</ListGroup.Item>
+                            <ListGroup.Item>{`${this.percentage(this.state.profesors.cursos[this.state.curso].curso_reprobados,this.state.profesors.cursos[this.state.curso].curso_inscritos)}%`}</ListGroup.Item>
                         </ListGroup>
                         </ListGroup.Item>
                     <ListGroup.Item>
                         <ListGroup variant="flush">
-                            <ListGroup.Item>Nota promedio del curso</ListGroup.Item>
-                            <ListGroup.Item>5.5</ListGroup.Item>
+                            <ListGroup.Item>Nota promedio curso</ListGroup.Item>
+                    <ListGroup.Item>{this.state.profesors.cursos[this.state.curso].curso_promedio}</ListGroup.Item>
                             </ListGroup>
                         </ListGroup.Item>
                     <ListGroup.Item>
                         <ListGroup variant="flush">
                             <ListGroup.Item>Inscritos en el curso</ListGroup.Item>
-                            <ListGroup.Item>20</ListGroup.Item>
+                            <ListGroup.Item>{this.state.profesors.cursos[this.state.curso].curso_inscritos}</ListGroup.Item>
                         </ListGroup></ListGroup.Item>
                     </ListGroup>
                     </Paper>     
