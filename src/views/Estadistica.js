@@ -14,6 +14,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import ChartDimension from '../Graficos/ChartDemo'
+import Estadistica2 from './Estadistica2'
+
 
 
 
@@ -113,6 +115,9 @@ class ProfesorList2 extends Component {
       else{
     return (
 
+    <div>    
+    
+    
      <Grid container spacing={3} style={{ marginTop:60 }}>
 
         <Grid item xs={7} md={12} style={{ width:350}}>
@@ -204,7 +209,13 @@ class ProfesorList2 extends Component {
           </Paper>
         </Grid>
 
+
+         
         </Grid>
+
+      
+      </div>
+
 
 
     )

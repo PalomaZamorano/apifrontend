@@ -13,6 +13,9 @@ import Estadistica from './views/Estadistica';
 import Inicio from './views/Inicio';
 import Tooltip from '@material-ui/core/Tooltip';
 
+import Test from './views/Estadistica2';
+
+
 
 
 class SideBar extends Component{
@@ -158,6 +161,7 @@ class SideBar extends Component{
              <Route path="/profesores" component={props => <ProfesorsList/>} />
              <Route path="/portada" component={props => <Dashboard/>} />
              <Route path="/estadistica" component={props => <Estadistica/>} />
+             <Route path="/prueba" component={props => <Test/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 
              </Route>
