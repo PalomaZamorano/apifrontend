@@ -20,6 +20,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import Divider from '@material-ui/core/Divider';
+import ChartBarra from '../Graficos/ChartBarra'
 
 
 
@@ -30,6 +31,9 @@ class Estadistica2 extends Component {
     constructor(props){
         super(props);
         this.state={
+          id:50,
+          cod:5,
+          agno:510,  
           resultAsign: [1],
           show: false,
           ready:false,
@@ -65,7 +69,7 @@ class Estadistica2 extends Component {
         .then(res => {
             const profesors = res.data; 
             const ready = true;  
-            console.log(profesors.cursos)
+           // console.log(profesors.cursos)
             const proms = Math.round(profesors.prof_proms_results)
             this.handleChange2(profesors.cursos[0].curso_cod)
             this.setState({ ready, profesors, proms });
@@ -75,26 +79,17 @@ class Estadistica2 extends Component {
         //Gráfico 
 
             let chart = am4core.create("chartdiv", am4charts.XYChart);
-
+            const year = new Date().getFullYear()   
             // Add data
             chart.data = [{
-            "country": "USA",
-            "visits": 2025
+            "country": `${year}`,
+            "visits":5
             }, {
-            "country": "China",
-            "visits": 1882
+            "country": `${year-1}`,
+            "visits": 5
             }, {
-            "country": "Japan",
-            "visits": 1809
-            }, {
-            "country": "Germany",
-            "visits": 1322
-            }, {
-            "country": "UK",
-            "visits": 1122
-            }, {
-            "country": "France",
-            "visits": 1114
+            "country": `${year-2}`,
+            "visits": 5
             }];
 
             // Create axes
@@ -124,6 +119,7 @@ class Estadistica2 extends Component {
             let columnTemplate = series.columns.template;
             columnTemplate.strokeWidth = 2;
             columnTemplate.strokeOpacity = 1;    
+        
 
         })   
 
@@ -151,7 +147,7 @@ class Estadistica2 extends Component {
         .then(res => {
             const resultAsign = res.data; 
              this.setState({resultAsign});
-             console.log(this.state.resultAsign[0].result_prom_general)
+            // console.log(this.state.resultAsign[0].result_prom_general)
             
         })    
     }  
@@ -182,7 +178,7 @@ class Estadistica2 extends Component {
   render() {
 
     const percentage = 100; 
-    console.log(this.state.resultAsign[0])
+    //console.log(this.state.resultAsign[0])
 
     if(this.state.ready === false ){
     
@@ -194,224 +190,246 @@ class Estadistica2 extends Component {
         )
   
       }
-      else{
+    else{
+            
+        return (
+        <div style={{marginTop:60}} >
+        <Grid container spacing={0}
+                direction="column"
+                alignItems="center"
+                justify="center"
+                style={{ minHeight: '100vh', minWidth: '100vw'  }}>
+
+            <Grid item md={12} xs ={6}  style={{width: 850, minHeight: '80vh', minWidth: '80vw'  }} >   
+            <Card>
+
+            <form >  
+                <FormControl  className={this.state.useStyles.formControl} style={{marginLeft:30  }}>
+                <InputLabel htmlFor="curso-native-helper">Curso</InputLabel>
+                <NativeSelect
+                value={this.state.curso}
+                onChange ={this.handleChange.bind(this)}            
+                inputProps={{
+                    name: 'curso',
+                    id: 'curso-native-helper',
+                }}
+                >
+                { this.state.profesors.cursos.map((curso,index) =>       
+                    <option key= {curso.id} value={index}>{curso.curso_cod} - {curso.curso_coord} - {curso.curso_secc}</option>
+                )}
+                </NativeSelect>
+                <FormHelperText>  Seleccione el curso del que desea conocer resultados {this.state.curso}</FormHelperText>
+                </FormControl>
+            </form> 
+                <br/>
+                <br/>
+
+                <Divider />
+                <br/>
+
+                <div >  
         
-        
-    return (
-     <div style={{marginTop:60}} >
-      <Grid container spacing={0}
-            direction="column"
-            alignItems="center"
-            justify="center"
-            style={{ minHeight: '100vh', minWidth: '100vw'  }}>
+                <CardContent >
 
-        <Grid item md={12} xs ={6}  style={{width: 850, minHeight: '80vh', minWidth: '80vw'  }} >   
-        <Card>
+                    <Grid container spacing={2} >
+                    {/* Grida 1 */}
+                
+                    {this.state.resultAsign[0].result_prom_general ?  
+                    
+                        <Grid item md={3} xs ={3}>
+                        <Paper className={this.state.useStyles.paper}>
+                            <Typography variant="h6" component="h2">
+                                Promedio general encuesta del curso
+                            </Typography>
+                        <CircularProgressbar
+                            style = {{width:5, height:5}}
+                            value={percentage}
+                            text={`${this.state.resultAsign[0].result_prom_general}`}
+                            styles={buildStyles({
+                            // Text size
+                            textSize: '16px',
+                            // Colors
+                            pathColor: '#51B4D1',
+                            textColor: '#4A797E',
+                            trailColor: '#F09A68',
+                            backgroundColor: '#F09A68',
+                            })}
+                        />
 
-          <form >  
-            <FormControl  className={this.state.useStyles.formControl} style={{marginLeft:30  }}>
-            <InputLabel htmlFor="curso-native-helper">Curso</InputLabel>
-            <NativeSelect
-            value={this.state.curso}
-            onChange ={this.handleChange.bind(this)}            
-            inputProps={{
-                name: 'curso',
-                id: 'curso-native-helper',
-            }}
-            >
-             { this.state.profesors.cursos.map((curso,index) =>       
-                <option key= {curso.id} value={index}>{curso.curso_cod} - {curso.curso_coord} - {curso.curso_secc}</option>
-             )}
-            </NativeSelect>
-             <FormHelperText>  Seleccione el curso del que desea conocer resultados</FormHelperText>
-            </FormControl>
-           </form> 
-            <br/>
-            <br/>
+                        </Paper>
+                        </Grid> 
+                    : <div> </div> }
+                            
+                            
+                    {/* Grida 2 */}   
 
-            <Divider />
-            <br/>
+                    {this.state.resultAsign[0].result_promg1n ?    
 
-        <div >   
-            <CardContent >
-
-                <Grid container spacing={2} >
-                {/* Grida 1 */}
-                    <Grid item md={3} xs ={3}>
-                    <Paper className={this.state.useStyles.paper}>
+                        <Grid item md={9} xs ={9}>
+                        <Paper className={this.state.useStyles.paper2}>
                         <Typography variant="h6" component="h2">
-                            Promedio general encuesta del curso
+                            Promedio por dimensión del curso
+                        </Typography> 
+                        <Grid container spacing={3}>
+                        <Grid item xs={3}>
+
+                        <CircularProgressbar
+                            style = {{width:10, height:10}}
+                            value={percentage}
+                            text={`${this.state.resultAsign[0].result_promg1n}`}
+                            styles={buildStyles({
+                            // Text size
+                            textSize: '16px',
+                            // Colors
+                            pathColor: '#EA4D04',
+                            textColor: '#BD724F',
+                            trailColor: '#F09A68',
+                            backgroundColor: '#F09A68',
+                            })}
+                        />
+                        <Typography variant="h6" component="h2">
+                                D1
                         </Typography>
-                    <CircularProgressbar
-                        style = {{width:5, height:5}}
-                        value={percentage}
-                        text={`${this.state.resultAsign[0].result_prom_general}`}
-                        styles={buildStyles({
-                        // Text size
-                        textSize: '16px',
-                        // Colors
-                        pathColor: '#51B4D1',
-                        textColor: '#4A797E',
-                        trailColor: '#F09A68',
-                        backgroundColor: '#F09A68',
-                        })}
-                    />
-
-                    </Paper>
-                    </Grid>
-                   {/* Grida 2 */}    
-                    <Grid item md={9} xs ={9}>
-                    <Paper className={this.state.useStyles.paper2}>
-                    <Typography variant="h6" component="h2">
-                        Promedio por dimensión del curso
-                    </Typography> 
-                    <Grid container spacing={3}>
-                    <Grid item xs={3}>
-
-                    <CircularProgressbar
-                        style = {{width:10, height:10}}
-                        value={percentage}
-                        text={`${this.state.resultAsign[0].result_prom_general}`}
-                        styles={buildStyles({
-                        // Text size
-                        textSize: '16px',
-                        // Colors
-                        pathColor: '#EA4D04',
-                        textColor: '#BD724F',
-                        trailColor: '#F09A68',
-                        backgroundColor: '#F09A68',
-                        })}
-                    />
-                    <Typography variant="h6" component="h2">
-                            D1
-                    </Typography>
+                        
+                        </Grid>
                     
-                    </Grid>
-
-                    <Grid item xs={3}>
                     
-                    <CircularProgressbar
-                        style = {{width:10, height:10}}
-                        value={percentage}
-                        text={`${this.state.resultAsign[0].result_prom_general}`}
-                        styles={buildStyles({
-                        // Text size
-                        textSize: '16px',
-                        // Colors
-                        pathColor: '#EA4D04',
-                        textColor: '#BD724F',
-                        trailColor: '#F09A68',
-                        backgroundColor: '#F09A68',
-                        })}
-                    />
-                    <Typography variant="h6" component="h2">
-                            D2
-                    </Typography>
-                    </Grid>
+                        <Grid item xs={3}>
+                        
+                        <CircularProgressbar
+                            style = {{width:10, height:10}}
+                            value={percentage}
+                            text={`${this.state.resultAsign[0].result_promg2n}`}
+                            styles={buildStyles({
+                            // Text size
+                            textSize: '16px',
+                            // Colors
+                            pathColor: '#EA4D04',
+                            textColor: '#BD724F',
+                            trailColor: '#F09A68',
+                            backgroundColor: '#F09A68',
+                            })}
+                        />
+                        <Typography variant="h6" component="h2">
+                                D2
+                        </Typography>
+                        </Grid>
 
-                    <Grid item xs={3}>
+                        <Grid item xs={3}>
+                        
+                        <CircularProgressbar
+                            style = {{width:10, height:10}}
+                            value={percentage}
+                            text={`${this.state.resultAsign[0].result_promg3n}`}
+                            styles={buildStyles({
+                            // Text size
+                            textSize: '16px',
+                            // Colors
+                            pathColor: '#EA4D04',
+                            textColor: '#BD724F',
+                            trailColor: '#F09A68',
+                            backgroundColor: '#F09A68',
+                            })}
+                        />
+                        <Typography variant="h6" component="h2">
+                                D3
+                        </Typography>
+
+                        </Grid>
+
+                        <Grid item xs={3}>
+                        
+                        <CircularProgressbar
+                            style = {{width:10, height:10}}
+                            value={percentage}
+                            text={`${this.state.resultAsign[0].result_promg4n}`}
+                            styles={buildStyles({
+                            // Text size
+                            textSize: '16px',
+                            // Colors
+                            pathColor: '#EA4D04',
+                            textColor: '#BD724F',
+                            trailColor: '#F09A68',
+                            backgroundColor: '#F09A68',
+                            })}
+                        />
+                        <Typography variant="h6" component="h2">
+                                D4
+                        </Typography>
+                        </Grid>
+                        </Grid>
+                        </Paper>
+
+                        </Grid>
                     
-                    <CircularProgressbar
-                        style = {{width:10, height:10}}
-                        value={percentage}
-                        text={`${this.state.proms}`}
-                        styles={buildStyles({
-                        // Text size
-                        textSize: '16px',
-                        // Colors
-                        pathColor: '#EA4D04',
-                        textColor: '#BD724F',
-                        trailColor: '#F09A68',
-                        backgroundColor: '#F09A68',
-                        })}
-                    />
-                    <Typography variant="h6" component="h2">
-                            D3
-                    </Typography>
+                    : <div>
+                        <CircularProgress size={30} color="secondary" />
+                    </div> }  
 
-                    </Grid>
+                    { /* Grida 3 */}    
 
-                    <Grid item xs={3}>
                     
-                    <CircularProgressbar
-                        style = {{width:10, height:10}}
-                        value={percentage}
-                        text={`${this.state.proms}`}
-                        styles={buildStyles({
-                        // Text size
-                        textSize: '16px',
-                        // Colors
-                        pathColor: '#EA4D04',
-                        textColor: '#BD724F',
-                        trailColor: '#F09A68',
-                        backgroundColor: '#F09A68',
-                        })}
-                    />
-                    <Typography variant="h6" component="h2">
-                            D4
-                    </Typography>
-                    </Grid>
-                    </Grid>
-                    </Paper>
+                        <Grid item md={10} xs ={10}>
+                        <Paper className={this.state.useStyles.paper}  style={{marginLeft:90 }}>
+                        <Typography variant="h6" component="h2">
+                                Gráfico resultados historicos
+                        </Typography>    
 
-                    </Grid>
+                        <ChartBarra 
+                         curso =  {this.state.curso}
+                         id = {this.state.profesors.id}
+                         cod = {this.state.profesors.cursos[this.state.curso].curso_cod}
+                         agno = {this.state.profesors.cursos[this.state.curso].curso_agno} />
 
-                 {/* Grida 3 */}       
-                    <Grid item md={10} xs ={10}>
-                    <Paper className={this.state.useStyles.paper}  style={{marginLeft:90 }}>
+                        </Paper>
+                        </Grid>
+                    
+                    
 
-                    <Typography variant="h6" component="h2">
-                            Gráfico resultados historicos
-                    </Typography>    
-                    <div id="chartdiv" style={{  height: "300px",width:"100%" }}></div>
+                    {/* Grida 4  */  }            
+                        <Grid item md={12} xs ={10}>
 
-                    </Paper>
-                    </Grid>
-
-                {/* Grida 4  */  }            
-                    <Grid item md={12} xs ={10}>
-
-                    <Paper className={this.state.useStyles.paper2}>
-                    <Typography variant="h6" component="h2">
-                         Valores del curso
-                    </Typography> 
-                    <ListGroup horizontal >
+                        <Paper className={this.state.useStyles.paper2}>
+                        <Typography variant="h6" component="h2">
+                            Valores del curso
+                        </Typography> 
+                        <ListGroup horizontal >
+                            <ListGroup.Item>
+                                <ListGroup variant="flush">
+                                    <ListGroup.Item>Porcentaje Aprobación</ListGroup.Item>
+                                    <ListGroup.Item>{`${this.percentage(this.state.profesors.cursos[this.state.curso].curso_aprobados,this.state.profesors.cursos[this.state.curso].curso_inscritos)}%`}</ListGroup.Item>
+                                </ListGroup>
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item>Porcentaje Reprobación</ListGroup.Item>
+                                <ListGroup.Item>{`${this.percentage(this.state.profesors.cursos[this.state.curso].curso_reprobados,this.state.profesors.cursos[this.state.curso].curso_inscritos)}%`}</ListGroup.Item>
+                            </ListGroup>
+                            </ListGroup.Item>
                         <ListGroup.Item>
                             <ListGroup variant="flush">
-                                <ListGroup.Item>Porcentaje Aprobación</ListGroup.Item>
-                                <ListGroup.Item>{`${this.percentage(this.state.profesors.cursos[this.state.curso].curso_aprobados,this.state.profesors.cursos[this.state.curso].curso_inscritos)}%`}</ListGroup.Item>
-                            </ListGroup>
-                        </ListGroup.Item>
+                                <ListGroup.Item>Nota promedio curso</ListGroup.Item>
+                        <ListGroup.Item>{this.state.profesors.cursos[this.state.curso].curso_promedio}</ListGroup.Item>
+                                </ListGroup>
+                            </ListGroup.Item>
                         <ListGroup.Item>
-                        <ListGroup variant="flush">
-                            <ListGroup.Item>Porcentaje Reprobación</ListGroup.Item>
-                            <ListGroup.Item>{`${this.percentage(this.state.profesors.cursos[this.state.curso].curso_reprobados,this.state.profesors.cursos[this.state.curso].curso_inscritos)}%`}</ListGroup.Item>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item>Inscritos en el curso</ListGroup.Item>
+                                <ListGroup.Item>{this.state.profesors.cursos[this.state.curso].curso_inscritos}</ListGroup.Item>
+                            </ListGroup></ListGroup.Item>
                         </ListGroup>
-                        </ListGroup.Item>
-                    <ListGroup.Item>
-                        <ListGroup variant="flush">
-                            <ListGroup.Item>Nota promedio curso</ListGroup.Item>
-                    <ListGroup.Item>{this.state.profesors.cursos[this.state.curso].curso_promedio}</ListGroup.Item>
-                            </ListGroup>
-                        </ListGroup.Item>
-                    <ListGroup.Item>
-                        <ListGroup variant="flush">
-                            <ListGroup.Item>Inscritos en el curso</ListGroup.Item>
-                            <ListGroup.Item>{this.state.profesors.cursos[this.state.curso].curso_inscritos}</ListGroup.Item>
-                        </ListGroup></ListGroup.Item>
-                    </ListGroup>
-                    </Paper>     
+                        </Paper>     
 
+                        </Grid>
                     </Grid>
-                </Grid>
-           </CardContent>           
-            </div>           
-          </Card>
-          </Grid>
-          </Grid>
-        </div>
+            </CardContent>           
+                </div>           
+            </Card>
+            </Grid>
+            </Grid>
+            </div>
 
-    )
+        )
         }
   }
 }
