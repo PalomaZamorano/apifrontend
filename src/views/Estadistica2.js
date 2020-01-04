@@ -30,8 +30,10 @@ class Estadistica2 extends Component {
     constructor(props){
         super(props);
         this.state={
+          resultAsign: [1],
           show: false,
           ready:false,
+          ready2:false,
           curso:0,
           proms:0,
           profesors:[],
@@ -65,8 +67,9 @@ class Estadistica2 extends Component {
             const ready = true;  
             console.log(profesors.cursos)
             const proms = Math.round(profesors.prof_proms_results)
+            this.handleChange2(profesors.cursos[0].curso_cod)
             this.setState({ ready, profesors, proms });
-            
+
          
 
         //Gráfico 
@@ -142,10 +145,31 @@ class Estadistica2 extends Component {
         this.setState({ show: false });
       };
 
+
+    handleChange2 = (cod) =>{
+        axios.get('http://localhost:3000/profsAsign/1487/' + cod + '/2019')
+        .then(res => {
+            const resultAsign = res.data; 
+             this.setState({resultAsign});
+             console.log(this.state.resultAsign[0].result_prom_general)
+            
+        })    
+    }  
+
     handleChange(event){
-        this.setState({ curso: event.target.value });
-        console.log(this.state.curso)
-      };  
+                axios.get('http://localhost:3000/profsAsign/1487/' + this.state.profesors.cursos[event.target.value].curso_cod + '/2019')
+                .then(res => {
+                    const resultAsign = res.data; 
+                    this.setState({ resultAsign });
+                    
+                })
+                this.setState({ curso:event.target.value});
+                
+          
+
+        
+    }
+  
 
 
     percentage(num, total)
@@ -153,14 +177,14 @@ class Estadistica2 extends Component {
         return (num*100)/total;
       }
            
-
+    
    
   render() {
 
-    const percentage = 100;
-    
+    const percentage = 100; 
+    console.log(this.state.resultAsign[0])
 
-    if(this.state.ready === false){
+    if(this.state.ready === false ){
     
         return(
           <div>
@@ -171,8 +195,9 @@ class Estadistica2 extends Component {
   
       }
       else{
+        
+        
     return (
-
      <div style={{marginTop:60}} >
       <Grid container spacing={0}
             direction="column"
@@ -183,22 +208,24 @@ class Estadistica2 extends Component {
         <Grid item md={12} xs ={6}  style={{width: 850, minHeight: '80vh', minWidth: '80vw'  }} >   
         <Card>
 
-            <FormControl className={this.state.useStyles.formControl}  style={{marginLeft:30  }}>
+          <form >  
+            <FormControl  className={this.state.useStyles.formControl} style={{marginLeft:30  }}>
             <InputLabel htmlFor="curso-native-helper">Curso</InputLabel>
             <NativeSelect
             value={this.state.curso}
-            onChange={this.handleChange.bind(this)}
+            onChange ={this.handleChange.bind(this)}            
             inputProps={{
                 name: 'curso',
                 id: 'curso-native-helper',
             }}
             >
              { this.state.profesors.cursos.map((curso,index) =>       
-                <option key= {index} value={index}>{curso.curso_cod} - {curso.curso_coord} - {curso.curso_secc}</option>
+                <option key= {curso.id} value={index}>{curso.curso_cod} - {curso.curso_coord} - {curso.curso_secc}</option>
              )}
             </NativeSelect>
-            <FormHelperText>Seleccione el curso del que desea conocer resultados</FormHelperText>
+             <FormHelperText>  Seleccione el curso del que desea conocer resultados</FormHelperText>
             </FormControl>
+           </form> 
             <br/>
             <br/>
 
@@ -218,7 +245,7 @@ class Estadistica2 extends Component {
                     <CircularProgressbar
                         style = {{width:5, height:5}}
                         value={percentage}
-                        text={`${this.state.proms}`}
+                        text={`${this.state.resultAsign[0].result_prom_general}`}
                         styles={buildStyles({
                         // Text size
                         textSize: '16px',
@@ -244,7 +271,7 @@ class Estadistica2 extends Component {
                     <CircularProgressbar
                         style = {{width:10, height:10}}
                         value={percentage}
-                        text={`${this.state.proms}`}
+                        text={`${this.state.resultAsign[0].result_prom_general}`}
                         styles={buildStyles({
                         // Text size
                         textSize: '16px',
@@ -266,7 +293,7 @@ class Estadistica2 extends Component {
                     <CircularProgressbar
                         style = {{width:10, height:10}}
                         value={percentage}
-                        text={`${this.state.proms}`}
+                        text={`${this.state.resultAsign[0].result_prom_general}`}
                         styles={buildStyles({
                         // Text size
                         textSize: '16px',
