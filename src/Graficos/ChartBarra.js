@@ -3,7 +3,7 @@ import axios from 'axios';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 am4core.useTheme(am4themes_animated);
@@ -12,6 +12,7 @@ class ChartBarra extends Component {
 
     state = {
       results:[],
+      ready:false,
       code:0
     }
   
@@ -20,7 +21,8 @@ class ChartBarra extends Component {
         .then(res => {
             const results = res.data; 
             const code =  this.props.cod; 
-            this.setState({results, code});
+            const ready = true;
+            this.setState({results, code,ready});
 
         //Gráfico 
 
@@ -30,13 +32,13 @@ class ChartBarra extends Component {
             // Add data
             chart.data = [{
             "country": `${year}`,
-            "visits":this.state.results[0].result_prom_general
+            "visits":0
             }, {
             "country": `${year-1}`,
             "visits": this.state.results[0].result_prom_general
             }, {
             "country": `${year-2}`,
-            "visits": this.state.results[0].result_prom_general
+            "visits": 0
             }];
 
             // Create axes
@@ -83,7 +85,8 @@ class ChartBarra extends Component {
         .then(res => {
             const results = res.data; 
             const code =  this.props.cod; 
-            this.setState({results, code});
+            const ready = true;
+            this.setState({results, code, ready});
 
             //Gráfico 
 
@@ -93,13 +96,13 @@ class ChartBarra extends Component {
             // Add data
             chart.data = [{
             "country": `${year}`,
-            "visits":this.state.results[0].result_prom_general
+            "visits":0
             }, {
             "country": `${year-1}`,
             "visits": this.state.results[0].result_prom_general
             }, {
             "country": `${year-2}`,
-            "visits": this.state.results[0].result_prom_general
+            "visits": 0
             }];
 
             // Create axes
@@ -135,18 +138,35 @@ class ChartBarra extends Component {
     }
 
     componentDidUpdate(prevProps) {
+
         if (prevProps.cod !== this.props.cod) {
+           const ready = false;
+            this.setState({ready});
            this.handleChange()
         }
     }
   
     render() {
        
-
-      return (
-        <div id="chartdiv" style={{  height: "300px",width:"100%" }}></div>
-      );
+        if(this.state.ready === false ){
+    
+            return(
+              <div> 
+                 <CircularProgress size={60} color="secondary" />
+                 <br/>
+                 <br/>
+                 <br/>
+                 <br/>
+              </div>
+            )
       
+        }
+        else{
+
+            return (
+                <div id="chartdiv" style={{  height: "300px",width:"100%" }}></div>
+            );
+        } 
     }
   }
   

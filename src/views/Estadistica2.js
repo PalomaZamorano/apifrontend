@@ -9,33 +9,63 @@ import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { ListGroup } from 'react-bootstrap';
-//Componentes Gráfico Amcharts
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 //Select
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import Divider from '@material-ui/core/Divider';
 import ChartBarra from '../Graficos/ChartBarra'
+//Dialog
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+
+import { Table } from 'react-bootstrap';
 
 
 
-am4core.useTheme(am4themes_animated);
 
 class Estadistica2 extends Component {
 
     constructor(props){
         super(props);
         this.state={
-          id:50,
-          cod:5,
-          agno:510,  
+          id:0,
+          cod:0,
+          agno:0,  
+          show:false,
           resultAsign: [1],
-          show: false,
+          preguntas2:[],
+          pregtext:["Asistí regularmente a las clases presenciales",
+          "Desarrollé oportunamente las distintas actividades planificadas para la asignatura (estudio, lecturas, trabajos y/o ejercicios).",
+          "Participé activamente en el desarrollo de las clases realizando preguntas, comentarios y/o sugerencias.",
+          "Considerando la carga de trabajo en clases y fuera de clases, ¿Cuánto tiempo dedicó semanalmente en promedio a esta asignatura?",
+          "Da a conocer a los/las estudiantes la planificación de sus actividades docentes (clases, talleres, evaluaciones, salidas a terreno, etc.) al inicio del curso.",
+          "Organiza las actividades docentes en forma coherente con los objetivos establecidos.",
+          "Cumple con el programa según lo planificado, justificando aquellos contenidos que no fueron cubiertos (en caso de que así ocurra).",
+          "Entrega documentos (apuntes, guías, artículos, otros) que complementan el desarrollo de las actividades educativas.",
+          "Utiliza recursos tecnológicos (presentaciones, internet, etc.) y/o materiales (equipamiento, laboratorios, etc.) que facilitan la comprensión de los contenidos.",
+          "Utiliza los recursos bibliográficos definidos en el programa, como referentes para el desarrollo de las clases.",
+          "Sugiere recursos bibliográficos complementarios para el desarrollo de los contenidos.",
+          "Fomenta la participación de los/las estudiantes en clases (mediante preguntas, debates, ejemplos u otros).",
+          "Comunica los contenidos de forma clara.",
+          "Contextualiza los contenidos del curso al desempeño profesional futuro de los estudiantes.",
+          "Utiliza distintas estrategias de enseñanza para facilitar el logro de los aprendizajes.",
+          "Utiliza el horario de clase eficientemente, optimizando el tiempo disponible.",
+          "Realiza actividades que le permiten conocer los aprendizajes previos de sus estudiantes al inicio de la asignatura (ya sea de manera escrita, oral, presencial u online). \t",
+          "Explica a los/las estudiantes con anterioridad, los criterios de evaluación definidos para cada instancia (pruebas, trabajos, disertaciones, etc.).",
+          "Entrega el resultado de las evaluaciones dentro de los 15 días establecidos por reglamento.",
+          "Aplica pautas de corrección claras para la revisión de las evaluaciones. ",
+          "Retroalimenta las evaluaciones de los/las alumnos(as), permitiéndoles reconocer sus posibles errores.",
+          "Utiliza procedimientos evaluativos (pruebas, trabajos, disertaciones, etc.) coherentes con los objetivos del curso.",
+          "Favorece un clima de respeto en la relación con sus estudiantes.",
+          "Establece una relación cordial con sus estudiantes.",
+          "Es accesible para atender las consultas de los/las estudiantes (vía correo electrónico, horario de oficina, entre otros)." ],
+          preguntas:null,
           ready:false,
           ready2:false,
           curso:0,
@@ -64,7 +94,6 @@ class Estadistica2 extends Component {
 
 
     componentDidMount() {
-
         axios.get(`http://localhost:3000/profesors/1487.json`)
         .then(res => {
             const profesors = res.data; 
@@ -73,73 +102,39 @@ class Estadistica2 extends Component {
             const proms = Math.round(profesors.prof_proms_results)
             this.handleChange2(profesors.cursos[0].curso_cod)
             this.setState({ ready, profesors, proms });
-
-         
-
-        //Gráfico 
-
-            let chart = am4core.create("chartdiv", am4charts.XYChart);
-            const year = new Date().getFullYear()   
-            // Add data
-            chart.data = [{
-            "country": `${year}`,
-            "visits":5
-            }, {
-            "country": `${year-1}`,
-            "visits": 5
-            }, {
-            "country": `${year-2}`,
-            "visits": 5
-            }];
-
-            // Create axes
-
-            let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-            categoryAxis.dataFields.category = "country";
-            categoryAxis.renderer.grid.template.location = 0;
-            categoryAxis.renderer.minGridDistance = 30;
-
-            categoryAxis.renderer.labels.template.adapter.add("dy", function(dy, target) {
-            if (target.dataItem && target.dataItem.index & 2 == 2) {
-                return dy + 25;
-            }
-            return dy;
-            });
-
-            let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-
-            // Create series
-            let series = chart.series.push(new am4charts.ColumnSeries());
-            series.dataFields.valueY = "visits";
-            series.dataFields.categoryX = "country";
-            series.name = "Visits";
-            series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
-            series.columns.template.fillOpacity = .8;
-
-            let columnTemplate = series.columns.template;
-            columnTemplate.strokeWidth = 2;
-            columnTemplate.strokeOpacity = 1;    
-        
-
         })   
-
-
     } 
 
+    detalle(){
+        axios.get('http://localhost:3000/pregResult/' + this.state.profesors.cursos[this.state.curso].curso_cod + '/' + this.state.profesors.cursos[this.state.curso].curso_coord  
+        + '/' + this.state.profesors.cursos[this.state.curso].curso_secc + '/' + this.state.profesors.cursos[this.state.curso].curso_agno + '/'
+         + this.state.profesors.cursos[this.state.curso].curso_sem + '.json')
+        .then(res => {
+            const preguntas = res.data; 
+            const preguntas2 = []
+            console.log(preguntas);
+            if(preguntas.length >= 25){
+                preguntas.map((pregunta,index) =>{
+                   if (pregunta.preg_profs === this.state.profesors.cursos[this.state.curso].curso_profesores ){
+                    preguntas2.push(pregunta)
+                   } 
 
-    componentWillUnmount() {
-        if (this.chart) {
-          this.chart.dispose();
-        }
-      }
+                })
+
+            }
+            console.log(preguntas2)
+            this.setState({ preguntas, preguntas2 });
+        })
+    }
 
     showModal = () => {
+        this.detalle()
         this.setState({ show: true });
       };
     
-      hideModal = () => {
+    hideModal = () => {
         this.setState({ show: false });
-      };
+    };
 
 
     handleChange2 = (cod) =>{
@@ -160,9 +155,6 @@ class Estadistica2 extends Component {
                     
                 })
                 this.setState({ curso:event.target.value});
-                
-          
-
         
     }
   
@@ -258,7 +250,7 @@ class Estadistica2 extends Component {
 
                         </Paper>
                         </Grid> 
-                    : <div> </div> }
+                    : <div> <CircularProgress size={30} color="secondary" /> </div> }
                             
                             
                     {/* Grida 2 */}   
@@ -268,8 +260,12 @@ class Estadistica2 extends Component {
                         <Grid item md={9} xs ={9}>
                         <Paper className={this.state.useStyles.paper2}>
                         <Typography variant="h6" component="h2">
-                            Promedio por dimensión del curso
+                            Promedio por dimensión del curso  
+                            <br/>
                         </Typography> 
+                        <Button variant="outlined" size="small"  onClick={this.showModal} >
+                                    Ver detalle
+                            </Button> 
                         <Grid container spacing={3}>
                         <Grid item xs={3}>
 
@@ -364,11 +360,65 @@ class Estadistica2 extends Component {
                     
                     : <div>
                         <CircularProgress size={30} color="secondary" />
-                    </div> }  
+                    </div> }
+
+                   {/* Modal para mostrar detalles preguntas  */}         
+
+                  
+                    <Dialog
+                        open={this.state.show}
+                        onClose={this.hideModal}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                        >
+                        <DialogTitle id="alert-dialog-title">{"Resultado de la encuesta en detalle"}</DialogTitle>
+                        <DialogContent>   
+                        {this.state.preguntas ?
+
+                              
+                          <Table striped hover bordered size="sm"  style={{  height: "100% " ,width: "100% "}}>
+                                <thead> 
+                                <tr>
+                                <th style={{ fontSize:18 }} >#</th>
+                                <th  style={{ fontSize:18 }} >Pregunta</th>
+                                <th style={{ fontSize:18 }} >Nota min.</th>
+                                <th style={{ fontSize:18 }} >Nota max.</th>
+                                <th style={{ fontSize:18 }} >Promedio</th>
+                                </tr>
+                                </thead>
+
+                                { this.state.preguntas2.map((pregunta,index) =>   
+                                <tbody  key={index}>
+                                <tr>
+                                <td style={{ fontSize:15 }}>{index+1}</td>
+                                <td  style={{ fontSize:15 }} >{this.state.pregtext[index]}</td>
+                                <td style={{ fontSize:15 }} >{pregunta.preg_min}</td>
+                                <td style={{ fontSize:15 }} >{pregunta.preg_max}</td>
+                                <td style={{ fontSize:15 }} >{pregunta.preg_prom}</td>
+                                
+                                </tr>
+                                </tbody>)}
+
+                            </Table>
+                                                         
+                            
+                        : 
+                        <div style={{marginLeft:120}}>
+                        <CircularProgress size={30} color="secondary" />
+                        </div>
+                     } 
+                        </DialogContent>
+                        <DialogActions>
+                        <Button onClick={this.hideModal} color="primary">
+                            Cerrar
+                        </Button>
+                        </DialogActions>
+                    </Dialog> 
+                    
 
                     { /* Grida 3 */}    
 
-                    
+                   
                         <Grid item md={10} xs ={10}>
                         <Paper className={this.state.useStyles.paper}  style={{marginLeft:90 }}>
                         <Typography variant="h6" component="h2">
@@ -383,9 +433,9 @@ class Estadistica2 extends Component {
 
                         </Paper>
                         </Grid>
+                  
                     
                     
-
                     {/* Grida 4  */  }            
                         <Grid item md={12} xs ={10}>
 
