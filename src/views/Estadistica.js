@@ -32,6 +32,9 @@ class ProfesorList2 extends Component {
         this.state={
           show: false,
           ready:false,
+          id:0,
+          obs: null,
+          photo:null,
           proms:0,
           profesors:[],
           useStyles: makeStyles(theme => ({
@@ -75,8 +78,9 @@ class ProfesorList2 extends Component {
 
 
     componentDidMount() {
-
-        axios.get(`http://localhost:3000/profesors/1487.json`)
+        console.log(this.props.location.state.id)
+      
+        axios.get('http://localhost:3000/profesors/' + this.props.location.state.id + '.json')
         .then(res => {
             const profesors = res.data; 
             const ready = true;  
@@ -98,6 +102,7 @@ class ProfesorList2 extends Component {
   render() {
 
     const percentage = 100;
+    
     
 
     if(this.state.ready === false){
@@ -130,9 +135,15 @@ class ProfesorList2 extends Component {
 
             <Grid item md={4} xs={3}  >
 
-            <Grid item md={12} xs={11} >  
+            <Grid item md={12} xs={11} >
+            { this.state.photo ?    
             <Image  style={{marginTop:30, width:'53%'}}
                   src="https://www.informatica.usach.cl/multimedia/FotoAQS-100x100.jpg" fluid /> 
+
+            :  
+            <div> 
+            <Image  style={{marginTop:30, width:'53%'}}
+              src="https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png" fluid /> </div>  }      
             </Grid>      
             
             <Grid item md={12} xs={1} > 
@@ -171,10 +182,16 @@ class ProfesorList2 extends Component {
          >
         <DialogTitle id="alert-dialog-title">{"Observaciones del profesor"}</DialogTitle>
         <DialogContent>
+        { this.state.obs ?
           <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
-          </DialogContentText>
+            {this.state.obs}
+          </DialogContentText>:
+          <div>
+            <DialogContentText id="alert-dialog-description">
+             El profesor no posee observaciones actualmente
+            </DialogContentText>
+          </div>
+        }  
         </DialogContent>
         <DialogActions>
           <Button onClick={this.hideModal} color="primary">
@@ -228,7 +245,7 @@ class ProfesorList2 extends Component {
 
         {/*Grida 4*/}    
         <Grid item xs={7} md={10}>
-            <Estadistica2/>
+            <Estadistica2 id =  {this.props.location.state.id}/>
         </Grid>   
 
          

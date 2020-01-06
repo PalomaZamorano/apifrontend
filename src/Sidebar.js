@@ -160,7 +160,7 @@ class SideBar extends Component{
              <Route path="/inicio" component={props => <Inicio/>} />
              <Route path="/profesores" component={props => <ProfesorsList/>} />
              <Route path="/portada" component={props => <Dashboard/>} />
-             <Route path="/estadistica" component={props => <Estadistica/>} />
+             <Route path="/estadistica" component={props => <Estadistica location={props.location}/>} />
              <Route path="/prueba" component={props => <Test/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 

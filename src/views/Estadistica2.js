@@ -37,7 +37,7 @@ class Estadistica2 extends Component {
         this.state={
           id:0,
           cod:0,
-          agno:0,  
+          agno:0,
           show:false,
           resultAsign: [1],
           preguntas2:[],
@@ -96,13 +96,14 @@ class Estadistica2 extends Component {
 
 
     componentDidMount() {
-        axios.get(`http://localhost:3000/profesors/1487.json`)
+        axios.get('http://localhost:3000/profesors/' + this.props.id + '.json')
         .then(res => {
             const profesors = res.data; 
             const ready = true;  
            // console.log(profesors.cursos)
             const proms = Math.round(profesors.prof_proms_results)
-            this.handleChange2(profesors.cursos[0].curso_cod)
+            this.handleChange2(profesors.cursos[0].curso_cod,profesors.cursos[0].curso_agno,
+                profesors.cursos[0].curso_aprobados,profesors.cursos[0].curso_reprobados,profesors.cursos[0].curso_promedio )
             this.setState({ ready, profesors, proms });
         })   
     } 
@@ -139,10 +140,10 @@ class Estadistica2 extends Component {
     };
 
 
-    handleChange2 = (cod) =>{
-        axios.get('http://localhost:3000/profsAsign/1487/' + cod + '/2019')
+    handleChange2 = (cod,agno, apro, repro, prom) =>{
+        axios.get('http://localhost:3000/profsAsign/'  + this.props.id + '/' + cod + '/' + agno)
         .then(res => {
-            const resultAsign = res.data; 
+            const resultAsign = res.data;
              this.setState({resultAsign});
             // console.log(this.state.resultAsign[0].result_prom_general)
             
@@ -150,10 +151,10 @@ class Estadistica2 extends Component {
     }  
 
     handleChange(event){
-                axios.get('http://localhost:3000/profsAsign/1487/' + this.state.profesors.cursos[event.target.value].curso_cod + '/2019')
+                axios.get('http://localhost:3000/profsAsign/' +  this.props.id +'/' + this.state.profesors.cursos[event.target.value].curso_cod + '/' + this.state.profesors.cursos[event.target.value].curso_agno)
                 .then(res => {
                     const resultAsign = res.data; 
-                    this.setState({ resultAsign });
+                    this.setState({resultAsign});
                     
                 })
                 this.setState({ curso:event.target.value});
@@ -164,7 +165,7 @@ class Estadistica2 extends Component {
 
     percentage(num, total)
       {
-        return (num*100)/total;
+        return Math.round((num*100)/total);
       }
            
     
@@ -221,11 +222,12 @@ class Estadistica2 extends Component {
                 <div >  
         
                 <CardContent >
-
+                    
+                {this.state.resultAsign[0].result_prom_general ?  
                 <Typography variant="h4" component="h2">
                 {this.state.resultAsign[0].result_nombre}
                 </Typography>
-
+                : <div></div>}    
                 <br/>
                 <br/>   
                     <Grid container spacing={2} >

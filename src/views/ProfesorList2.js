@@ -10,7 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 import { FaChartArea}  from "react-icons/fa";
 import {MdPermContactCalendar}  from "react-icons/md";
-
+import Estadistica from'./Estadistica'
 
 class ProfesorList2 extends Component {
 
@@ -78,26 +78,22 @@ createData1(name,id) {
                 field: '',
                 
                 render: rows2 => (
-                    <Router>
                         <Tooltip title="Ir al perfil del profesor" placement="top" style ={{fontSize: 20}}> 
                          <Link  to={{pathname: '/perfil/'+ rows2.name , state : rows2.id}}>
-                         <FaChartArea style={{ fontSize: '1.50em' }} />
+                         <MdPermContactCalendar  style={{ fontSize: '1.50em' }}/>
                          </Link>
                          </Tooltip>   
-                     </Router>
                 )
             },
             {
                 title: '',
                 field: 'avatar',
                 render: rows2 => (
-                    <Router>
                          <Tooltip title="Ir a estadísticas del profesor" placement="top" style ={{fontSize: 20}}> 
-                         <Link to={{pathname: '/estadistica/'+ rows2.name , state : rows2.id}}>
-                         <MdPermContactCalendar  style={{ fontSize: '1.50em' }}/>
+                        <Link to={{  pathname: '/estadistica/' , state : {id : rows2.id}   }} >
+                         <FaChartArea style={{ fontSize: '1.50em' }} />
                          </Link>
                          </Tooltip>
-                     </Router>
                 )
             }
             
