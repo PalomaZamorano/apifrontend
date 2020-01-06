@@ -25,6 +25,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
 import { Table } from 'react-bootstrap';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 
@@ -65,6 +66,7 @@ class Estadistica2 extends Component {
           "Favorece un clima de respeto en la relación con sus estudiantes.",
           "Establece una relación cordial con sus estudiantes.",
           "Es accesible para atender las consultas de los/las estudiantes (vía correo electrónico, horario de oficina, entre otros)." ],
+          dimensiones:[1 ,1,1, 1,1, 1,1,2,2,2, 2,2, 2, 2,2,2,3,3,3,3, 3,3,4,4,4],
           preguntas:null,
           ready:false,
           ready2:false,
@@ -185,16 +187,13 @@ class Estadistica2 extends Component {
     else{
             
         return (
-        <div style={{marginTop:60}} >
+        <div >
         <Grid container spacing={0}
-                direction="column"
-                alignItems="center"
-                justify="center"
-                style={{ minHeight: '100vh', minWidth: '100vw'  }}>
+                style={{minHeight: '80vh', minWidth: '80vw'  }}>
 
             <Grid item md={12} xs ={6}  style={{width: 850, minHeight: '80vh', minWidth: '80vw'  }} >   
             <Card>
-
+            <br/>
             <form >  
                 <FormControl  className={this.state.useStyles.formControl} style={{marginLeft:30  }}>
                 <InputLabel htmlFor="curso-native-helper">Curso</InputLabel>
@@ -210,7 +209,7 @@ class Estadistica2 extends Component {
                     <option key= {curso.id} value={index}>{curso.curso_cod} - {curso.curso_coord} - {curso.curso_secc}</option>
                 )}
                 </NativeSelect>
-                <FormHelperText>  Seleccione el curso del que desea conocer resultados {this.state.curso}</FormHelperText>
+                <FormHelperText>  Seleccione el curso del que desea conocer resultados</FormHelperText>
                 </FormControl>
             </form> 
                 <br/>
@@ -223,6 +222,12 @@ class Estadistica2 extends Component {
         
                 <CardContent >
 
+                <Typography variant="h4" component="h2">
+                {this.state.resultAsign[0].result_nombre}
+                </Typography>
+
+                <br/>
+                <br/>   
                     <Grid container spacing={2} >
                     {/* Grida 1 */}
                 
@@ -261,11 +266,14 @@ class Estadistica2 extends Component {
                         <Paper className={this.state.useStyles.paper2}>
                         <Typography variant="h6" component="h2">
                             Promedio por dimensión del curso  
-                            <br/>
                         </Typography> 
-                        <Button variant="outlined" size="small"  onClick={this.showModal} >
+                      
+                        <Tooltip title="Ver detalles de la encuesta" placement="top" style ={{fontSize: 20}}> 
+                        <Button variant="outlined" size="small"  onClick={this.showModal}  >
                                     Ver detalle
-                            </Button> 
+                        </Button> 
+                        </Tooltip>
+                        <br/>
                         <Grid container spacing={3}>
                         <Grid item xs={3}>
 
@@ -371,7 +379,7 @@ class Estadistica2 extends Component {
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
                         >
-                        <DialogTitle id="alert-dialog-title">{"Resultado de la encuesta en detalle"}</DialogTitle>
+                        <DialogTitle id="alert-dialog-title">{"Resultado de la encuesta en detalle: " + this.state.profesors.cursos[this.state.curso].curso_coord + this.state.profesors.cursos[this.state.curso].curso_secc} </DialogTitle>
                         <DialogContent>   
                         {this.state.preguntas ?
 
@@ -381,6 +389,7 @@ class Estadistica2 extends Component {
                                 <tr>
                                 <th style={{ fontSize:18 }} >#</th>
                                 <th  style={{ fontSize:18 }} >Pregunta</th>
+                                <th  style={{ fontSize:18 }} >Dimensión</th>
                                 <th style={{ fontSize:18 }} >Nota min.</th>
                                 <th style={{ fontSize:18 }} >Nota max.</th>
                                 <th style={{ fontSize:18 }} >Promedio</th>
@@ -392,6 +401,7 @@ class Estadistica2 extends Component {
                                 <tr>
                                 <td style={{ fontSize:15 }}>{index+1}</td>
                                 <td  style={{ fontSize:15 }} >{this.state.pregtext[index]}</td>
+                                <td  style={{ fontSize:15 }} >{this.state.dimensiones[index]}</td>
                                 <td style={{ fontSize:15 }} >{pregunta.preg_min}</td>
                                 <td style={{ fontSize:15 }} >{pregunta.preg_max}</td>
                                 <td style={{ fontSize:15 }} >{pregunta.preg_prom}</td>

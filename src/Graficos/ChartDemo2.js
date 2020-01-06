@@ -16,14 +16,12 @@ class ChartDemo extends Component {
   }
 
   componentDidMount() {
-
-    axios.get(`http://localhost:3000/profesorsPromGeneral.json`)
+    console.log(this.props.profesors)
+    axios.get(`http://localhost:3000/profesors/1487.json`)
     .then(res => {
       const dimensiones = res.data;
       this.setState({ dimensiones });
-      
-      
-
+      console.log(this.state.dimensiones)
       // Create chart instance
       let chart = am4core.create("chartdiv", am4charts.XYChart);
       chart.scrollbarX = new am4core.Scrollbar();
@@ -31,16 +29,16 @@ class ChartDemo extends Component {
      // Add data
     chart.data = [{
     "dimension": "D1",
-    "promedio": this.state.dimensiones[0].promD1
+    "promedio":this.props.profesors.prof_proms_d1
     }, {
     "dimension": "D2",
-    "promedio": this.state.dimensiones[0].promD2
+    "promedio":this.props.profesors.prof_proms_d2
     }, {
     "dimension": "D3",
-    "promedio": this.state.dimensiones[0].promD3
+    "promedio": this.props.profesors.prof_proms_d3
     }, {
     "dimension": "D4",
-    "promedio": this.state.dimensiones[0].promD4
+    "promedio": this.props.profesors.prof_proms_d4
     }];
 
     // Create axes
@@ -106,7 +104,7 @@ class ChartDemo extends Component {
     }
     else{
     return (
-      <div id="chartdiv" style={{  height: "100%",width:"100%" }}></div>
+      <div id="chartdiv" style={{  height: "300px",width:"100%" }}></div>
     );
     }
   }

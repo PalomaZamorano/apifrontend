@@ -26,7 +26,7 @@ class ChartBarra extends Component {
 
         //Gráfico 
 
-            let chart = am4core.create("chartdiv", am4charts.XYChart);
+            let chart = am4core.create("chartdiv2", am4charts.XYChart);
             const year = new Date().getFullYear()   
 
             // Add data
@@ -90,7 +90,7 @@ class ChartBarra extends Component {
 
             //Gráfico 
 
-            let chart = am4core.create("chartdiv", am4charts.XYChart);
+            let chart = am4core.create("chartdiv2", am4charts.XYChart);
             const year = new Date().getFullYear()   
 
             // Add data
@@ -164,7 +164,7 @@ class ChartBarra extends Component {
         else{
 
             return (
-                <div id="chartdiv" style={{  height: "300px",width:"100%" }}></div>
+                <div id="chartdiv2" style={{  height: "300px",width:"100%" }}></div>
             );
         } 
     }

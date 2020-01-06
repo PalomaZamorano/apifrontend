@@ -13,12 +13,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import ChartDimension from '../Graficos/ChartDemo'
+import ChartDimension from '../Graficos/ChartDemo2'
 import Estadistica2 from './Estadistica2'
-
-
-
-
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
 
 
 import Card from '@material-ui/core/Card';
@@ -118,30 +116,35 @@ class ProfesorList2 extends Component {
     <div>    
     
     
-     <Grid container spacing={3} style={{ marginTop:60 }}>
+     <Grid container spacing={1}
+     alignItems="center"
+     justify="center"
+                style={{ marginTop:60 }}
+                >
 
-        <Grid item xs={7} md={12} style={{ width:350}}>
-
+        <Grid item xs={5} md={10} >
         <Paper className={this.state.useStyles.paper}>
           <Card className={this.state.useStyles.card}> 
                 <div className={this.state.useStyles.details} >   
-            <Grid container >
+            <Grid container>
 
-            <Grid item md={4} xs={3} >
+            <Grid item md={4} xs={3}  >
 
-            <Grid item md={12} xs={3} >  
+            <Grid item md={12} xs={11} >  
             <Image  style={{marginTop:30, width:'53%'}}
                   src="https://www.informatica.usach.cl/multimedia/FotoAQS-100x100.jpg" fluid /> 
             </Grid>      
             
-            <Grid item md={12} xs={3} > 
-            <Button variant="outlined" size="small"  onClick={this.showModal} >
-                Observaciones
+            <Grid item md={12} xs={1} > 
+            <Tooltip title="Observaciones del profesor" placement="top" style ={{fontSize: 20}}> 
+            <Button variant="outlined" size="small"  onClick={this.showModal} style={{ marginTop:10 }} >
+                Obs
             </Button>
+            </Tooltip>
             </Grid>
            </Grid>
           
-          <Grid item md={8} xs={3}  >
+          <Grid item md={8} xs={2}  >
            <CardContent className={this.state.useStyles.content}>
   
              <ListGroup variant="flush">
@@ -183,8 +186,14 @@ class ProfesorList2 extends Component {
         </Paper>
 
         </Grid>
-        <Grid item xs={5} md={4}>
+
+
+      {/*Grida 2*/}
+        <Grid item xs={2} md={3}>
           <Paper  className={this.state.useStyles.paper}>
+          <Typography variant="h6" component="h2">
+            Promedio general del profesor
+          </Typography>
           <CircularProgressbar
             style = {{width:30, height:10}}
             value={percentage}
@@ -203,12 +212,24 @@ class ProfesorList2 extends Component {
 
         </Grid>
 
-        <Grid item xs={7} md={8}>
-          <Paper className={this.state.useStyles.paper} >
-            <ChartDimension/>
+        {/*Grida 3*/}    
+        <Grid item xs={7} md={7}>
+          <Paper style={{  height: "130%",width:"100%" }} >
+          <br/>
+          <Typography variant="h6" component="h2">
+            Promedio general del profesor por dimensión
+          </Typography>
+         
+            <ChartDimension
+            profesors =  {this.state.profesors}
+            />
           </Paper>
         </Grid>
 
+        {/*Grida 4*/}    
+        <Grid item xs={7} md={10}>
+            <Estadistica2/>
+        </Grid>   
 
          
         </Grid>
