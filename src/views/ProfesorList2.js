@@ -39,7 +39,7 @@ class ProfesorList2 extends Component {
           }
            
             const ready = true;  
-            console.log(this.state.rows2[0])
+         //   console.log(this.state.rows2[0])
             this.setState({ ready });
          
         })

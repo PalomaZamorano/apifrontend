@@ -32,10 +32,13 @@ class Perfil extends Component {
         super(props);
         this.state={
           ready:false,
+          ready2:null,
+          asign:'',
           id:0,
           obs: null,
           photo:null,
           profesors:[],
+          code: [],
           useStyles: makeStyles(theme => ({
             root: {
                 paddingTop: theme.spacing(4),
@@ -68,22 +71,47 @@ class Perfil extends Component {
     }       
 
 
-    componentDidMount() {
+componentDidMount() {
         console.log(this.props.location.state.id)
       
         axios.get('http://localhost:3000/profesors/' + this.props.location.state.id + '.json')
         .then(res => {
             const profesors = res.data; 
             const ready = true;  
-            console.log(profesors)
             this.setState({ ready, profesors });
-     })
+
+            profesors.cursos.map((curso,index) =>
+              this.nommbreAsign(curso.curso_cod)
+            )
+            
+      })
     } 
+
+  nommbreAsign(code){
+
+    axios.get('http://localhost:3000/asigncode/' + code + '.json')
+        .then(res => {
+            const asign = res.data[0].asign_nombre; 
+            this.state.code.push(asign)  
+            this.setState(this.state.code);          
+     })
+        return this.state.asign   
+  } 
    
+  componentDidUpdate() {
+
+    if (this.state.ready === false) {
+       this.state.profesors.cursos.map((curso,index) =>
+              this.nommbreAsign(curso.curso_cod)
+            )     
+    }
+   
+  }
+
+
   render() {
-
-
-    if(this.state.ready === false){
+    
+    if(this.state.ready === false ){
     
         return(
           <div>
@@ -95,9 +123,9 @@ class Perfil extends Component {
       }
       else{
     return (
-
+      
     <div>    
-    
+  
     
      <Grid container spacing={1}
      alignItems="center"
@@ -164,7 +192,8 @@ class Perfil extends Component {
           <Typography variant="h6" component="h2">
            Cursos del profesor
           </Typography>
-
+          {this.state.code.length === this.state.profesors.cursos.length ?
+          
           <Table striped hover bordered size="sm"  style={{  height: "100% " ,width: "100% "}}>
                                 <thead> 
                                 <tr>
@@ -183,7 +212,7 @@ class Perfil extends Component {
                                 <tbody  key={index}>
                                 <tr>
                                 <td style={{ fontSize:15 }}>{index+1}</td>
-                                <td  style={{ fontSize:15 }} >{}</td>
+                                <td  style={{ fontSize:15 }} >{this.state.code[index]}</td>
                                 <td  style={{ fontSize:15 }} >{curso.curso_cod}</td>
                                 <td style={{ fontSize:15 }} >{curso.curso_coord}</td>
                                 <td style={{ fontSize:15 }} >{curso.curso_secc}</td>
@@ -194,6 +223,7 @@ class Perfil extends Component {
                                 </tbody>)}
 
                             </Table>
+      : <div> <CircularProgress size={50} color="secondary" /></div>}       
           </Paper>
         </Grid>
 
