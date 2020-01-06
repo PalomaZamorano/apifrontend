@@ -79,7 +79,7 @@ createData1(name,id) {
                 
                 render: rows2 => (
                         <Tooltip title="Ir al perfil del profesor" placement="top" style ={{fontSize: 20}}> 
-                         <Link  to={{pathname: '/perfil/'+ rows2.name , state : rows2.id}}>
+                         <Link  to={{pathname: '/perfil/',state : {id : rows2.id} }}>
                          <MdPermContactCalendar  style={{ fontSize: '1.50em' }}/>
                          </Link>
                          </Tooltip>   
