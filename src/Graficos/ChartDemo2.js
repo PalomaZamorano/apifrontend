@@ -16,12 +16,12 @@ class ChartDemo extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.profesors)
-    axios.get(`http://localhost:3000/profesors/1487.json`)
+   // console.log(this.props.profesors)
+    axios.get('http://localhost:3000/profesors/'+ this.props.profesors.id +'.json')
     .then(res => {
       const dimensiones = res.data;
       this.setState({ dimensiones });
-      console.log(this.state.dimensiones)
+    //  console.log(this.state.dimensiones)
       // Create chart instance
       let chart = am4core.create("chartdiv", am4charts.XYChart);
       chart.scrollbarX = new am4core.Scrollbar();

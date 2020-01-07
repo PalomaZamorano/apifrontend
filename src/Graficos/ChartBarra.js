@@ -95,13 +95,13 @@ class ChartBarra extends Component {
 
             // Add data
             chart.data = [{
-            "country": `${year}`,
+            "country": `${year-2}`,
             "visits":0
             }, {
             "country": `${year-1}`,
             "visits": this.state.results[0].result_prom_general
             }, {
-            "country": `${year-2}`,
+            "country": `${year}`,
             "visits": 0
             }];
 
@@ -134,7 +134,7 @@ class ChartBarra extends Component {
             columnTemplate.strokeOpacity = 1;    
 
         })
-        console.log(this.state.results[0])
+        //console.log(this.state.results[0])
     }
 
     componentDidUpdate(prevProps) {

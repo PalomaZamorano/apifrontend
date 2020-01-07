@@ -84,7 +84,7 @@ class ProfesorList2 extends Component {
         .then(res => {
             const profesors = res.data; 
             const ready = true;  
-            console.log(profesors)
+           // console.log(profesors)
             const proms = Math.round(profesors.prof_proms_results)
             this.setState({ ready, profesors, proms });
      })
@@ -115,148 +115,261 @@ class ProfesorList2 extends Component {
         )
   
       }
-      else{
-    return (
+    else{
+      if(this.state.profesors.cursos.length === 0){
 
-    <div>    
-    
-    
-     <Grid container spacing={1}
-     alignItems="center"
-     justify="center"
-                style={{ marginTop:60 }}
-                >
+        return(
 
-        <Grid item xs={5} md={10} >
-        <Paper className={this.state.useStyles.paper}>
-          <Card className={this.state.useStyles.card}> 
-                <div className={this.state.useStyles.details} >   
-            <Grid container>
+          <div>    
+              
+              
+          <Grid container spacing={1}
+          alignItems="center"
+          justify="center"
+                      style={{ marginTop:60 }}
+                      >
 
-            <Grid item md={4} xs={3}  >
+              <Grid item xs={5} md={10} >
+              <Paper className={this.state.useStyles.paper}>
+                <Card className={this.state.useStyles.card}> 
+                      <div className={this.state.useStyles.details} >   
+                  <Grid container>
 
-            <Grid item md={12} xs={11} >
-            { this.state.photo ?    
-            <Image  style={{marginTop:30, width:'53%'}}
-                  src="https://www.informatica.usach.cl/multimedia/FotoAQS-100x100.jpg" fluid /> 
+                  <Grid item md={4} xs={3}  >
 
-            :  
-            <div> 
-            <Image  style={{marginTop:30, width:'53%'}}
-              src="https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png" fluid /> </div>  }      
-            </Grid>      
+                  <Grid item md={12} xs={11} >
+                  { this.state.photo ?    
+                  <Image  style={{marginTop:30, width:'53%'}}
+                        src="https://www.informatica.usach.cl/multimedia/FotoAQS-100x100.jpg" fluid /> 
+
+                  :  
+                  <div> 
+                  <Image  style={{marginTop:30, width:'53%'}}
+                    src="https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png" fluid /> </div>  }      
+                  </Grid>      
+                  
+                  <Grid item md={12} xs={1} > 
+                  <Tooltip title="Observaciones del profesor" placement="top" style ={{fontSize: 20}}> 
+                  <Button variant="outlined" size="small"  onClick={this.showModal} style={{ marginTop:10 }} >
+                      Obs
+                  </Button>
+                  </Tooltip>
+                  </Grid>
+                </Grid>
+                
+                <Grid item md={8} xs={2}  >
+                <CardContent className={this.state.useStyles.content}>
+        
+                  <ListGroup variant="flush">
+                      <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Nombre:</b>    {this.state.profesors.prof_nombre_corto} </ListGroup.Item>
+                      <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Jornada:</b>   {this.state.profesors.prof_jornada} </ListGroup.Item>
+                      <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Email:</b>       {this.state.profesors.prof_e_mail}</ListGroup.Item>
+                      <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Departamento:</b> {this.state.profesors.depto}</ListGroup.Item>
+                      <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Pendiente:</b> {this.state.profesors.if_pendiente} </ListGroup.Item>
+                  </ListGroup>
+                  
+
+                </CardContent>     
+                </Grid> 
+                
+              </Grid>        
+              </div>           
+              </Card>
+
+              <Dialog
+              open={this.state.show}
+              onClose={this.hideModal}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+              >
+              <DialogTitle id="alert-dialog-title">{"Observaciones del profesor"}</DialogTitle>
+              <DialogContent>
+              { this.state.obs ?
+                <DialogContentText id="alert-dialog-description">
+                  {this.state.obs}
+                </DialogContentText>:
+                <div>
+                  <DialogContentText id="alert-dialog-description">
+                  El profesor no posee observaciones actualmente
+                  </DialogContentText>
+                </div>
+              }  
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.hideModal} color="primary">
+                Cerrar
+                </Button>
+              </DialogActions>
+              </Dialog>
+                
+              </Paper>
+
+              </Grid>
+
+              {/*Grida 4*/}    
+              <Grid item xs={7} md={10}>
+                  
+              </Grid>   
+
+              <Paper className={this.state.useStyles.paper}>
+                <Typography variant="h6" component="h2">
+                  Este profesor(a) no posee resultados ni cursos asignados
+                </Typography>
+              </Paper>    
+              
+              </Grid>
+
             
-            <Grid item md={12} xs={1} > 
-            <Tooltip title="Observaciones del profesor" placement="top" style ={{fontSize: 20}}> 
-            <Button variant="outlined" size="small"  onClick={this.showModal} style={{ marginTop:10 }} >
-                Obs
-            </Button>
-            </Tooltip>
-            </Grid>
-           </Grid>
-          
-          <Grid item md={8} xs={2}  >
-           <CardContent className={this.state.useStyles.content}>
-  
-             <ListGroup variant="flush">
-                <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Nombre:</b>    {this.state.profesors.prof_nombre_corto} </ListGroup.Item>
-                <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Jornada:</b>   {this.state.profesors.prof_jornada} </ListGroup.Item>
-                <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Email:</b>       {this.state.profesors.prof_e_mail}</ListGroup.Item>
-                <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Departamento:</b> {this.state.profesors.depto}</ListGroup.Item>
-                <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Pendiente:</b> {this.state.profesors.if_pendiente} </ListGroup.Item>
-             </ListGroup>
-             
-
-           </CardContent>     
-          </Grid> 
-           
-         </Grid>        
-        </div>           
-        </Card>
-
-        <Dialog
-        open={this.state.show}
-        onClose={this.hideModal}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-         >
-        <DialogTitle id="alert-dialog-title">{"Observaciones del profesor"}</DialogTitle>
-        <DialogContent>
-        { this.state.obs ?
-          <DialogContentText id="alert-dialog-description">
-            {this.state.obs}
-          </DialogContentText>:
-          <div>
-            <DialogContentText id="alert-dialog-description">
-             El profesor no posee observaciones actualmente
-            </DialogContentText>
-          </div>
-        }  
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={this.hideModal} color="primary">
-           Cerrar
-          </Button>
-        </DialogActions>
-        </Dialog>
-           
-        </Paper>
-
-        </Grid>
-
-
-      {/*Grida 2*/}
-        <Grid item xs={2} md={3}>
-          <Paper  className={this.state.useStyles.paper}>
-          <Typography variant="h6" component="h2">
-            Promedio general del profesor
-          </Typography>
-          <CircularProgressbar
-            style = {{width:30, height:10}}
-            value={percentage}
-            text={`${this.state.proms}`}
-            styles={buildStyles({
-             // Text size
-            textSize: '16px',
-            // Colors
-            pathColor: '#F09A68',
-            textColor: '#F09A68',
-            trailColor: '#F09A68',
-            backgroundColor: '#F09A68',
-            })}
-          />
-          </Paper>
-
-        </Grid>
-
-        {/*Grida 3*/}    
-        <Grid item xs={7} md={7}>
-          <Paper style={{  height: "130%",width:"100%" }} >
-          <br/>
-          <Typography variant="h6" component="h2">
-            Promedio general del profesor por dimensión
-          </Typography>
-         
-            <ChartDimension
-            profesors =  {this.state.profesors}
-            />
-          </Paper>
-        </Grid>
-
-        {/*Grida 4*/}    
-        <Grid item xs={7} md={10}>
-            <Estadistica2 id =  {this.props.location.state.id}/>
-        </Grid>   
-
-         
-        </Grid>
-
-      
-      </div>
+            </div>
 
 
 
-    )
+        )
+      }
+      else{
+
+              return (
+
+              <div>    
+              
+              
+              <Grid container spacing={1}
+              alignItems="center"
+              justify="center"
+                          style={{ marginTop:60 }}
+                          >
+
+                  <Grid item xs={5} md={10} >
+                  <Paper className={this.state.useStyles.paper}>
+                    <Card className={this.state.useStyles.card}> 
+                          <div className={this.state.useStyles.details} >   
+                      <Grid container>
+
+                      <Grid item md={4} xs={3}  >
+
+                      <Grid item md={12} xs={11} >
+                      { this.state.photo ?    
+                      <Image  style={{marginTop:30, width:'53%'}}
+                            src="https://www.informatica.usach.cl/multimedia/FotoAQS-100x100.jpg" fluid /> 
+
+                      :  
+                      <div> 
+                      <Image  style={{marginTop:30, width:'53%'}}
+                        src="https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png" fluid /> </div>  }      
+                      </Grid>      
+                      
+                      <Grid item md={12} xs={1} > 
+                      <Tooltip title="Observaciones del profesor" placement="top" style ={{fontSize: 20}}> 
+                      <Button variant="outlined" size="small"  onClick={this.showModal} style={{ marginTop:10 }} >
+                          Obs
+                      </Button>
+                      </Tooltip>
+                      </Grid>
+                    </Grid>
+                    
+                    <Grid item md={8} xs={2}  >
+                    <CardContent className={this.state.useStyles.content}>
+            
+                      <ListGroup variant="flush">
+                          <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Nombre:</b>    {this.state.profesors.prof_nombre_corto} </ListGroup.Item>
+                          <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Jornada:</b>   {this.state.profesors.prof_jornada} </ListGroup.Item>
+                          <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Email:</b>       {this.state.profesors.prof_e_mail}</ListGroup.Item>
+                          <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Departamento:</b> {this.state.profesors.depto}</ListGroup.Item>
+                          <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Pendiente:</b> {this.state.profesors.if_pendiente} </ListGroup.Item>
+                      </ListGroup>
+                      
+
+                    </CardContent>     
+                    </Grid> 
+                    
+                  </Grid>        
+                  </div>           
+                  </Card>
+
+                  <Dialog
+                  open={this.state.show}
+                  onClose={this.hideModal}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                  >
+                  <DialogTitle id="alert-dialog-title">{"Observaciones del profesor"}</DialogTitle>
+                  <DialogContent>
+                  { this.state.obs ?
+                    <DialogContentText id="alert-dialog-description">
+                      {this.state.obs}
+                    </DialogContentText>:
+                    <div>
+                      <DialogContentText id="alert-dialog-description">
+                      El profesor no posee observaciones actualmente
+                      </DialogContentText>
+                    </div>
+                  }  
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.hideModal} color="primary">
+                    Cerrar
+                    </Button>
+                  </DialogActions>
+                  </Dialog>
+                    
+                  </Paper>
+
+                  </Grid>
+
+
+                {/*Grida 2*/}
+                  <Grid item xs={2} md={3}>
+                    <Paper  className={this.state.useStyles.paper}>
+                    <Typography variant="h6" component="h2">
+                      Promedio general del profesor
+                    </Typography>
+                    <CircularProgressbar
+                      style = {{width:30, height:10}}
+                      value={percentage}
+                      text={`${this.state.proms}`}
+                      styles={buildStyles({
+                      // Text size
+                      textSize: '16px',
+                      // Colors
+                      pathColor: '#F09A68',
+                      textColor: '#F09A68',
+                      trailColor: '#F09A68',
+                      backgroundColor: '#F09A68',
+                      })}
+                    />
+                    </Paper>
+
+                  </Grid>
+
+                  {/*Grida 3*/}    
+                  <Grid item xs={7} md={7}>
+                    <Paper style={{  height: "130%",width:"100%" }} >
+                    <br/>
+                    <Typography variant="h6" component="h2">
+                      Promedio general del profesor por dimensión
+                    </Typography>
+                  
+                      <ChartDimension
+                      profesors =  {this.state.profesors}
+                      />
+                    </Paper>
+                  </Grid>
+
+                  {/*Grida 4*/}    
+                  <Grid item xs={7} md={10}>
+                      <Estadistica2 id =  {this.props.location.state.id}/>
+                  </Grid>   
+
+                  
+                  </Grid>
+
+                
+                </div>
+
+
+
+              )
+          }    
         }
   }
 }

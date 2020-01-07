@@ -43,7 +43,6 @@ render(){
   return (
 
     <div> 
-    
     <Table striped hover bordered size="sm"  style={{  height: "100% " ,width: "100% "}}>
       <thead> 
       <tr>
@@ -53,7 +52,7 @@ render(){
       </tr>
       </thead>
 
-      { this.state.profesors.reverse().map((profesor,index) =>   
+      { this.state.profesors.map((profesor,index) =>   
       <tbody  key={profesor.id}>
       <tr>
       <td style={{ fontSize:15 }}>{index+1}</td>

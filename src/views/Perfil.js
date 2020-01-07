@@ -81,7 +81,7 @@ componentDidMount() {
             this.setState({ ready, profesors });
 
             profesors.cursos.map((curso,index) =>
-              this.nommbreAsign(curso.curso_cod)
+            this.nommbreAsign(curso.curso_cod)
             )
             
       })
@@ -122,119 +122,203 @@ componentDidMount() {
   
       }
       else{
-    return (
-      
-    <div>    
-  
-    
-     <Grid container spacing={1}
-     alignItems="center"
-     justify="center"
-                style={{ marginTop:60 }}
-                >
-
-        <Grid item xs={5} md={10} >
-        <Paper className={this.state.useStyles.paper}>
-          <Card className={this.state.useStyles.card}> 
-                <div className={this.state.useStyles.details} >   
-            <Grid container>
-
-            <Grid item md={4} xs={3}  >
-
-            <Grid item md={12} xs={11} >
-            { this.state.photo ?    
-            <Image  style={{marginTop:30, width:'53%'}}
-                  src="https://www.informatica.usach.cl/multimedia/FotoAQS-100x100.jpg" fluid /> 
-
-            :  
-            <div> 
-            <Image  style={{marginTop:30, width:'53%'}}
-              src="https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png" fluid /> </div>  }      
-            </Grid>      
+         if(this.state.profesors.cursos.length === 0){
+           return(
+             <div>    
             
-            <Grid item md={12} xs={1} > 
-            <Tooltip title="Observaciones del profesor" placement="top" style ={{fontSize: 20}}> 
-            <Button variant="outlined" size="small"  onClick={this.showModal} style={{ marginTop:10 }} >
-                Obs
-            </Button>
-            </Tooltip>
-            </Grid>
-           </Grid>
+              
+            <Grid container spacing={1}
+            alignItems="center"
+            justify="center"
+                        style={{ marginTop:60 }}
+                        >
+
+                <Grid item xs={5} md={10} >
+                <Paper className={this.state.useStyles.paper}>
+                  <Card className={this.state.useStyles.card}> 
+                        <div className={this.state.useStyles.details} >   
+                    <Grid container>
+
+                    <Grid item md={4} xs={3}  >
+
+                    <Grid item md={12} xs={11} >
+                    { this.state.photo ?    
+                    <Image  style={{marginTop:30, width:'53%'}}
+                          src="https://www.informatica.usach.cl/multimedia/FotoAQS-100x100.jpg" fluid /> 
+
+                    :  
+                    <div> 
+                    <Image  style={{marginTop:30, width:'53%'}}
+                      src="https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png" fluid /> </div>  }      
+                    </Grid>      
+                    
+                    <Grid item md={12} xs={1} > 
+                    <Tooltip title="Observaciones del profesor" placement="top" style ={{fontSize: 20}}> 
+                    <Button variant="outlined" size="small"  onClick={this.showModal} style={{ marginTop:10 }} >
+                        Obs
+                    </Button>
+                    </Tooltip>
+                    </Grid>
+                  </Grid>
+                  
+                  <Grid item md={8} xs={2}  >
+                  <CardContent className={this.state.useStyles.content}>
           
-          <Grid item md={8} xs={2}  >
-           <CardContent className={this.state.useStyles.content}>
-  
-             <ListGroup variant="flush">
-                <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Nombre:</b>    {this.state.profesors.prof_nombre_corto} </ListGroup.Item>
-                <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Jornada:</b>   {this.state.profesors.prof_jornada} </ListGroup.Item>
-                <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Email:</b>       {this.state.profesors.prof_e_mail}</ListGroup.Item>
-                <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Departamento:</b> {this.state.profesors.depto}</ListGroup.Item>
-                <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Pendiente:</b> {this.state.profesors.if_pendiente} </ListGroup.Item>
-             </ListGroup>
-             
+                    <ListGroup variant="flush">
+                        <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Nombre:</b>    {this.state.profesors.prof_nombre_corto} </ListGroup.Item>
+                        <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Jornada:</b>   {this.state.profesors.prof_jornada} </ListGroup.Item>
+                        <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Email:</b>       {this.state.profesors.prof_e_mail}</ListGroup.Item>
+                        <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Departamento:</b> {this.state.profesors.depto}</ListGroup.Item>
+                        <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Pendiente:</b> {this.state.profesors.if_pendiente} </ListGroup.Item>
+                    </ListGroup>
+                    
 
-           </CardContent>     
-          </Grid> 
-           
-         </Grid>        
-        </div>           
-        </Card>
-           
-        </Paper>
+                  </CardContent>     
+                  </Grid> 
+                  
+                </Grid>        
+                </div>           
+                </Card>
+                  
+                </Paper>
 
-        </Grid>
+                </Grid>
 
 
-        {/*Grida 2*/}    
-        <Grid item xs={7} md={10}>
-          <Paper style={{  height: "130%",width:"100%" }} >
-          <br/>
-          <Typography variant="h6" component="h2">
-           Cursos del profesor
-          </Typography>
-          {this.state.code.length === this.state.profesors.cursos.length ?
-          
-          <Table striped hover bordered size="sm"  style={{  height: "100% " ,width: "100% "}}>
-                                <thead> 
-                                <tr>
-                                <th style={{ fontSize:18 }} >#</th>
-                                <th  style={{ fontSize:18 }} >Asignatura</th>
-                                <th  style={{ fontSize:18 }} >Código</th>
-                                <th style={{ fontSize:18 }} >Coordinación</th>
-                                <th style={{ fontSize:18 }} >Sección</th>
-                                <th style={{ fontSize:18 }} >Semestre</th>
-                                <th style={{ fontSize:18 }} >Año</th>
-                                
-                                </tr>
-                                </thead>
+                {/*Grida 2*/}    
+                <Grid item xs={7} md={10}>
+                  <Paper style={{  height: "130%",width:"100%" }} >
+                  <br/>
+                  <Typography variant="h6" component="h2">
+                  Cursos del profesor
+                  </Typography>
+                  <br/><br/>
+                  Este profesor(a) no tiene cursos asignados      
+                  </Paper>
+                </Grid>
 
-                                {this.state.profesors.cursos.map((curso,index) =>   
-                                <tbody  key={index}>
-                                <tr>
-                                <td style={{ fontSize:15 }}>{index+1}</td>
-                                <td  style={{ fontSize:15 }} >{this.state.code[index]}</td>
-                                <td  style={{ fontSize:15 }} >{curso.curso_cod}</td>
-                                <td style={{ fontSize:15 }} >{curso.curso_coord}</td>
-                                <td style={{ fontSize:15 }} >{curso.curso_secc}</td>
-                                <td style={{ fontSize:15 }} >{curso.curso_sem}</td>
-                                <td style={{ fontSize:15 }} >{curso.curso_agno}</td>
-                                
-                                </tr>
-                                </tbody>)}
+                </Grid>
 
-                            </Table>
-      : <div> <CircularProgress size={50} color="secondary" /></div>}       
-          </Paper>
-        </Grid>
+              
+              </div>
+           )
+           }  
+         else{
 
-        </Grid>
+              return (
+                
+              <div>    
+            
+              
+              <Grid container spacing={1}
+              alignItems="center"
+              justify="center"
+                          style={{ marginTop:60 }}
+                          >
 
-      
-      </div>
+                  <Grid item xs={5} md={10} >
+                  <Paper className={this.state.useStyles.paper}>
+                    <Card className={this.state.useStyles.card}> 
+                          <div className={this.state.useStyles.details} >   
+                      <Grid container>
+
+                      <Grid item md={4} xs={3}  >
+
+                      <Grid item md={12} xs={11} >
+                      { this.state.photo ?    
+                      <Image  style={{marginTop:30, width:'53%'}}
+                            src="https://www.informatica.usach.cl/multimedia/FotoAQS-100x100.jpg" fluid /> 
+
+                      :  
+                      <div> 
+                      <Image  style={{marginTop:30, width:'53%'}}
+                        src="https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png" fluid /> </div>  }      
+                      </Grid>      
+                      
+                      <Grid item md={12} xs={1} > 
+                      <Tooltip title="Observaciones del profesor" placement="top" style ={{fontSize: 20}}> 
+                      <Button variant="outlined" size="small"  onClick={this.showModal} style={{ marginTop:10 }} >
+                          Obs
+                      </Button>
+                      </Tooltip>
+                      </Grid>
+                    </Grid>
+                    
+                    <Grid item md={8} xs={2}  >
+                    <CardContent className={this.state.useStyles.content}>
+            
+                      <ListGroup variant="flush">
+                          <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Nombre:</b>    {this.state.profesors.prof_nombre_corto} </ListGroup.Item>
+                          <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Jornada:</b>   {this.state.profesors.prof_jornada} </ListGroup.Item>
+                          <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Email:</b>       {this.state.profesors.prof_e_mail}</ListGroup.Item>
+                          <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Departamento:</b> {this.state.profesors.depto}</ListGroup.Item>
+                          <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Pendiente:</b> {this.state.profesors.if_pendiente} </ListGroup.Item>
+                      </ListGroup>
+                      
+
+                    </CardContent>     
+                    </Grid> 
+                    
+                  </Grid>        
+                  </div>           
+                  </Card>
+                    
+                  </Paper>
+
+                  </Grid>
+
+
+                  {/*Grida 2*/}    
+                  <Grid item xs={7} md={10}>
+                    <Paper style={{  height: "130%",width:"100%" }} >
+                    <br/>
+                    <Typography variant="h6" component="h2">
+                    Cursos del profesor
+                    </Typography>
+                    {this.state.code.length === this.state.profesors.cursos.length ?
+                    
+                    <Table striped hover bordered size="sm"  style={{  height: "100% " ,width: "100% "}}>
+                                          <thead> 
+                                          <tr>
+                                          <th style={{ fontSize:18 }} >#</th>
+                                          <th  style={{ fontSize:18 }} >Asignatura</th>
+                                          <th  style={{ fontSize:18 }} >Código</th>
+                                          <th style={{ fontSize:18 }} >Coordinación</th>
+                                          <th style={{ fontSize:18 }} >Sección</th>
+                                          <th style={{ fontSize:18 }} >Semestre</th>
+                                          <th style={{ fontSize:18 }} >Año</th>
+                                          
+                                          </tr>
+                                          </thead>
+
+                                          {this.state.profesors.cursos.map((curso,index) =>   
+                                          <tbody  key={index}>
+                                          <tr>
+                                          <td style={{ fontSize:15 }}>{index+1}</td>
+                                          <td  style={{ fontSize:15 }} >{this.state.code[index]}</td>
+                                          <td  style={{ fontSize:15 }} >{curso.curso_cod}</td>
+                                          <td style={{ fontSize:15 }} >{curso.curso_coord}</td>
+                                          <td style={{ fontSize:15 }} >{curso.curso_secc}</td>
+                                          <td style={{ fontSize:15 }} >{curso.curso_sem}</td>
+                                          <td style={{ fontSize:15 }} >{curso.curso_agno}</td>
+                                          
+                                          </tr>
+                                          </tbody>)}
+
+                                      </Table>
+                : <div> <CircularProgress size={50} color="secondary" /></div>}       
+                    </Paper>
+                  </Grid>
+
+                  </Grid>
+
+                
+                </div>
 
 
 
-    )
+              )
+        }
         }
   }
 }

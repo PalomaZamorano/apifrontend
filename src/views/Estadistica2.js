@@ -115,7 +115,7 @@ class Estadistica2 extends Component {
         .then(res => {
             const preguntas = res.data; 
             const preguntas2 = []
-            console.log(preguntas);
+            //console.log(preguntas);
             if(preguntas.length >= 25){
                 preguntas.map((pregunta,index) =>{
                    if (pregunta.preg_profs === this.state.profesors.cursos[this.state.curso].curso_profesores ){
@@ -125,7 +125,7 @@ class Estadistica2 extends Component {
                 })
 
             }
-            console.log(preguntas2)
+           // console.log(preguntas2)
             this.setState({ preguntas, preguntas2 });
         })
     }
@@ -459,13 +459,13 @@ class Estadistica2 extends Component {
                             <ListGroup.Item>
                                 <ListGroup variant="flush">
                                     <ListGroup.Item>Porcentaje Aprobación</ListGroup.Item>
-                                    <ListGroup.Item>{`${this.percentage(this.state.profesors.cursos[this.state.curso].curso_aprobados,this.state.profesors.cursos[this.state.curso].curso_inscritos)}%`}</ListGroup.Item>
+                                    <ListGroup.Item>{`${this.percentage(this.state.profesors.cursos[this.state.curso].curso_aprobados,this.state.profesors.cursos[this.state.curso].curso_aprobados + this.state.profesors.cursos[this.state.curso].curso_reprobados)}%`}</ListGroup.Item>
                                 </ListGroup>
                             </ListGroup.Item>
                             <ListGroup.Item>
                             <ListGroup variant="flush">
                                 <ListGroup.Item>Porcentaje Reprobación</ListGroup.Item>
-                                <ListGroup.Item>{`${this.percentage(this.state.profesors.cursos[this.state.curso].curso_reprobados,this.state.profesors.cursos[this.state.curso].curso_inscritos)}%`}</ListGroup.Item>
+                                <ListGroup.Item>{`${this.percentage(this.state.profesors.cursos[this.state.curso].curso_reprobados,this.state.profesors.cursos[this.state.curso].curso_aprobados + this.state.profesors.cursos[this.state.curso].curso_reprobados)}%`}</ListGroup.Item>
                             </ListGroup>
                             </ListGroup.Item>
                         <ListGroup.Item>
@@ -477,7 +477,7 @@ class Estadistica2 extends Component {
                         <ListGroup.Item>
                             <ListGroup variant="flush">
                                 <ListGroup.Item>Inscritos en el curso</ListGroup.Item>
-                                <ListGroup.Item>{this.state.profesors.cursos[this.state.curso].curso_inscritos}</ListGroup.Item>
+                                <ListGroup.Item>{this.state.profesors.cursos[this.state.curso].curso_aprobados + this.state.profesors.cursos[this.state.curso].curso_reprobados}</ListGroup.Item>
                             </ListGroup></ListGroup.Item>
                         </ListGroup>
                         </Paper>     

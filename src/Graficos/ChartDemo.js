@@ -106,7 +106,7 @@ class ChartDemo extends Component {
     }
     else{
     return (
-      <div id="chartdiv" style={{  height: "100%",width:"100%" }}></div>
+      <div id="chartdiv" style={{  height: "320px",width:"100%" }}></div>
     );
     }
   }
