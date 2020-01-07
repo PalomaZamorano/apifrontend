@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
-import { Image, ListGroup} from 'react-bootstrap';
+import { Image, ListGroup,Form} from 'react-bootstrap';
 import { Table } from 'react-bootstrap';
 
 import Dialog from '@material-ui/core/Dialog';
@@ -13,11 +13,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import ChartDimension from '../Graficos/ChartDemo2'
-import Estadistica2 from './Estadistica2'
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 
 
 import Card from '@material-ui/core/Card';
@@ -33,9 +31,11 @@ class Perfil extends Component {
         this.state={
           ready:false,
           ready2:null,
+          show:false,
           asign:'',
           id:0,
           obs: null,
+          addobs:"",
           photo:null,
           profesors:[],
           code: [],
@@ -78,7 +78,8 @@ componentDidMount() {
         .then(res => {
             const profesors = res.data; 
             const ready = true;  
-            this.setState({ ready, profesors });
+            const obs =  profesors.prof_observaciones
+            this.setState({ ready, profesors, obs });
 
             profesors.cursos.map((curso,index) =>
             this.nommbreAsign(curso.curso_cod)
@@ -108,6 +109,41 @@ componentDidMount() {
    
   }
 
+  hideModal = () => {
+
+    axios.get('http://localhost:3000/profesors/' + this.props.location.state.id + '.json')
+        .then(res => {
+            const profesors = res.data; 
+            const ready = true;  
+            const obs =  profesors.prof_observaciones
+            this.setState({obs });
+            
+      })
+
+      this.setState({ show: false });
+  };
+
+  showModal = () => {
+    this.setState({ show: true });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    const prof = {
+      prof_observaciones: this.state.addobs
+    };
+
+    axios.put(`http://localhost:3000/profesors/1568.json`,  prof )
+      .then(res => {
+        window.alert("Se han editado las observaciones como: ' "  + this.state.addobs + " ' con éxito");
+        this.setState({ show: false });
+      })
+  }
+
+  handleChange = event => {   
+    this.setState({ addobs: event.target.value });
+  }
 
   render() {
     
@@ -262,10 +298,49 @@ componentDidMount() {
                   </Grid>        
                   </div>           
                   </Card>
-                    
+
+                  <Dialog
+                  open={this.state.show}
+                  onClose={this.hideModal}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                  >
+                      <DialogTitle id="alert-dialog-title">{"Observaciones del profesor"}</DialogTitle>
+                      <DialogContent>
+                      { this.state.obs ?
+                      <div>
+                        <Form>
+                            <Form.Group controlId="exampleForm.ControlTextarea1">
+                              <Form.Control as="textarea" value={this.state.addobs} onChange={this.handleChange}  placeholder={`${this.state.obs}`} rows="3" />
+                            </Form.Group>
+                          </Form>
+
+                      </div>
+                        :<div>
+                           
+                          <Form>
+                          <Form.Group controlId="exampleForm.ControlTextarea1">
+                              <Form.Control as="textarea" value={this.state.addobs} onChange={this.handleChange}  placeholder= "El docente no posee observaciones actualmente" rows="3" />
+                            </Form.Group>
+                          </Form>
+
+                        </div>
+                      }  
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={this.handleSubmit} color="primary">
+                          Editar Observación
+                        </Button>
+                        <Button onClick={this.hideModal} color="primary">
+                          Cerrar
+                        </Button>
+                      </DialogActions>
+                      </Dialog>            
                   </Paper>
 
                   </Grid>
+
+                  
 
 
                   {/*Grida 2*/}    

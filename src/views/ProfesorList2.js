@@ -3,14 +3,11 @@ import MaterialTable from 'material-table'
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
-import {
-    BrowserRouter as Router,
-    Link}  from "react-router-dom"; 
+import {Link}  from "react-router-dom"; 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 import { FaChartArea}  from "react-icons/fa";
 import {MdPermContactCalendar}  from "react-icons/md";
-import Estadistica from'./Estadistica'
 
 class ProfesorList2 extends Component {
 
