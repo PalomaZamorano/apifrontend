@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SideNav, { NavItem, NavIcon} from '@trendmicro/react-sidenav';
-import { Navbar, Image} from 'react-bootstrap';
+import { Navbar, Image,Nav} from 'react-bootstrap';
 import {CSSTransition} from 'react-transition-group';
 import { FaChalkboardTeacher}  from "react-icons/fa";
 import { IoIosStats}  from "react-icons/io";
@@ -17,6 +17,10 @@ import Inicio from './views/Inicio';
 import Cursos from './views/Cursos';
 import Tooltip from '@material-ui/core/Tooltip';
 import Test from './views/Estadistica2';
+import { FaRegUserCircle } from "react-icons/fa";
+import { FaUserCog } from "react-icons/fa";
+
+
 
 
 
@@ -107,6 +111,23 @@ class SideBar extends Component{
             <Navbar.Brand  href="/portada" >Encuesta docente</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
+
+            <Nav.Item className="ml-auto">
+              <Tooltip title="Iniciar sesión" placement="up-start" style ={{fontSize: 20}}>   
+                <Nav.Link  href="#features" style={{ color: '#FFFFFF' }} >
+                  <FaRegUserCircle  />
+                </Nav.Link>
+              </Tooltip>
+            </Nav.Item>
+
+            <Nav.Item >
+              <Tooltip title="Administrar" placement="up-start" style ={{fontSize: 20}}> 
+                <Nav.Link  href="#features" style={{ color: '#FFFFFF' }} >
+                  <FaUserCog  />
+                </Nav.Link>
+              </Tooltip>
+            </Nav.Item>
+
             </Navbar.Collapse>
         </Navbar>
         
