@@ -16,7 +16,8 @@ import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -36,6 +37,8 @@ class Perfil extends Component {
           id:0,
           obs: null,
           addobs:"",
+          pend:false,
+          pend1:null,
           photo:null,
           profesors:[],
           code: [],
@@ -79,7 +82,11 @@ componentDidMount() {
             const profesors = res.data; 
             const ready = true;  
             const obs =  profesors.prof_observaciones
-            this.setState({ ready, profesors, obs });
+            var pend = false
+            if(profesors.if_pendiente == 1){
+               pend = true
+            }
+            this.setState({ ready, profesors, obs, pend });
 
             profesors.cursos.map((curso,index) =>
             this.nommbreAsign(curso.curso_cod)
@@ -127,6 +134,7 @@ componentDidMount() {
     this.setState({ show: true });
   };
 
+  //Guarda la observación del profesor
   handleSubmit = event => {
     event.preventDefault();
 
@@ -134,15 +142,61 @@ componentDidMount() {
       prof_observaciones: this.state.addobs
     };
 
-    axios.put(`http://localhost:3000/profesors/1568.json`,  prof )
-      .then(res => {
-        window.alert("Se han editado las observaciones como: ' "  + this.state.addobs + " ' con éxito");
-        this.setState({ show: false });
-      })
+    if (window.confirm('¿Está seguro/a que desea editar las observaciones?')){ 
+        axios.put('http://localhost:3000/profesors/' + this.props.location.state.id + '.json',  prof )
+          .then(res => {
+            window.alert("Se han editado las observaciones como: ' "  + this.state.addobs + " ' con éxito");
+            this.setState({ show: false });
+          })
+      }
   }
 
-  handleChange = event => {   
+  //Cambia el valor dela variable que guarda la observación
+  handleChange = event => {  
+     
     this.setState({ addobs: event.target.value });
+  }
+
+  setSwitch = event => {
+
+    event.preventDefault();
+    
+    if(event.target.checked === true){
+
+      if (window.confirm('¿Está seguro/a que desea marcar al docente con pendientes?')){
+        const prof = {
+          if_pendiente: event.target.checked
+        };  
+        axios.put('http://localhost:3000/profesors/' + this.props.location.state.id + '.json',  prof )
+        .then(res => {
+          //console.log(res)
+          
+        })
+
+        this.setState({ pend: event.target.checked  });
+      }
+      
+
+    }
+    
+    if(event.target.checked === false){
+
+      if (window.confirm('¿Está seguro/a que desea desmarcar al docente con pendientes?')){
+        const prof = {
+          if_pendiente: event.target.checked
+        };  
+        axios.put('http://localhost:3000/profesors/' + this.props.location.state.id + '.json',  prof )
+        .then(res => {
+          //console.log(res)
+          
+        })
+        this.setState({ pend: event.target.checked  });
+      }
+
+     }
+
+    
+    
   }
 
   render() {
@@ -288,7 +342,20 @@ componentDidMount() {
                           <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Jornada:</b>   {this.state.profesors.prof_jornada} </ListGroup.Item>
                           <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Email:</b>       {this.state.profesors.prof_e_mail}</ListGroup.Item>
                           <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Departamento:</b> {this.state.profesors.depto}</ListGroup.Item>
-                          <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> <b>Pendiente:</b> {this.state.profesors.if_pendiente} </ListGroup.Item>
+                          <ListGroup.Item style={{ fontSize: 15, textAlign:'left' }}> 
+              
+                            <FormControlLabel
+                                control={
+                                  <Switch
+                                    checked={this.state.pend}
+                                    onChange={this.setSwitch}
+                                    value="pend"
+                                    color="primary"
+                                  />
+                                }
+                                label="Marcar si posee o no pendientes"
+                            />
+                          </ListGroup.Item>
                       </ListGroup>
                       
 
