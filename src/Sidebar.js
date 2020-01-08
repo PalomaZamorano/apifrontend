@@ -4,16 +4,18 @@ import { Navbar, Image} from 'react-bootstrap';
 import {CSSTransition} from 'react-transition-group';
 import { FaChalkboardTeacher}  from "react-icons/fa";
 import { IoIosStats}  from "react-icons/io";
+import { IoMdApps}  from "react-icons/io";
 import {Redirect, BrowserRouter as Router, Route} from "react-router-dom";
 import './Sidebar.css';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import Dashboard from './views/Dashboard';
 import ProfesorsList from './views/ProfesorList2';
+import Asignaturas from './views/Asignaturas';
 import Estadistica from './views/Estadistica';
 import Perfil from './views/Perfil';
 import Inicio from './views/Inicio';
+import Cursos from './views/Cursos';
 import Tooltip from '@material-ui/core/Tooltip';
-
 import Test from './views/Estadistica2';
 
 
@@ -149,7 +151,17 @@ class SideBar extends Component{
                         <FaChalkboardTeacher style={{ fontSize: '1.75em' }} />
                         </NavIcon>
                     </NavItem>
+                </Tooltip> 
+                 </NavItem >
 
+
+                 <NavItem eventKey="asignaturas"> 
+                <Tooltip title="Asignaturas" placement="right-start" style ={{fontSize: 20}}>     
+                    <NavItem>
+                        <NavIcon>
+                        <IoMdApps style={{ fontSize: '1.75em' }} />
+                        </NavIcon>
+                    </NavItem>
                 </Tooltip> 
                  </NavItem >
 
@@ -164,6 +176,8 @@ class SideBar extends Component{
              <Route path="/estadistica" component={props => <Estadistica location={props.location}/>} />
              <Route path="/perfil" component={props => <Perfil location={props.location}/>} />
              <Route path="/prueba" component={props => <Test/>} />
+             <Route path="/asignaturas" component={props => <Asignaturas/>} />
+             <Route path="/cursos" component={props => <Cursos location={props.location}/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 
              </Route>

@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+md-icon{
+  font-family: 'Material Icons' !important;
+}
