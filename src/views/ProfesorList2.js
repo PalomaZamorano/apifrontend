@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import MaterialTable from 'material-table'
+import MaterialTable, { MTableToolbar } from 'material-table'
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
@@ -8,6 +8,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 import { FaChartArea}  from "react-icons/fa";
 import {MdPermContactCalendar}  from "react-icons/md";
+import {ScrollContainer}  from 'react-simple-scroll-container'
+import TablePagination from '@material-ui/core/TablePagination';
+
 
 class ProfesorList2 extends Component {
 
@@ -63,11 +66,11 @@ createData1(name,id) {
       }
       else{
     return (
-        <div style = {{height:'100%', width:500}} >
-        <Paper>
+        <div style = {{width:500}} >
+        <Paper >
         <Grid container style = {{marginTop : 60}} >
         <Grid item  xs={12} md={12} >
-        <MaterialTable
+        <MaterialTable 
           columns={[
             { title: 'Nombre', field: 'name' },
             {
@@ -97,8 +100,9 @@ createData1(name,id) {
           ]}
           data={this.state.rows2[0]}
           options={{
-            sorting: true,
-         }}
+            sorting: true
+          
+          }}
           title="Profesores"
           
         />

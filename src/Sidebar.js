@@ -15,10 +15,12 @@ import Estadistica from './views/Estadistica';
 import Perfil from './views/Perfil';
 import Inicio from './views/Inicio';
 import Cursos from './views/Cursos';
+import Administrar from './views/Administrar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Test from './views/Estadistica2';
 import { FaRegUserCircle } from "react-icons/fa";
 import { FaUserCog } from "react-icons/fa";
+import { IoMdNotificationsOutline } from "react-icons/io";
 
 
 
@@ -59,7 +61,7 @@ class SideBar extends Component{
         this.setState({
           select : true,    
           style: {
-            position: 'absolute',
+            position: 'fixed',
             backgroundColor: "#2859DE",
             top: 0,
             left: 240,
@@ -78,7 +80,7 @@ class SideBar extends Component{
         this.setState({
             select : false,    
             style: {
-              position: 'absolute',
+              position: 'fixed',
               backgroundColor: "#2859DE",
               top: 0,
               left: 54,
@@ -94,7 +96,7 @@ class SideBar extends Component{
     }
 
     render() {
-       
+       const viewHeigth = window.outerHeight;
       return (
         <div className="shopping-list">
 
@@ -107,22 +109,30 @@ class SideBar extends Component{
             
         >   
         
-        <Navbar variant="dark" collapseOnSelect  style={this.state.style} >
+        <Navbar  variant="dark" collapseOnSelect  style={this.state.style} >
             <Navbar.Brand  href="/portada" >Encuesta docente</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
 
             <Nav.Item className="ml-auto">
-              <Tooltip title="Iniciar sesión" placement="up-start" style ={{fontSize: 20}}>   
+              <Tooltip title="Iniciar sesión" placement="top" style ={{fontSize: 20}}>   
                 <Nav.Link  href="#features" style={{ color: '#FFFFFF' }} >
                   <FaRegUserCircle  />
                 </Nav.Link>
               </Tooltip>
             </Nav.Item>
+            
+            <Nav.Item >
+              <Tooltip title="Notificaciones" placement="top" style ={{fontSize: 20}}> 
+                <Nav.Link  href="#features" style={{ color: '#FFFFFF' }} >
+                  <IoMdNotificationsOutline  />
+                </Nav.Link>
+              </Tooltip>
+            </Nav.Item>
 
             <Nav.Item >
-              <Tooltip title="Administrar" placement="up-start" style ={{fontSize: 20}}> 
-                <Nav.Link  href="#features" style={{ color: '#FFFFFF' }} >
+              <Tooltip title="Administrar" placement="top" style ={{fontSize: 20}}> 
+                <Nav.Link  href="/administrar" style={{ color: '#FFFFFF' }} >
                   <FaUserCog  />
                 </Nav.Link>
               </Tooltip>
@@ -140,8 +150,8 @@ class SideBar extends Component{
         <Router>
             <Route render={({ location, history }) => (
              <React.Fragment>
-             <SideNav 
-                    style={{backgroundColor: "#2859DE", height:680}}
+             <SideNav id="side-nav"
+                    style={{backgroundColor: "#2859DE", height:viewHeigth}}
                     onSelect={(selected) => {
                         const to = '/' + selected;
                         if (location.pathname !== to) {
@@ -199,6 +209,7 @@ class SideBar extends Component{
              <Route path="/prueba" component={props => <Test/>} />
              <Route path="/asignaturas" component={props => <Asignaturas/>} />
              <Route path="/cursos" component={props => <Cursos location={props.location}/>} />
+             <Route path="/administrar" component={props => <Administrar/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 
              </Route>

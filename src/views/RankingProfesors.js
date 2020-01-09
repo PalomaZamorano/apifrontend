@@ -57,7 +57,7 @@ render(){
       <tr>
       <td style={{ fontSize:15 }}>{index+1}</td>
       <td  style={{ fontSize:15 }} >{profesor.prof_nombre_corto}</td>
-      <td style={{ fontSize:15 }} >{profesor.prof_proms_results}</td>
+      <td style={{ fontSize:15 }} >{(profesor.prof_proms_results*1).toFixed(2)}</td>
       </tr>
       </tbody>)}
 

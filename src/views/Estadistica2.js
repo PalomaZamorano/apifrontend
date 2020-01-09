@@ -71,6 +71,7 @@ class Estadistica2 extends Component {
           ready:false,
           ready2:false,
           curso:0,
+          asignaturas:[],
           proms:0,
           profesors:[],
           useStyles: makeStyles(theme => ({
@@ -100,13 +101,30 @@ class Estadistica2 extends Component {
         .then(res => {
             const profesors = res.data; 
             const ready = true;  
-           // console.log(profesors.cursos)
             const proms = Math.round(profesors.prof_proms_results)
+
+            profesors.cursos.map(curso =>{
+                 profesors.resultado_encuestum.some(res =>{
+                    if(curso.curso_cod === res.result_asign){
+                        this.state.asignaturas.push(res.result_nombre)
+                        return res.result_nombre
+                    }
+                 }
+
+                 )
+                }
+            )
+            
+           console.log(this.state.asignaturas)    
+
             this.handleChange2(profesors.cursos[0].curso_cod,profesors.cursos[0].curso_agno,
                 profesors.cursos[0].curso_aprobados,profesors.cursos[0].curso_reprobados,profesors.cursos[0].curso_promedio )
             this.setState({ ready, profesors, proms });
         })   
     } 
+
+
+   
 
     detalle(){
         axios.get('http://localhost:3000/pregResult/' + this.state.profesors.cursos[this.state.curso].curso_cod + '/' + this.state.profesors.cursos[this.state.curso].curso_coord  
@@ -173,7 +191,6 @@ class Estadistica2 extends Component {
   render() {
 
     const percentage = 100; 
-    //console.log(this.state.resultAsign[0])
 
     if(this.state.ready === false ){
     
@@ -199,6 +216,7 @@ class Estadistica2 extends Component {
                 <FormControl  className={this.state.useStyles.formControl} style={{marginLeft:30  }}>
                 <InputLabel htmlFor="curso-native-helper">Curso</InputLabel>
                 <NativeSelect
+                style={{width: 400 }}
                 value={this.state.curso}
                 onChange ={this.handleChange.bind(this)}            
                 inputProps={{
@@ -207,7 +225,7 @@ class Estadistica2 extends Component {
                 }}
                 >
                 { this.state.profesors.cursos.map((curso,index) =>       
-                    <option key= {curso.id} value={index}>{curso.curso_cod} - {curso.curso_coord} - {curso.curso_secc}</option>
+                    <option key= {curso.id} value={index}>  {this.state.asignaturas[index]} - {curso.curso_coord} - {curso.curso_secc}</option>
                 )}
                 </NativeSelect>
                 <FormHelperText>  Seleccione el curso del que desea conocer resultados</FormHelperText>
@@ -406,7 +424,7 @@ class Estadistica2 extends Component {
                                 <td  style={{ fontSize:15 }} >{this.state.dimensiones[index]}</td>
                                 <td style={{ fontSize:15 }} >{pregunta.preg_min}</td>
                                 <td style={{ fontSize:15 }} >{pregunta.preg_max}</td>
-                                <td style={{ fontSize:15 }} >{pregunta.preg_prom}</td>
+                                <td style={{ fontSize:15 }} >{ (pregunta.preg_prom*1).toFixed(2)}</td>
                                 
                                 </tr>
                                 </tbody>)}

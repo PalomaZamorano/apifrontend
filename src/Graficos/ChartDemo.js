@@ -21,7 +21,7 @@ class ChartDemo extends Component {
     .then(res => {
       const dimensiones = res.data;
       this.setState({ dimensiones });
-      
+      const dimensions = ["Dimensión 1" ,"Dimensión 2","Dimensión 3","Dimensión 4"]
       
 
       // Create chart instance
@@ -31,16 +31,21 @@ class ChartDemo extends Component {
      // Add data
     chart.data = [{
     "dimension": "D1",
-    "promedio": this.state.dimensiones[0].promD1
+    "promedio": this.state.dimensiones[0].promD1,
+    "dis": "Planificación de actividades docentes"
+
     }, {
     "dimension": "D2",
-    "promedio": this.state.dimensiones[0].promD2
+    "promedio": this.state.dimensiones[0].promD2,
+    "dis": "Ejecución de actividades docentes"
     }, {
     "dimension": "D3",
-    "promedio": this.state.dimensiones[0].promD3
+    "promedio": this.state.dimensiones[0].promD3,
+    "dis": "Evaluación de aprendizajes"
     }, {
     "dimension": "D4",
-    "promedio": this.state.dimensiones[0].promD4
+    "promedio": this.state.dimensiones[0].promD4,
+    "dis": "Relación con los estudiantes"
     }];
 
     // Create axes
@@ -62,7 +67,7 @@ class ChartDemo extends Component {
     series.sequencedInterpolation = true;
     series.dataFields.valueY = "promedio";
     series.dataFields.categoryX = "dimension";
-    series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
+    series.tooltipText = "{dis}: [{categoryX}: bold]{valueY}[/]";
     series.columns.template.strokeWidth = 0;
 
     series.tooltip.pointerOrientation = "vertical";
