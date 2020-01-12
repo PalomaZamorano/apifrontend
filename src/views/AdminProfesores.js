@@ -3,7 +3,6 @@ import MaterialTable from 'material-table'
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
-import {Link}  from "react-router-dom"; 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 import {FaEdit}  from "react-icons/fa";
@@ -13,7 +12,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
+import { Form, Button } from 'react-bootstrap';
+
 
 
 class AdminProfesores extends Component {
@@ -24,8 +24,14 @@ class AdminProfesores extends Component {
           ready:false,
           profesors:[],
           rows2:[],
-          show:false
+          nombre:'',
+          id:0,
+          show:false,
+          validated:false,
+          setValidated:false
+
         }
+        this.hideModal = this.hideModal.bind(this);
     }       
 
 
@@ -38,37 +44,64 @@ class AdminProfesores extends Component {
         
           if(profesors.length !== 0){
             this.state.rows2.push(profesors.map((profesor,index) =>  
-            this.createData1(profesor.prof_nombre_corto, profesor.prof_e_mail,profesor.prof_depto,
+            this.createData1(index,profesor.prof_nombre_corto, profesor.prof_e_mail,profesor.prof_depto,
                 profesor.prof_jornada,profesor.prof_area,profesor.id),
             )
             );
           }
            
             const ready = true;  
-         //   console.log(this.state.rows2[0])
+            //console.log(this.state.rows2[0][1])
             this.setState({ ready });
          
         })
 } 
 
-createData1(name,mail,depto,jornada,area,id) {
+    createData1(index,name,mail,depto,jornada,area,id) {
 
-    return {name,mail,depto,jornada,area,id};
-} 
+        return {index,name,mail,depto,jornada,area,id};
+    } 
 
-hideModal = () => {
-    console.log(this.state.show)
-    this.setState({ show: false });
-  };
+    hideModal = () => {
+        
+        this.setState({ show: false });
+    };
 
- showModal = () => {
-        this.setState({ show: true });
+    showModal = (num) => {
+
+       
+        const id = this.state.rows2[0][num].id;
+        const nombre = this.state.rows2[0][num].name;
+        this.setState({ show: true,id,nombre });
+     
+        };
+
+    saveValues(id,url,mail,jornada,área){
+        
+
+
+
+    }    
+
+    handleSubmit = event => {
+        const form = event.currentTarget;
+        const data = new FormData(form);
+        console.log(data.get('jornada'))
+
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        this.setState({ validated: true });
       };
+    
+
 
    
   render() {
 
-    if(this.state.ready === false){
+    if(this.state.rows2.length === 0){
     
         return(
           <div>
@@ -81,29 +114,77 @@ hideModal = () => {
       else{
     return (
         <div  style = {{marginTop : 60}}>
+
+        <Grid container
+         alignItems="center"
+         justify="center"
+        >
+
+        <Grid item  xs={8} md={12} >    
         <Dialog
             open={this.state.show}
             onClose={this.hideModal}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
             >
-            <DialogTitle id="alert-dialog-title">{"Observaciones del profesor"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">{`Editar profesor(a): ${this.state.nombre}`}</DialogTitle>
               <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                </DialogContentText>:
-                <div>
-                  <DialogContentText id="alert-dialog-description">
-                  El profesor no posee observaciones actualmente
-                  </DialogContentText>
-                </div>
+              <Form  noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
+
+              <Form.Group controlId="formGroupFoto">
+                    <Form.Label>Foto</Form.Label>
+                    <Form.Control name="url" type="text" placeholder="Ingrese url de la foto" />
+                </Form.Group>
+
+                <Form.Group controlId="formGroupEmail">
+                    <Form.Label>Mail</Form.Label>
+                    <Form.Control name="mail" type="email" placeholder="Ingrese mail" />
+                </Form.Group>
+
+                <Form.Group controlId="formGroupPassword">
+                    <Form.Label>Departamento</Form.Label>
+                    <Form.Control name="depto" type="text" placeholder="Ingrese departamento de origen" />
+                </Form.Group>
+
+                <Form.Group controlId="formGroupJornada">
+                    <Form.Label>Jornada</Form.Label>
+                    <Form.Control name="jornada" as="select">
+                         <option>Diurno</option>
+                         <option>Vespertino</option>
+                    </Form.Control>
+                </Form.Group>
+
+                <Form.Group controlId="formArea">
+                    <Form.Label>Área</Form.Label>
+                    <Form.Control name="area" as="select">
+                         <option>Inteligencia artificial</option>
+                         <option>Informática educativa</option>
+                         <option>Ingeniería de software</option>
+                         <option>Robótica</option>
+                         <option>Análisis de datos</option>
+                         <option>Gestíón de proyectos TI</option>
+                         <option>Algoritmos</option>
+                         <option>Seguridad</option>
+                         <option>Redes computacionales</option>
+                         <option>Computación paralela</option>
+                         <option>Sistemas computacionales</option>
+                         <option>Procesos</option>
+                         <option>Optimización</option>
+                    </Form.Control>
+                </Form.Group>
+                <Button type="submit" variant="outline-primary">Enviar</Button>  
+              </Form>
               
-              </DialogContent>
+            </DialogContent>
               <DialogActions>
-                <Button onClick={this.hideModal} color="primary">
+                
+                <Button onClick={this.hideModal} variant="outline-primary">
                 Cerrar
                 </Button>
             </DialogActions>
         </Dialog>
+        </Grid>
+        </Grid>
 
         <Grid container
          spacing={0}
@@ -127,7 +208,7 @@ hideModal = () => {
                 
                 render: rows2 => (
                         <Tooltip title="Editar perfil" placement="top" style ={{fontSize: 20}}> 
-                            <Button onClick={this.showModal} color="primary">
+                            <Button   onClick={() => this.showModal(rows2.index)} variant="outline-primary">
                                 <FaEdit  style={{ fontSize: '1.50em' }}/>
                             </Button>
                          </Tooltip>   
