@@ -114,17 +114,16 @@ class SideBar extends Component{
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
 
-
+            <Tooltip title="Administrar" placement="left" style ={{fontSize: 20}}> 
             <Nav.Item className="ml-auto">
-                <Tooltip title="Administrar" placement="left" > 
                   <NavDropdown             
                     title={<FaUserCog style ={{color: '#FFFFFF'}} />} 
                     id="nav-dropdown">
                     <NavDropdown.Item eventKey="4.1" style ={{fontSize: 15}}>Usuarios</NavDropdown.Item>
                     <NavDropdown.Item href="/admprofs" style ={{fontSize: 15}} > Profesores </NavDropdown.Item>
                   </NavDropdown>
-                </Tooltip>
             </Nav.Item>
+            </Tooltip>
 
             <Nav.Item >
               <Tooltip title="Notificaciones" placement="top" style ={{fontSize: 20}}> 
