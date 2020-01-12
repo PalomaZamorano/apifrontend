@@ -13,8 +13,8 @@ import ProfesorsList from './views/ProfesorList2';
 import Asignaturas from './views/Asignaturas';
 import Estadistica from './views/Estadistica';
 import Perfil from './views/Perfil';
+import CursoDetalle from './views/CursoDetalle';
 import Inicio from './views/Inicio';
-import Cursos from './views/Cursos';
 import Administrar from './views/Administrar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Test from './views/Estadistica2';
@@ -208,8 +208,8 @@ class SideBar extends Component{
              <Route path="/perfil" component={props => <Perfil location={props.location}/>} />
              <Route path="/prueba" component={props => <Test/>} />
              <Route path="/asignaturas" component={props => <Asignaturas/>} />
-             <Route path="/cursos" component={props => <Cursos location={props.location}/>} />
              <Route path="/administrar" component={props => <Administrar/>} />
+             <Route path="/cursosDetalle" component={props => <CursoDetalle location={props.location}/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 
              </Route>

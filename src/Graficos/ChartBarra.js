@@ -48,14 +48,14 @@ class ChartBarra extends Component {
             categoryAxis.renderer.grid.template.location = 0;
             categoryAxis.renderer.minGridDistance = 30;
 
-            categoryAxis.renderer.labels.template.adapter.add("dy", function(dy, target) {
-            if (target.dataItem && target.dataItem.index & 2 == 2) {
-                return dy + 25;
-            }
+            categoryAxis.renderer.labels.template.adapter.add("dy", function(dy, target) {   
+            //if (target.dataItem && target.dataItem.index & 2 == 2) {
+              //  return dy + 25;
+           // }
             return dy;
             });
 
-            let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            chart.yAxes.push(new am4charts.ValueAxis());
 
             // Create series
             let series = chart.series.push(new am4charts.ColumnSeries());
@@ -73,7 +73,7 @@ class ChartBarra extends Component {
         })   
     }
   
-    componentWillUnmount() {
+    UNSAFE_componentWillUnmount() {
       if (this.chart) {
         this.chart.dispose();
       }
@@ -113,13 +113,13 @@ class ChartBarra extends Component {
             categoryAxis.renderer.minGridDistance = 30;
 
             categoryAxis.renderer.labels.template.adapter.add("dy", function(dy, target) {
-            if (target.dataItem && target.dataItem.index & 2 == 2) {
-                return dy + 25;
-            }
+           // if (target.dataItem && target.dataItem.index & 2 == 2) {
+             //   return dy + 25;
+            //}
             return dy;
             });
 
-            let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            chart.yAxes.push(new am4charts.ValueAxis());
 
             // Create series
             let series = chart.series.push(new am4charts.ColumnSeries());

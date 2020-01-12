@@ -21,7 +21,6 @@ class ChartDemo extends Component {
     .then(res => {
       const dimensiones = res.data;
       this.setState({ dimensiones });
-      const dimensions = ["Dimensión 1" ,"Dimensión 2","Dimensión 3","Dimensión 4"]
       
 
       // Create chart instance

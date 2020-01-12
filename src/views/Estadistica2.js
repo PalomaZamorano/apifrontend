@@ -115,7 +115,6 @@ class Estadistica2 extends Component {
                 }
             )
             
-           console.log(this.state.asignaturas)    
 
             this.handleChange2(profesors.cursos[0].curso_cod,profesors.cursos[0].curso_agno,
                 profesors.cursos[0].curso_aprobados,profesors.cursos[0].curso_reprobados,profesors.cursos[0].curso_promedio )
@@ -158,7 +157,7 @@ class Estadistica2 extends Component {
     };
 
 
-    handleChange2 = (cod,agno, apro, repro, prom) =>{
+    handleChange2 = (cod,agno) =>{
         axios.get('http://localhost:3000/profsAsign/'  + this.props.id + '/' + cod + '/' + agno)
         .then(res => {
             const resultAsign = res.data;
@@ -285,7 +284,7 @@ class Estadistica2 extends Component {
                         <Grid item md={9} xs ={9}>
                         <Paper className={this.state.useStyles.paper2}>
                         <Typography variant="h6" component="h2">
-                            Promedio por dimensión del curso  
+                            Promedio por dimensión del curso
                         </Typography> 
                       
                         <Tooltip title="Ver detalles de la encuesta" placement="top" style ={{fontSize: 20}}> 

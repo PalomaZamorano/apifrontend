@@ -10,12 +10,10 @@ import { Table } from 'react-bootstrap';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
@@ -83,10 +81,10 @@ componentDidMount() {
             const ready = true;  
             const obs =  profesors.prof_observaciones
             var pend = false
-            if(profesors.if_pendiente == 1){
+            if(profesors.if_pendiente === 1){
                pend = true
             }
-            this.setState({ ready, profesors, obs, pend });
+            this.setState({ready,profesors, obs, pend });
 
             profesors.cursos.map((curso,index) =>
             this.nommbreAsign(curso.curso_cod)
@@ -121,7 +119,6 @@ componentDidMount() {
     axios.get('http://localhost:3000/profesors/' + this.props.location.state.id + '.json')
         .then(res => {
             const profesors = res.data; 
-            const ready = true;  
             const obs =  profesors.prof_observaciones
             this.setState({obs });
             

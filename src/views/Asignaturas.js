@@ -72,7 +72,7 @@ createData1(name,id) {
                 
                 render: asignaturas => (
                         <Tooltip title="Cursos de la asignatura" placement="top" style ={{fontSize: 20}}> 
-                         <Link  to={{pathname: '/cursos/',state : {asignatura: asignaturas.asign_nombre ,cursos : asignaturas.cursos } }}>
+                         <Link  to={{pathname: '/cursosDetalle',state : {asignatura: asignaturas.asign_nombre ,cursos : asignaturas.cursos } }}>
                          <FiList  style={{ fontSize: '1.50em' }}/>
                          </Link>
                          </Tooltip>   

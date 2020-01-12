@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import MaterialTable, { MTableToolbar } from 'material-table'
+import MaterialTable from 'material-table'
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
@@ -8,8 +8,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 import { FaChartArea}  from "react-icons/fa";
 import {MdPermContactCalendar}  from "react-icons/md";
-import {ScrollContainer}  from 'react-simple-scroll-container'
-import TablePagination from '@material-ui/core/TablePagination';
 
 
 class ProfesorList2 extends Component {
