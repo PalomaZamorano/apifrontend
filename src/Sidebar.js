@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SideNav, { NavItem, NavIcon} from '@trendmicro/react-sidenav';
-import { Navbar, Image,Nav} from 'react-bootstrap';
+import { Navbar, Image,Nav,NavDropdown} from 'react-bootstrap';
 import {CSSTransition} from 'react-transition-group';
 import { FaChalkboardTeacher}  from "react-icons/fa";
 import { IoIosStats}  from "react-icons/io";
@@ -15,7 +15,7 @@ import Estadistica from './views/Estadistica';
 import Perfil from './views/Perfil';
 import CursoDetalle from './views/CursoDetalle';
 import Inicio from './views/Inicio';
-import Administrar from './views/Administrar';
+import AdministrarProfs from './views/AdminProfesores';
 import Tooltip from '@material-ui/core/Tooltip';
 import Test from './views/Estadistica2';
 import { FaRegUserCircle } from "react-icons/fa";
@@ -114,14 +114,18 @@ class SideBar extends Component{
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
 
+
             <Nav.Item className="ml-auto">
-              <Tooltip title="Iniciar sesión" placement="top" style ={{fontSize: 20}}>   
-                <Nav.Link  href="#features" style={{ color: '#FFFFFF' }} >
-                  <FaRegUserCircle  />
-                </Nav.Link>
-              </Tooltip>
+                <Tooltip title="Administrar" placement="left" > 
+                  <NavDropdown             
+                    title={<FaUserCog style ={{color: '#FFFFFF'}} />} 
+                    id="nav-dropdown">
+                    <NavDropdown.Item eventKey="4.1" style ={{fontSize: 15}}>Usuarios</NavDropdown.Item>
+                    <NavDropdown.Item href="/admprofs" style ={{fontSize: 15}} > Profesores </NavDropdown.Item>
+                  </NavDropdown>
+                </Tooltip>
             </Nav.Item>
-            
+
             <Nav.Item >
               <Tooltip title="Notificaciones" placement="top" style ={{fontSize: 20}}> 
                 <Nav.Link  href="#features" style={{ color: '#FFFFFF' }} >
@@ -130,13 +134,16 @@ class SideBar extends Component{
               </Tooltip>
             </Nav.Item>
 
-            <Nav.Item >
-              <Tooltip title="Administrar" placement="top" style ={{fontSize: 20}}> 
-                <Nav.Link  href="/administrar" style={{ color: '#FFFFFF' }} >
-                  <FaUserCog  />
+            <Nav.Item>
+              <Tooltip title="Iniciar sesión" placement="top" style ={{fontSize: 20}}>   
+                <Nav.Link  href="#features" style={{ color: '#FFFFFF' }} >
+                  <FaRegUserCircle  />
                 </Nav.Link>
               </Tooltip>
             </Nav.Item>
+
+           
+
 
             </Navbar.Collapse>
         </Navbar>
@@ -208,7 +215,7 @@ class SideBar extends Component{
              <Route path="/perfil" component={props => <Perfil location={props.location}/>} />
              <Route path="/prueba" component={props => <Test/>} />
              <Route path="/asignaturas" component={props => <Asignaturas/>} />
-             <Route path="/administrar" component={props => <Administrar/>} />
+             <Route path="/admprofs" component={props => <AdministrarProfs/>} />
              <Route path="/cursosDetalle" component={props => <CursoDetalle location={props.location}/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 

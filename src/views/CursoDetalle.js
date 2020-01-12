@@ -7,7 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import MaterialTable from 'material-table'
 import {Link}  from "react-router-dom"; 
 import Tooltip from '@material-ui/core/Tooltip';
-import {MdFeaturedPlayList}  from "react-icons/md";
+import {FaChalkboardTeacher}  from "react-icons/fa";
 import Card from '@material-ui/core/Card';
 
 
@@ -243,9 +243,9 @@ class CursoDetalle extends Component{
                             field: '',
                             
                             render:  cursos => (
-                                    <Tooltip title={`${cursos.profesors[0].id}`} placement="top" style ={{fontSize: 20}}> 
+                                    <Tooltip title={`Ir al perfil de ${cursos.profesors[0].prof_nombre_corto}`} placement="top" style ={{fontSize: 20}}> 
                                     <Link  to={{pathname: '/estadistica/', state : {id: cursos.profesors[0].id} }}>
-                                    <MdFeaturedPlayList  style={{ fontSize: '1.50em' }}/>
+                                    <FaChalkboardTeacher  style={{ fontSize: '1.50em' }}/>
                                     </Link>
                                     </Tooltip>   
                             )
@@ -257,9 +257,9 @@ class CursoDetalle extends Component{
                           render:  cursos =>  (
                                   <div>
                                    { cursos.profesors.length === 2 ?
-                                      <Tooltip title={`${cursos.profesors[1].id}`} placement="top" style ={{fontSize: 20}}> 
+                                      <Tooltip title={`Ir al perfil de ${cursos.profesors[1].prof_nombre_corto}`} placement="top" style ={{fontSize: 20}}> 
                                       <Link  to={{pathname: '/estadistica/', state : {id: cursos.profesors[1].id} }}>
-                                      <MdFeaturedPlayList  style={{ fontSize: '1.50em' }}/>
+                                      <FaChalkboardTeacher  style={{ fontSize: '1.50em' }}/>
                                       </Link>
                                       </Tooltip>:
                                     <div></div>}
