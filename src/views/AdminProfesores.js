@@ -44,7 +44,7 @@ class AdminProfesores extends Component {
         
           if(profesors.length !== 0){
             this.state.rows2.push(profesors.map((profesor,index) =>  
-            this.createData1(index,profesor.prof_nombre_corto, profesor.prof_e_mail,profesor.prof_depto,
+            this.createData1(index,profesor.prof_photo,profesor.prof_nombre_corto, profesor.prof_e_mail,profesor.prof_depto,
                 profesor.prof_jornada,profesor.prof_area,profesor.id),
             )
             );
@@ -57,9 +57,9 @@ class AdminProfesores extends Component {
         })
 } 
 
-    createData1(index,name,mail,depto,jornada,area,id) {
+    createData1(index,url,name,mail,depto,jornada,area,id) {
 
-        return {index,name,mail,depto,jornada,area,id};
+        return {index,url,name,mail,depto,jornada,area,id};
     } 
 
     hideModal = () => {
@@ -76,8 +76,27 @@ class AdminProfesores extends Component {
      
         };
 
-    saveValues(id,url,mail,jornada,área){
+    saveValues(url,mail,depto,jornada,area){
         
+        const prof = {
+            prof_e_mail : mail,
+            prof_depto: depto,
+            prof_area: area,
+            prof_jornada: jornada,
+            prof_photo: url,
+          };
+        
+        console.log(prof)
+
+        if (window.confirm('¿Está seguro/a que desea editar las observaciones?')){ 
+
+            axios.put('http://localhost:3000/profesors/' + this.state.id + '.json',  prof )
+              .then(res => {
+                window.alert("Se han ingresado los datos con éxito");
+                this.setState({ show: false });
+              })
+
+          }
 
 
 
@@ -94,6 +113,7 @@ class AdminProfesores extends Component {
         }
 
         this.setState({ validated: true });
+        this.saveValues(data.get('url'),data.get('mail'),data.get('depto'),data.get('jornada'),data.get('area'));
       };
     
 
@@ -193,10 +213,27 @@ class AdminProfesores extends Component {
          justify="center"
         >
 
-        <Grid item  xs={8} md={12} >
+        <Grid item  xs={5} md={10} >
         <MaterialTable 
         
           columns={[
+            {
+                title: 'Foto',
+                field: '',
+                render: rows2 => (
+                  <div>
+                   {rows2.url ?  
+                    <img
+                        style={{ height: 36, borderRadius: '50%' }}
+                        src={rows2.url}
+                    />:
+                    <img
+                    style={{ height: 36, borderRadius: '50%' }}
+                    src= "https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png"
+                    />}
+                  </div>
+                )
+            },
             { title: 'Nombre', field: 'name' },
             { title: 'Mail', field: 'mail' },
             { title: 'Depto.', field: 'depto' },

@@ -229,14 +229,14 @@ componentDidMount() {
                     <Grid item md={4} xs={3}  >
 
                     <Grid item md={12} xs={11} >
-                    { this.state.photo ?    
+                    { this.state.profesors.prof_photo ?    
                     <Image  style={{marginTop:30, width:'53%'}}
-                          src="https://www.informatica.usach.cl/multimedia/FotoAQS-100x100.jpg" fluid /> 
+                          src= {this.state.profesors.prof_photo} fluid /> 
 
                     :  
                     <div> 
                     <Image  style={{marginTop:30, width:'53%'}}
-                      src="https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png" fluid /> </div>  }      
+                      src= "https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png" fluid /> </div>  }      
                     </Grid>      
                     
                     <Grid item md={12} xs={1} > 
@@ -313,9 +313,9 @@ componentDidMount() {
                       <Grid item md={4} xs={3}  >
 
                       <Grid item md={12} xs={11} >
-                      { this.state.photo ?    
+                      { this.state.profesors.prof_photo ?    
                       <Image  style={{marginTop:30, width:'53%'}}
-                            src="https://www.informatica.usach.cl/multimedia/FotoAQS-100x100.jpg" fluid /> 
+                            src={this.state.profesors.prof_photo} fluid /> 
 
                       :  
                       <div> 

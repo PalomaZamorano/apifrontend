@@ -138,9 +138,9 @@ class ProfesorList2 extends Component {
                   <Grid item md={4} xs={3}  >
 
                   <Grid item md={12} xs={11} >
-                  { this.state.photo ?    
+                  { this.state.profesors.prof_photo ?    
                   <Image  style={{marginTop:30, width:'53%'}}
-                        src="https://www.informatica.usach.cl/multimedia/FotoAQS-100x100.jpg" fluid /> 
+                        src={this.state.profesors.prof_photo} fluid /> 
 
                   :  
                   <div> 
@@ -248,9 +248,9 @@ class ProfesorList2 extends Component {
                       <Grid item md={4} xs={3}  >
 
                       <Grid item md={12} xs={11} >
-                      { this.state.photo ?    
+                      { this.state.profesors.prof_photo ?    
                       <Image  style={{marginTop:30, width:'53%'}}
-                            src="https://www.informatica.usach.cl/multimedia/FotoAQS-100x100.jpg" fluid /> 
+                            src={this.state.profesors.prof_photo} fluid /> 
 
                       :  
                       <div> 
