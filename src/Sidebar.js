@@ -16,6 +16,7 @@ import Perfil from './views/Perfil';
 import CursoDetalle from './views/CursoDetalle';
 import Inicio from './views/Inicio';
 import AdministrarProfs from './views/AdminProfesores';
+import AdministrarUsuarios from './views/AdminUsers';
 import Tooltip from '@material-ui/core/Tooltip';
 import Test from './views/Estadistica2';
 import { FaRegUserCircle } from "react-icons/fa";
@@ -119,8 +120,9 @@ class SideBar extends Component{
                   <NavDropdown             
                     title={<FaUserCog style ={{color: '#FFFFFF'}} />} 
                     id="nav-dropdown">
-                    <NavDropdown.Item eventKey="4.1" style ={{fontSize: 15}}>Usuarios</NavDropdown.Item>
+                    <NavDropdown.Item  href="/adminusers" style ={{fontSize: 15}}>Usuarios</NavDropdown.Item>
                     <NavDropdown.Item href="/admprofs" style ={{fontSize: 15}} > Profesores </NavDropdown.Item>
+                    <NavDropdown.Item href="/admprofs" style ={{fontSize: 15}} > Asignar Coordinación </NavDropdown.Item>
                   </NavDropdown>
             </Nav.Item>
             </Tooltip>
@@ -216,6 +218,7 @@ class SideBar extends Component{
              <Route path="/asignaturas" component={props => <Asignaturas/>} />
              <Route path="/admprofs" component={props => <AdministrarProfs/>} />
              <Route path="/cursosDetalle" component={props => <CursoDetalle location={props.location}/>} />
+             <Route path="/adminusers" component={props => <AdministrarUsuarios location={props.location}/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 
              </Route>

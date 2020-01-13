@@ -1,27 +1,20 @@
 import React, { Component } from 'react'
-import MaterialTable from 'material-table'
-import Paper from '@material-ui/core/Paper';
+import MaterialTable,{MTableToolbar} from 'material-table'
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 import {FaEdit}  from "react-icons/fa";
+import {MdDelete}  from "react-icons/md";
+import {IoMdAddCircle}  from "react-icons/io";
+
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Form, Button } from 'react-bootstrap';
-//*MultiSelect*
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
-import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
+
 
 
 
@@ -31,6 +24,7 @@ class AdminProfesores extends Component {
         super(props);
         this.state={
           ready:false,
+          usuarios:[],
           profesors:[],
           rows2:[],
           nombre:'',
@@ -65,28 +59,43 @@ class AdminProfesores extends Component {
 
     componentDidMount() {
 
-        axios.get(`http://localhost:3000/profesors.json`)
+        axios.get(`http://localhost:3000/user_tables.json`)
         .then(res => {
-          const profesors = res.data;
+          const usuarios = res.data;
         
-          if(profesors.length !== 0){
-            this.state.rows2.push(profesors.map((profesor,index) =>  
-            this.createData1(index,profesor.prof_photo,profesor.prof_nombre_corto, profesor.prof_e_mail,profesor.prof_depto,
-                profesor.prof_jornada,profesor.prof_area,profesor.id),
+          if(usuarios.length !== 0){
+            this.state.rows2.push(usuarios.map((usuario,index) =>  
+            this.createData1(index,usuario.id,usuario.user_name,usuario.user_mail,usuario.user_rol,usuario.user_cargo),
             )
             );
           }
            
             const ready = true;  
-            //console.log(this.state.rows2[0][1])
             this.setState({ ready });
+            console.log(this.state.rows2)
          
         })
 } 
 
-    createData1(index,url,name,mail,depto,jornada,area,id) {
+    createData1(index,id,name,mail,rol,cargo) {
+        if(cargo === 0){
+            cargo = "Subdirecto(a)"
+        }
+        if(cargo === 1){
+            cargo = "Jefe(a) de carrera"
 
-        return {index,url,name,mail,depto,jornada,area,id};
+        }
+        if(cargo === 2){
+            cargo = "Coordinador(a) docente"
+        }
+        if(rol === 0){
+            rol = "Administrador(a)"
+        }
+        if(rol === 1){
+            rol = "Usuario"
+        }    
+
+        return {index,id,name,mail,rol,cargo};
     } 
 
     hideModal = () => {
@@ -193,7 +202,7 @@ class AdminProfesores extends Component {
          justify="center"
         >
 
-        <Grid item  xs={8} md={12} >    
+        <Grid item  xs={8} md={8} >    
         <Dialog
             open={this.state.show}
             onClose={this.hideModal}
@@ -201,15 +210,15 @@ class AdminProfesores extends Component {
             aria-describedby="alert-dialog-description"
             >
             <DialogTitle id="alert-dialog-title">
-            {`Editar profesor(a): ${this.state.nombre}`}
+            {`Editar usuario(a): ${this.state.nombre}`}
             </DialogTitle>
             
               <DialogContent>
               <Form  noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
 
               <Form.Group controlId="formGroupFoto">
-                    <Form.Label>Foto</Form.Label>
-                    <Form.Control name="url" type="text" placeholder="Ingrese url de la foto" />
+                    <Form.Label>Nombre</Form.Label>
+                    <Form.Control name="name" type="text" placeholder="Ingrese url de la foto" />
                 </Form.Group>
 
                 <Form.Group controlId="formGroupEmail">
@@ -217,63 +226,24 @@ class AdminProfesores extends Component {
                     <Form.Control name="mail" type="email" placeholder="Ingrese mail" />
                 </Form.Group>
 
-                <Form.Group controlId="formGroupPassword">
-                    <Form.Label>Departamento</Form.Label>
-                    <Form.Control name="depto" type="text" placeholder="Ingrese departamento de origen" />
+                <Form.Group  controlId="formGridCargo">
+                    <Form.Label>Cargo</Form.Label>
+                    <Form.Control as="select">
+                        <option>Subdirector(a)</option>
+                        <option>Jefe(a) de carrera</option>
+                        <option>Coordinador(a) docente</option>
+                        <option>Director(a)</option>
+                    </Form.Control>
+                </Form.Group>
+
+                <Form.Group controlId="formGridRol">
+                    <Form.Label>Rol</Form.Label>
+                    <Form.Control as="select">
+                        <option>Adminstrador</option>
+                        <option>Usuario Natural</option>
+                    </Form.Control>
                 </Form.Group>
                 
-               
-
-
-                <Form.Group controlId="formGroupJornada">
-                    <Form.Label>Jornada</Form.Label>
-                    <br/>
-                    <FormControl>
-                    <Select
-                    style = {{minWidth: 350}}
-                    labelId="demo-mutiple-checkbox-label"
-                    id="demo-mutiple-checkbox"
-                    multiple
-                    value={this.state.personJornada}
-                    onChange={this.handleChangeSelect2}
-                    input={<Input />}
-                    renderValue={selected => selected.join(', ')}
-                    MenuProps={this.state.MenuProps}
-                    >
-                    {this.state.jornada.map((jor,index) => (
-                        <MenuItem key={index} value={jor}>
-                        <Checkbox checked={this.state.personJornada.indexOf(jor) > -1} />
-                        <ListItemText primary={jor} />
-                        </MenuItem>
-                    ))}
-                    </Select>
-                    </FormControl>
-                </Form.Group>
-
-                <Form.Group controlId="formArea">
-                    <Form.Label>Área</Form.Label>
-                    <br/>
-                    <FormControl>
-                    <Select
-                    style = {{minWidth: 350}}
-                    labelId="demo-mutiple-checkbox-label"
-                    id="demo-mutiple-checkbox"
-                    multiple
-                    value={this.state.personAreas}
-                    onChange={this.handleChangeSelect}
-                    input={<Input />}
-                    renderValue={selected => selected.join(', ')}
-                    MenuProps={this.state.MenuProps}
-                    >
-                    {this.state.areas.map((area,index) => (
-                        <MenuItem key={index} value={area}>
-                        <Checkbox checked={this.state.personAreas.indexOf(area) > -1} />
-                        <ListItemText primary={area} />
-                        </MenuItem>
-                    ))}
-                    </Select>
-                    </FormControl>
-                </Form.Group>
                 <Button type="submit" variant="outline-primary">Enviar</Button>  
               </Form>
               
@@ -295,40 +265,35 @@ class AdminProfesores extends Component {
          justify="center"
         >
 
-        <Grid item  xs={5} md={10} >
+        <Grid item  xs={5} md={12} >
         <MaterialTable 
         
+          
           columns={[
-            {
-                title: 'Foto',
-                field: '',
-                render: rows2 => (
-                  <div>
-                   {rows2.url ?  
-                    <img
-                        style={{ height: 36, borderRadius: '50%' }}
-                        src={rows2.url}
-                    />:
-                    <img
-                    style={{ height: 36, borderRadius: '50%' }}
-                    src= "https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png"
-                    />}
-                  </div>
-                )
-            },
             { title: 'Nombre', field: 'name' },
             { title: 'Mail', field: 'mail' },
-            { title: 'Depto.', field: 'depto' },
-            { title: 'Jornada', field: 'jornada' },
-            { title: 'Área', field: 'area' },
+            { title: 'Rol', field: 'rol' },
+            { title: 'Cargo', field: 'cargo' },
             {
                 title: '',
                 field: '',
                 
                 render: rows2 => (
-                        <Tooltip title="Editar perfil" placement="top" style ={{fontSize: 20}}> 
-                            <Button   onClick={() => this.showModal(rows2.index)} size="sm" variant="outline-primary">
+                        <Tooltip title="Editar usuario" placement="top" style ={{fontSize: 20}}> 
+                            <Button   onClick={() => this.showModal(rows2.index)} size="sm" variant="outline-secondary">
                                 <FaEdit  style={{ fontSize: '1.50em' }}/>
+                            </Button>
+                         </Tooltip>   
+                )
+            },
+            {
+                title: '',
+                field: '',
+                
+                render: rows2 => (
+                        <Tooltip title="Eliminar usuario" placement="top" style ={{fontSize: 20}}> 
+                            <Button   onClick={() => this.showModal(rows2.index)} size="sm" variant="outline-secondary">
+                                <MdDelete  style={{ fontSize: '1.50em' }}/>
                             </Button>
                          </Tooltip>   
                 )
@@ -336,11 +301,25 @@ class AdminProfesores extends Component {
             
           ]}
           data={this.state.rows2[0]}
+          components={{
+            Toolbar: props => (
+              <div>
+                <MTableToolbar {...props} />
+                <div >
+                <Tooltip title="Agregar usuario" placement="top" style ={{fontSize: 20}}> 
+                            <Button  variant="outline-secondary" size="sm"  style={{float: 'right', marginRight:20}}>
+                                <IoMdAddCircle  style={{ fontSize: '1.50em' }}/>
+                            </Button>
+                        </Tooltip> 
+                        <br/> 
+                </div>
+              </div>
+            ),
+          }}
           options={{
             sorting: true
-          
           }}
-          title="Editar profesores"
+          title="Administrar usuarios"
           
         />
 
