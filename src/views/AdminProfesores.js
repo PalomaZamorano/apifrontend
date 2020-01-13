@@ -13,7 +13,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Form, Button } from 'react-bootstrap';
-
+//*MultiSelect*
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import ListItemText from '@material-ui/core/ListItemText';
+import Select from '@material-ui/core/Select';
+import Checkbox from '@material-ui/core/Checkbox';
 
 
 class AdminProfesores extends Component {
@@ -27,8 +34,24 @@ class AdminProfesores extends Component {
           nombre:'',
           id:0,
           show:false,
+          jornada:["Diurno", "Vespertino"],
+          personJornada:[],
           validated:false,
-          setValidated:false
+          setValidated:false,
+          area:"",
+          jorna:"",
+          areas: ["Inteligencia artificial","Informática educativa", "Ingeniería de software","Robótica",
+                  "Análisis de datos","Gestíón de proyectos TI","Algoritmos","Seguridad","Redes computacionales",
+                  "Computación paralela","Sistemas computacionales","Procesos","Optimización"],
+          personAreas:[],
+          MenuProps : {
+            PaperProps: {
+              style: {
+                maxHeight: 48 * 4.5 + 8,
+                width: 250,
+              },
+            },
+          }
 
         }
         this.hideModal = this.hideModal.bind(this);
@@ -77,7 +100,8 @@ class AdminProfesores extends Component {
         };
 
     saveValues(url,mail,depto,jornada,area){
-        
+       
+
         const prof = {
             prof_e_mail : mail,
             prof_depto: depto,
@@ -88,7 +112,7 @@ class AdminProfesores extends Component {
         
         console.log(prof)
 
-        if (window.confirm('¿Está seguro/a que desea editar las observaciones?')){ 
+        if (window.confirm('¿Está seguro/a que desea editar el perfil del profesor(a)?')){ 
 
             axios.put('http://localhost:3000/profesors/' + this.state.id + '.json',  prof )
               .then(res => {
@@ -113,10 +137,27 @@ class AdminProfesores extends Component {
         }
 
         this.setState({ validated: true });
-        this.saveValues(data.get('url'),data.get('mail'),data.get('depto'),data.get('jornada'),data.get('area'));
+        
+        this.state.jorna = this.state.personJornada[0];
+        this.state.area = this.state.personAreas[0];
+        if(this.state.personJornada.length>1){
+            this.state.jorna = this.state.personJornada[0] + "-" + this.state.personJornada[1]
+        }
+
+        if(this.state.personAreas.length>1){    
+            this.state.area = this.state.personAreas[0] + "-" + this.state.personAreas[1]
+        }
+        this.saveValues(data.get('url'),data.get('mail'),data.get('depto'),this.state.jorna,this.state.area);
       };
     
-
+    handleChangeSelect = event => {
+        this.setState({ personAreas: event.target.value });
+      };
+    
+    handleChangeSelect2 = event => {
+      this.setState({ personJornada: event.target.value });
+    };  
+    
 
    
   render() {
@@ -165,32 +206,58 @@ class AdminProfesores extends Component {
                     <Form.Label>Departamento</Form.Label>
                     <Form.Control name="depto" type="text" placeholder="Ingrese departamento de origen" />
                 </Form.Group>
+                
+               
+
 
                 <Form.Group controlId="formGroupJornada">
                     <Form.Label>Jornada</Form.Label>
-                    <Form.Control name="jornada" as="select">
-                         <option>Diurno</option>
-                         <option>Vespertino</option>
-                    </Form.Control>
+                    <br/>
+                    <FormControl>
+                    <Select
+                    style = {{minWidth: 350}}
+                    labelId="demo-mutiple-checkbox-label"
+                    id="demo-mutiple-checkbox"
+                    multiple
+                    value={this.state.personJornada}
+                    onChange={this.handleChangeSelect2}
+                    input={<Input />}
+                    renderValue={selected => selected.join(', ')}
+                    MenuProps={this.state.MenuProps}
+                    >
+                    {this.state.jornada.map((jor,index) => (
+                        <MenuItem key={index} value={jor}>
+                        <Checkbox checked={this.state.personJornada.indexOf(jor) > -1} />
+                        <ListItemText primary={jor} />
+                        </MenuItem>
+                    ))}
+                    </Select>
+                    </FormControl>
                 </Form.Group>
 
                 <Form.Group controlId="formArea">
                     <Form.Label>Área</Form.Label>
-                    <Form.Control name="area" as="select">
-                         <option>Inteligencia artificial</option>
-                         <option>Informática educativa</option>
-                         <option>Ingeniería de software</option>
-                         <option>Robótica</option>
-                         <option>Análisis de datos</option>
-                         <option>Gestíón de proyectos TI</option>
-                         <option>Algoritmos</option>
-                         <option>Seguridad</option>
-                         <option>Redes computacionales</option>
-                         <option>Computación paralela</option>
-                         <option>Sistemas computacionales</option>
-                         <option>Procesos</option>
-                         <option>Optimización</option>
-                    </Form.Control>
+                    <br/>
+                    <FormControl>
+                    <Select
+                    style = {{minWidth: 350}}
+                    labelId="demo-mutiple-checkbox-label"
+                    id="demo-mutiple-checkbox"
+                    multiple
+                    value={this.state.personAreas}
+                    onChange={this.handleChangeSelect}
+                    input={<Input />}
+                    renderValue={selected => selected.join(', ')}
+                    MenuProps={this.state.MenuProps}
+                    >
+                    {this.state.areas.map((area,index) => (
+                        <MenuItem key={index} value={area}>
+                        <Checkbox checked={this.state.personAreas.indexOf(area) > -1} />
+                        <ListItemText primary={area} />
+                        </MenuItem>
+                    ))}
+                    </Select>
+                    </FormControl>
                 </Form.Group>
                 <Button type="submit" variant="outline-primary">Enviar</Button>  
               </Form>
