@@ -21,6 +21,8 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
+import Typography from '@material-ui/core/Typography';
+
 
 
 class AdminProfesores extends Component {
@@ -44,6 +46,8 @@ class AdminProfesores extends Component {
                   "Análisis de datos","Gestíón de proyectos TI","Algoritmos","Seguridad","Redes computacionales",
                   "Computación paralela","Sistemas computacionales","Procesos","Optimización"],
           personAreas:[],
+          formErrors: {mail: ''},
+          emailValid: false,
           MenuProps : {
             PaperProps: {
               style: {
@@ -101,6 +105,7 @@ class AdminProfesores extends Component {
 
     saveValues(url,mail,depto,jornada,area){
        
+        
 
         const prof = {
             prof_e_mail : mail,
@@ -111,16 +116,16 @@ class AdminProfesores extends Component {
           };
         
         console.log(prof)
+          if (window.confirm('¿Está seguro/a que desea editar el perfil del profesor(a)?')){ 
 
-        if (window.confirm('¿Está seguro/a que desea editar el perfil del profesor(a)?')){ 
+              axios.put('http://localhost:3000/profesors/' + this.state.id + '.json',  prof )
+                .then(res => {
+                  window.alert("Se han ingresado los datos con éxito");
+                  this.setState({ show: false });
+                })
 
-            axios.put('http://localhost:3000/profesors/' + this.state.id + '.json',  prof )
-              .then(res => {
-                window.alert("Se han ingresado los datos con éxito");
-                this.setState({ show: false });
-              })
-
-          }
+            }
+          
 
 
 
@@ -129,33 +134,40 @@ class AdminProfesores extends Component {
     handleSubmit = event => {
         const form = event.currentTarget;
         const data = new FormData(form);
-        console.log(data.get('jornada'))
+        let emailValid = this.state.emailValid;
+        emailValid = data.get('mail').match(/^([\w.%+-]+)@(usach)+([\w]{2,})$/i);
+        const error = emailValid ? '' : ' is invalid';
 
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
+        if (form.checkValidity() === false ||  error === false || (data.get('mail') === "" || data.get('depto')  === "" || data.get('url')  === "" || this.state.jorna === "" || this.state.area  === "") ) {
+          window.alert('Debe rellenar todos los espacios o ingresar mail usach, inténtalo nuevamente')
+          event.preventDefault();
+          event.stopPropagation();
         }
-
-        this.setState({ validated: true });
-        
-        this.state.jorna = this.state.personJornada[0];
-        this.state.area = this.state.personAreas[0];
-        if(this.state.personJornada.length>1){
-            this.state.jorna = this.state.personJornada[0] + "-" + this.state.personJornada[1]
-        }
-
-        if(this.state.personAreas.length>1){    
-            this.state.area = this.state.personAreas[0] + "-" + this.state.personAreas[1]
-        }
-        this.saveValues(data.get('url'),data.get('mail'),data.get('depto'),this.state.jorna,this.state.area);
-      };
+        else{
+          this.setState({ validated: true });  
+          this.saveValues(data.get('url'),data.get('mail'),data.get('depto'),this.state.jorna,this.state.area);
+        }  
+    };
     
     handleChangeSelect = event => {
-        this.setState({ personAreas: event.target.value });
+      if(event.target.value.length>1){    
+        const area = event.target.value[0] + " - " + event.target.value[1]
+        this.setState({ personAreas: event.target.value, area});
+      }
+      else{
+        this.setState({ personAreas: event.target.value, area: event.target.value[0] });
+      }  
       };
     
     handleChangeSelect2 = event => {
-      this.setState({ personJornada: event.target.value });
+
+      if(event.target.value.length>1){
+        const jorna = event.target.value[0] + " - " + event.target.value[1]
+        this.setState({personJornada: event.target.value,jorna }); 
+      }
+      else{
+        this.setState({ personJornada: event.target.value, jorna: event.target.value[0] });
+      }  
     };  
     
 
@@ -188,7 +200,10 @@ class AdminProfesores extends Component {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
             >
-            <DialogTitle id="alert-dialog-title">{`Editar profesor(a): ${this.state.nombre}`}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">
+            {`Editar profesor(a): ${this.state.nombre}`}
+            </DialogTitle>
+            
               <DialogContent>
               <Form  noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
 
