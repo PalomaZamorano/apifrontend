@@ -32,7 +32,7 @@ class CursoDetalle extends Component{
 
     componentDidMount() {
 
-        console.log(this.props.location.state.cursos)
+       // console.log(this.props.location.state.cursos)
         axios.get('http://localhost:3000/resultCurso/' + this.props.location.state.cursos[0].curso_cod + '/' + this.props.location.state.cursos[0].curso_agno + '/' + this.props.location.state.cursos[0].curso_sem)
         .then(res => {
           const results= res.data[0];
@@ -44,7 +44,7 @@ class CursoDetalle extends Component{
          
         })
         
-         console.log(this.state.profesors.profesors)
+         //console.log(this.state.profesors.profesors)
       } 
 
     cursos(cod){

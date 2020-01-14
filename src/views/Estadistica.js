@@ -78,7 +78,7 @@ class ProfesorList2 extends Component {
 
 
     componentDidMount() {
-        console.log(this.props.location.state.id)
+      //  console.log(this.props.location.state.id)
       
         axios.get('http://localhost:3000/profesors/' + this.props.location.state.id + '.json')
         .then(res => {

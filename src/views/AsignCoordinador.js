@@ -13,6 +13,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
+import  {Button}  from 'react-bootstrap';
+
 
 
 
@@ -25,6 +27,7 @@ class AsigCoordinador extends Component {
         super(props);
         this.state={
           ready:false,
+          id:0,
           MenuProps : {
             PaperProps: {
               style: {
@@ -65,10 +68,27 @@ componentDidMount() {
        
 } 
 
-handleChange(){
+asign(nombres){
 
+    console.log(this.state.id)
+    const asign = {
+      asign_coordinadores : nombres
+      };
+    
+      console.log(asign)
+      if (window.confirm('¿Está seguro/a que desea asignar?')){ 
 
+          axios.put('http://localhost:3000/asignaturas/' + this.state.id + '.json',  asign )
+            .then(res => {
+              window.alert("Se ha asignado con éxito");
+              this.setState({ show: false });
+            })
 
+        }
+}
+
+handleChange = event => {
+  this.setState({id: event.target.value}); 
 }
 
 handleChangeSelect = event => {
@@ -79,7 +99,7 @@ handleChangeSelect = event => {
     else{
       this.setState({ selectedProfesors: event.target.value, profs: event.target.value[0] });
     }  
-  }; 
+}; 
    
   render() {
  
@@ -153,6 +173,9 @@ handleChangeSelect = event => {
                 
 
             </Grid>
+            <Button   onClick={() => this.asign(this.state.profs)} size="sm" variant="outline-primary">
+                Asignar
+              </Button>
             </Paper>             
           </Grid> 
               

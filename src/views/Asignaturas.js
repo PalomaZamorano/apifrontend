@@ -65,6 +65,7 @@ createData1(name,id) {
           <MaterialTable
             columns={[
               { title: 'Nombre asignatura', field: 'asign_nombre' },
+              { title: 'Coordinador(es)', field: 'asign_coordinadores' },
               { title: 'Código', field: 'asign_code' },
               {
                 title: '',
