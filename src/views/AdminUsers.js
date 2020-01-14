@@ -96,7 +96,7 @@ class AdminProfesores extends Component {
         const nombre = this.state.rows2[0][num].name;
         this.setState({ show: true,id ,nombre });
      
-        };
+    };
 
     saveValues(name,mail,rol,cargo){
         //terminar en la casa
@@ -187,11 +187,11 @@ class AdminProfesores extends Component {
             user_cargo: cargo,
         };
         
-        if (window.confirm('¿Está seguro/a que desea editar al usuario?')){ 
+        if (window.confirm('¿Está seguro/a que desea agregar al usuario?')){ 
 
               axios.post('http://localhost:3000/user_tables.json',  usuario )
                 .then(res => {
-                  window.alert("Se han ingresado los datos con éxito");
+                  window.alert("Se ha ingresado el usuario con éxito");
                   this.setState({ show1: false, validated: false });
                 })
         }
@@ -215,6 +215,29 @@ class AdminProfesores extends Component {
         }  
     };
     
+    //Eliminar
+
+    handleDelete = (num) => {
+        const id = this.state.rows2[0][num].id;
+        const nombre = this.state.rows2[0][num].name;
+        this.Delete(id,nombre,num);
+    };
+
+
+
+    Delete(id,nombre,num){
+        
+        if (window.confirm('¿Está seguro/a que desea eliminar al usuario: "' + nombre + '" ?')){ 
+              axios.delete('http://localhost:3000/user_tables/' + id + '.json')
+                .then(res => {
+                  const index = this.state.rows2[0].indexOf(this.state.rows2[0][num]);
+                  this.state.rows2[0].splice(index, 1);
+                  console.log(this.state.rows2[0])
+                  this.setState(this.state.rows2);
+                  window.alert("Se ha eliminado el usuario con éxito");
+                })
+        }
+    }    
 
    
   render() {
@@ -391,7 +414,7 @@ class AdminProfesores extends Component {
                 
                 render: rows2 => (
                         <Tooltip title="Eliminar usuario" placement="top" style ={{fontSize: 20}}> 
-                            <Button  size="sm" variant="outline-secondary">
+                            <Button  size="sm" variant="outline-secondary" onClick={() => this.handleDelete(rows2.index)}>
                                 <MdDelete  style={{ fontSize: '1.50em' }}/>
                             </Button>
                          </Tooltip>   
