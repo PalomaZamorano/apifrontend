@@ -7,8 +7,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import {FaEdit}  from "react-icons/fa";
 import {MdDelete}  from "react-icons/md";
 import {IoMdAddCircle}  from "react-icons/io";
-
-
+//Para Dialog
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -25,23 +24,13 @@ class AdminProfesores extends Component {
         this.state={
           ready:false,
           usuarios:[],
-          profesors:[],
           rows2:[],
           nombre:'',
           id:0,
           show:false,
-          jornada:["Diurno", "Vespertino"],
-          personJornada:[],
+          show1:false,
           validated:false,
           setValidated:false,
-          area:"",
-          jorna:"",
-          areas: ["Inteligencia artificial","Informática educativa", "Ingeniería de software","Robótica",
-                  "Análisis de datos","Gestíón de proyectos TI","Algoritmos","Seguridad","Redes computacionales",
-                  "Computación paralela","Sistemas computacionales","Procesos","Optimización"],
-          personAreas:[],
-          formErrors: {mail: ''},
-          emailValid: false,
           MenuProps : {
             PaperProps: {
               style: {
@@ -69,17 +58,15 @@ class AdminProfesores extends Component {
             )
             );
           }
-           
-            const ready = true;  
-            this.setState({ ready });
-            console.log(this.state.rows2)
+          const ready = true;  
+          this.setState({ ready });
          
         })
-} 
+    } 
 
     createData1(index,id,name,mail,rol,cargo) {
         if(cargo === 0){
-            cargo = "Subdirecto(a)"
+            cargo = "Subdirector(a)"
         }
         if(cargo === 1){
             cargo = "Jefe(a) de carrera"
@@ -98,46 +85,52 @@ class AdminProfesores extends Component {
         return {index,id,name,mail,rol,cargo};
     } 
 
+    //Dialogo Editar
     hideModal = () => {
         
         this.setState({ show: false });
     };
 
     showModal = (num) => {
-
-       
         const id = this.state.rows2[0][num].id;
         const nombre = this.state.rows2[0][num].name;
-        this.setState({ show: true,id,nombre });
+        this.setState({ show: true,id ,nombre });
      
         };
 
-    saveValues(url,mail,depto,jornada,area){
-       
+    saveValues(name,mail,rol,cargo){
+        //terminar en la casa
+        if(cargo === "Subdirecto(a)"){
+           cargo = 0
+        }
+        if(cargo === "Jefe(a) de carrera"){
+            cargo = 1
+        }
+        if(cargo === "Coordinador(a) docente"){
+            cargo = 2
+        }
+        if(rol === "Administrador(a)"){
+            rol = 0
+        }
+        if(rol === "Usuario Natural "){
+            rol = 1
+        }
         
-
-        const prof = {
-            prof_e_mail : mail,
-            prof_depto: depto,
-            prof_area: area,
-            prof_jornada: jornada,
-            prof_photo: url,
-          };
+        const usuario = {
+            user_name : name,
+            user_mail: mail,
+            user_rol: rol,
+            user_cargo: cargo,
+        };
         
-        console.log(prof)
-          if (window.confirm('¿Está seguro/a que desea editar el perfil del profesor(a)?')){ 
+        if (window.confirm('¿Está seguro/a que desea editar al usuario?')){ 
 
-              axios.put('http://localhost:3000/profesors/' + this.state.id + '.json',  prof )
+              axios.put('http://localhost:3000/user_tables/' + this.state.id + '.json',  usuario )
                 .then(res => {
                   window.alert("Se han ingresado los datos con éxito");
-                  this.setState({ show: false });
+                  this.setState({ show: false, validated: false });
                 })
-
-            }
-          
-
-
-
+        }
     }    
 
     handleSubmit = event => {
@@ -146,62 +139,102 @@ class AdminProfesores extends Component {
         let emailValid = this.state.emailValid;
         emailValid = data.get('mail').match(/^([\w.%+-]+)@(usach)+([\w]{2,})$/i);
         const error = emailValid ? '' : ' is invalid';
-
-        if (form.checkValidity() === false ||  error === false || (data.get('mail') === "" || data.get('depto')  === "" || data.get('url')  === "" || this.state.jorna === "" || this.state.area  === "") ) {
-          window.alert('Debe rellenar todos los espacios e ingresar mail usach, inténtalo nuevamente')
+        
+        if (form.checkValidity() === false ||  error === false || data.get('name') === "" || data.get('mail') === "" || data.get('rol')  === "" || data.get('cargo')  === "" ) {
+          window.alert('Debe rellenar todos los datos solicitados e ingresar mail Usach')
           event.preventDefault();
           event.stopPropagation();
         }
         else{
           this.setState({ validated: true });  
-          this.saveValues(data.get('url'),data.get('mail'),data.get('depto'),this.state.jorna,this.state.area);
+          this.saveValues(data.get('name'),data.get('mail'),data.get('rol'),data.get('cargo'));
         }  
     };
-    
-    handleChangeSelect = event => {
-      if(event.target.value.length>1){    
-        const area = event.target.value[0] + " - " + event.target.value[1]
-        this.setState({ personAreas: event.target.value, area});
-      }
-      else{
-        this.setState({ personAreas: event.target.value, area: event.target.value[0] });
-      }  
-      };
-    
-    handleChangeSelect2 = event => {
 
-      if(event.target.value.length>1){
-        const jorna = event.target.value[0] + " - " + event.target.value[1]
-        this.setState({personJornada: event.target.value,jorna }); 
-      }
-      else{
-        this.setState({ personJornada: event.target.value, jorna: event.target.value[0] });
-      }  
-    };  
+    //Dialogo crear
+
+    hideModalCrear = () => {
+        
+        this.setState({ show1: false });
+    };
+
+    showModalCrear = () => {
+        this.setState({ show1: true }); 
+    };
+
+    Create(name,mail,rol,cargo){
+
+        if(cargo === "Subdirecto(a)"){
+           cargo = 0
+        }
+        if(cargo === "Jefe(a) de carrera"){
+            cargo = 1
+        }
+        if(cargo === "Coordinador(a) docente"){
+            cargo = 2
+        }
+        if(rol === "Administrador(a)"){
+            rol = 0
+        }
+        if(rol === "Usuario Natural "){
+            rol = 1
+        }
+        
+        const usuario = {
+            user_name : name,
+            user_mail: mail,
+            user_rol: rol,
+            user_cargo: cargo,
+        };
+        
+        if (window.confirm('¿Está seguro/a que desea editar al usuario?')){ 
+
+              axios.post('http://localhost:3000/user_tables.json',  usuario )
+                .then(res => {
+                  window.alert("Se han ingresado los datos con éxito");
+                  this.setState({ show1: false, validated: false });
+                })
+        }
+    }    
+
+    handleSubmitCreate = event => {
+        const form = event.currentTarget;
+        const data = new FormData(form);
+        let emailValid = this.state.emailValid;
+        emailValid = data.get('mail1').match(/^([\w.%+-]+)@(usach)+([\w]{2,})$/i);
+        const error = emailValid ? '' : ' is invalid';
+        
+        if (form.checkValidity() === false ||  error === false || data.get('name1') === "" || data.get('mail1') === "" || data.get('rol1')  === "" || data.get('cargo1')  === "" ) {
+          window.alert('Debe rellenar todos los datos solicitados e ingresar mail Usach')
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        else{
+          this.setState({ validated: true });  
+          this.Create(data.get('name1'),data.get('mail1'),data.get('rol1'),data.get('cargo1'));
+        }  
+    };
     
 
    
   render() {
 
-    if(this.state.rows2.length === 0){
-    
+    if(this.state.rows2.length === 0){   
         return(
           <div>
              <CircularProgress size={90} color="secondary" />
           </div>
-  
         )
-  
       }
       else{
     return (
         <div  style = {{marginTop : 60}}>
 
+        {/* Dialogo para la edición */}    
         <Grid container
          alignItems="center"
          justify="center"
-        >
-
+        >    
         <Grid item  xs={8} md={8} >    
         <Dialog
             open={this.state.show}
@@ -216,9 +249,9 @@ class AdminProfesores extends Component {
               <DialogContent>
               <Form  noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
 
-              <Form.Group controlId="formGroupFoto">
+              <Form.Group controlId="formGroupName">
                     <Form.Label>Nombre</Form.Label>
-                    <Form.Control name="name" type="text" placeholder="Ingrese url de la foto" />
+                    <Form.Control name="name" type="text" placeholder="Ingrese nombre del usuario" />
                 </Form.Group>
 
                 <Form.Group controlId="formGroupEmail">
@@ -228,7 +261,7 @@ class AdminProfesores extends Component {
 
                 <Form.Group  controlId="formGridCargo">
                     <Form.Label>Cargo</Form.Label>
-                    <Form.Control as="select">
+                    <Form.Control name="cargo" as="select">
                         <option>Subdirector(a)</option>
                         <option>Jefe(a) de carrera</option>
                         <option>Coordinador(a) docente</option>
@@ -238,8 +271,8 @@ class AdminProfesores extends Component {
 
                 <Form.Group controlId="formGridRol">
                     <Form.Label>Rol</Form.Label>
-                    <Form.Control as="select">
-                        <option>Adminstrador</option>
+                    <Form.Control name="rol" as="select">
+                        <option>Administrador</option>
                         <option>Usuario Natural</option>
                     </Form.Control>
                 </Form.Group>
@@ -258,6 +291,72 @@ class AdminProfesores extends Component {
         </Grid>
         </Grid>
 
+
+
+        {/* Dialogo para agregar */}    
+        <Grid container
+         alignItems="center"
+         justify="center"
+        >    
+        <Grid item  xs={8} md={8} >    
+        <Dialog
+            open={this.state.show1}
+            onClose={this.hideModalCrear}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            >
+            <DialogTitle id="alert-dialog-title">
+            Agregar Usuario
+            </DialogTitle>
+            
+              <DialogContent>
+              <Form  noValidate validated={this.state.validated} onSubmit={this.handleSubmitCreate}>
+
+              <Form.Group controlId="formGroupName1">
+                    <Form.Label>Nombre</Form.Label>
+                    <Form.Control name="name1" type="text" placeholder="Ingrese nombre del usuario" />
+                </Form.Group>
+
+                <Form.Group controlId="formGroupEmail1">
+                    <Form.Label>Mail</Form.Label>
+                    <Form.Control name="mail1" type="email" placeholder="Ingrese mail" />
+                </Form.Group>
+
+                <Form.Group  controlId="formGridCargo1">
+                    <Form.Label>Cargo</Form.Label>
+                    <Form.Control name="cargo1" as="select">
+                        <option>Subdirector(a)</option>
+                        <option>Jefe(a) de carrera</option>
+                        <option>Coordinador(a) docente</option>
+                        <option>Director(a)</option>
+                    </Form.Control>
+                </Form.Group>
+
+                <Form.Group controlId="formGridRol1">
+                    <Form.Label>Rol</Form.Label>
+                    <Form.Control name="rol1" as="select">
+                        <option>Administrador</option>
+                        <option>Usuario Natural</option>
+                    </Form.Control>
+                </Form.Group>
+                
+                <Button type="submit" variant="outline-primary">Enviar</Button>  
+              </Form>
+              
+            </DialogContent>
+              <DialogActions>
+                
+                <Button onClick={this.hideModalCrear} variant="outline-primary">
+                Cerrar
+                </Button>
+            </DialogActions>
+        </Dialog>
+        </Grid>
+        </Grid>
+
+
+
+        {/* Grida que contiene la tabla */}
         <Grid container
          spacing={0}
          direction="column"
@@ -292,7 +391,7 @@ class AdminProfesores extends Component {
                 
                 render: rows2 => (
                         <Tooltip title="Eliminar usuario" placement="top" style ={{fontSize: 20}}> 
-                            <Button   onClick={() => this.showModal(rows2.index)} size="sm" variant="outline-secondary">
+                            <Button  size="sm" variant="outline-secondary">
                                 <MdDelete  style={{ fontSize: '1.50em' }}/>
                             </Button>
                          </Tooltip>   
@@ -307,7 +406,8 @@ class AdminProfesores extends Component {
                 <MTableToolbar {...props} />
                 <div >
                 <Tooltip title="Agregar usuario" placement="top" style ={{fontSize: 20}}> 
-                            <Button  variant="outline-secondary" size="sm"  style={{float: 'right', marginRight:20}}>
+                            <Button  variant="outline-secondary" size="sm"  
+                            style={{float: 'right', marginRight:20}} onClick={() => this.showModalCrear()}>
                                 <IoMdAddCircle  style={{ fontSize: '1.50em' }}/>
                             </Button>
                         </Tooltip> 

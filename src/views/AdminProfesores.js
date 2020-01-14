@@ -1,27 +1,23 @@
 import React, { Component } from 'react'
 import MaterialTable from 'material-table'
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
-import {FaEdit}  from "react-icons/fa";
+import {FaAddressCard}  from "react-icons/fa";
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Form, Button } from 'react-bootstrap';
 //*MultiSelect*
 import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
 
 
 
@@ -306,12 +302,14 @@ class AdminProfesores extends Component {
                   <div>
                    {rows2.url ?  
                     <img
+                        alt="foto de perfil"
                         style={{ height: 36, borderRadius: '50%' }}
                         src={rows2.url}
                     />:
                     <img
-                    style={{ height: 36, borderRadius: '50%' }}
-                    src= "https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png"
+                        alt="foto de perfil"
+                        style={{ height: 36, borderRadius: '50%' }}
+                        src= "https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png"
                     />}
                   </div>
                 )
@@ -326,9 +324,9 @@ class AdminProfesores extends Component {
                 field: '',
                 
                 render: rows2 => (
-                        <Tooltip title="Editar perfil" placement="top" style ={{fontSize: 20}}> 
+                        <Tooltip title="Ingresar datos del profesor(a)" placement="top" style ={{fontSize: 20}}> 
                             <Button   onClick={() => this.showModal(rows2.index)} size="sm" variant="outline-primary">
-                                <FaEdit  style={{ fontSize: '1.50em' }}/>
+                                <FaAddressCard  style={{ fontSize: '1.50em' }}/>
                             </Button>
                          </Tooltip>   
                 )
