@@ -15,6 +15,7 @@ import Estadistica from './views/Estadistica';
 import Perfil from './views/Perfil';
 import CursoDetalle from './views/CursoDetalle';
 import Inicio from './views/Inicio';
+import AsignCoord from './views/AsignCoordinador';
 import AdministrarProfs from './views/AdminProfesores';
 import AdministrarUsuarios from './views/AdminUsers';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -122,7 +123,7 @@ class SideBar extends Component{
                     id="nav-dropdown">
                     <NavDropdown.Item  href="/adminusers" style ={{fontSize: 15}}>Usuarios</NavDropdown.Item>
                     <NavDropdown.Item href="/admprofs" style ={{fontSize: 15}} > Profesores </NavDropdown.Item>
-                    <NavDropdown.Item href="/admprofs" style ={{fontSize: 15}} > Asignar Coordinación </NavDropdown.Item>
+                    <NavDropdown.Item href="/asigncoord" style ={{fontSize: 15}} > Asignar Coordinación </NavDropdown.Item>
                   </NavDropdown>
             </Nav.Item>
             </Tooltip>
@@ -219,6 +220,7 @@ class SideBar extends Component{
              <Route path="/admprofs" component={props => <AdministrarProfs/>} />
              <Route path="/cursosDetalle" component={props => <CursoDetalle location={props.location}/>} />
              <Route path="/adminusers" component={props => <AdministrarUsuarios location={props.location}/>} />
+             <Route path="/asigncoord" component={props => <AsignCoord/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 
              </Route>
