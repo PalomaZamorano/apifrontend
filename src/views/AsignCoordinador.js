@@ -39,7 +39,9 @@ class AsigCoordinador extends Component {
           asignaturas:[],
           profesores:[],
           selectedProfesors:[],
-          profs:[]
+          profs:[],
+          index: 0,
+          nombre:""
         }
     }       
 
@@ -70,25 +72,33 @@ componentDidMount() {
 
 asign(nombres){
 
-    console.log(this.state.id)
+    const id = this.state.asignaturas[this.state.index].id;
+    const nombre = this.state.asignaturas[this.state.index].asign_nombre;
+
+    //console.log(this.state.id)
     const asign = {
       asign_coordinadores : nombres
       };
-    
-      console.log(asign)
-      if (window.confirm('¿Está seguro/a que desea asignar?')){ 
 
-          axios.put('http://localhost:3000/asignaturas/' + this.state.id + '.json',  asign )
-            .then(res => {
-              window.alert("Se ha asignado con éxito");
-              this.setState({ show: false });
-            })
+    if( this.state.selectedProfesors.length === 0){
+      window.alert("Seleccione profesor(es) a asignar")
+    }
+    else{
 
-        }
+        if (window.confirm('¿Está seguro/a que desea asignar a ' + this.state.profs + ' a la asignatura ' + nombre + '?')){ 
+              axios.put('http://localhost:3000/asignaturas/' + id + '.json',  asign )
+                .then(res => {
+                  window.alert("Se ha asignado con éxito");
+                  
+                  this.setState({ show: false, selectedProfesors: [] });
+                })
+
+            }
+    }    
 }
 
 handleChange = event => {
-  this.setState({id: event.target.value}); 
+  this.setState({index:event.target.value});
 }
 
 handleChangeSelect = event => {
@@ -117,37 +127,44 @@ handleChangeSelect = event => {
       else{
         return (
           <div style = {{height:'100%'}} >
-          <Grid container style = {{marginTop : 60}} >
-            <Paper>
+          <Grid container style = {{marginTop : 60}}  
+            direction="column"
+            alignItems="center"
+            justify="center"
+            style={{ minHeight: '100vh' }}
+          >
+          <Grid item  xs={8} md={12}  >
+            <Paper >
             <Typography variant="h6" component="h2">
-              Asignar Coordinadores a una asignatura
-            </Typography>  
-
+              Asignar Coordinador(es) a una asignatura
+            </Typography> 
+            <br/>
             {/* Grida 1 */}  
-            <Grid item  xs={12} md={12} >     
+            <Grid item  xs={12} md={12}  >     
                 <FormControl>
                     <InputLabel id="asign-native-simple">Asignatura</InputLabel>
                         <Select
                         native
-                        value={this.state.id}
+                        value={this.state.index}
                         onChange={this.handleChange}
                         inputProps={{
                             name: 'Asignaturas',
                             id: 'asign-native-simple',
                         }}
-                        >
+                        >    
                             {this.state.asignaturas.map((asignatura,index) => (
-                            <option key={index} value={asignatura.id}>
-                            {asignatura.asign_nombre} - {asignatura.asign_code}
-                            </option>
+                              <option key={asignatura.id} value={index}>
+                                {asignatura.asign_nombre} - {asignatura.asign_code}
+                              </option>
+                              
                             ))}
                         </Select>
                     <FormHelperText>Seleccione la asignatura a la que desea asignar coordinador(es)</FormHelperText>
                 </FormControl>
             </Grid>
-            
+            <br/>
             {/* Grida 2 */}
-            <Grid item  xs={12} md={12} >    
+            <Grid item  xs={12} md={12} style={{width:300}}>    
               {this.state.profesores.length>0 ?                  
                     <FormControl>
                     <InputLabel id="profs-native-simple">Profesores</InputLabel>
@@ -173,10 +190,15 @@ handleChangeSelect = event => {
                 
 
             </Grid>
-            <Button   onClick={() => this.asign(this.state.profs)} size="sm" variant="outline-primary">
+            <br/>
+            <Grid item  xs={8} md={10}> 
+            <Button   onClick={() => this.asign(this.state.profs)} size="sm" variant="outline-primary" style={{float:''}}>
                 Asignar
               </Button>
-            </Paper>             
+              </Grid>
+            <br/>
+            </Paper> 
+            </Grid>            
           </Grid> 
               
           </div>
