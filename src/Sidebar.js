@@ -24,6 +24,10 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { FaUserCog } from "react-icons/fa";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import Notify from './views/Notify.js';
+import Badge from '@material-ui/core/Badge';
+import axios from 'axios';
+
+
 
 
 
@@ -39,6 +43,7 @@ class SideBar extends Component{
          select: false,  
          style : {
                 position: 'absolute',
+                cantidad:0,
                 top: 0,
                 left: 54,
                 right: 0,
@@ -57,7 +62,16 @@ class SideBar extends Component{
       
 
          
+    componentDidMount() {
 
+        axios.get(`http://localhost:3000/profsInfo.json`)
+        .then(res => {
+          const results = res.data;
+          const cantidad = results.length
+          this.setState({ cantidad });
+           
+        })
+    }  
 
 
     Change() {
@@ -131,9 +145,11 @@ class SideBar extends Component{
             </Tooltip>
 
             <Nav.Item >
-              <Tooltip title="Notificaciones" placement="top" style ={{fontSize: 20}}> 
+              <Tooltip title={`Hay ${this.state.cantidad} profesores(as) con nota inferior a 3.5`} placement="top" style ={{fontSize: 20}}> 
                 <Nav.Link  href="/popover" style={{ color: '#FFFFFF' }} >
-                  <IoMdNotificationsOutline  />
+                  <Badge badgeContent={this.state.cantidad} color="secondary">
+                    <IoMdNotificationsOutline  />
+                  </Badge>
                 </Nav.Link>
               </Tooltip>
             </Nav.Item>
