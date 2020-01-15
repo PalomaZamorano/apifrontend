@@ -38,8 +38,8 @@ class AdminProfesores extends Component {
           setValidated:false,
           area:"",
           jorna:"",
-          areas: ["Inteligencia artificial","Informática educativa", "Ingeniería de software","Robótica",
-                  "Análisis de datos","Gestíón de proyectos TI","Algoritmos","Seguridad","Redes computacionales",
+          areas: ["Aplicaciones y Sistemas Escalables para la Web","Sistemas Complejos","Redes y Seguridad","Interacción Humano-Computador","Biología y Medicina","Inteligencia artificial","Informática educativa", "Ingeniería de software","Robótica",
+                  "Análisis de datos","Ingeniería de sistemas","Gestíón de proyectos TI","Algoritmos","Seguridad","Redes computacionales",
                   "Computación paralela","Sistemas computacionales","Procesos","Optimización"],
           personAreas:[],
           formErrors: {mail: ''},
@@ -134,7 +134,7 @@ class AdminProfesores extends Component {
         emailValid = data.get('mail').match(/^([\w.%+-]+)@(usach)+([\w]{2,})$/i);
         const error = emailValid ? '' : ' is invalid';
 
-        if (form.checkValidity() === false ||  error === false || (data.get('mail') === "" || data.get('depto')  === "" || data.get('url')  === "" || this.state.jorna === "" || this.state.area  === "") ) {
+        if (form.checkValidity() === false ||  error === false || (data.get('mail') === "" || data.get('depto')  === "" ||  this.state.jorna === "" || this.state.area  === "") ) {
           window.alert('Debe rellenar todos los espacios e ingresar mail usach, inténtalo nuevamente')
           event.preventDefault();
           event.stopPropagation();

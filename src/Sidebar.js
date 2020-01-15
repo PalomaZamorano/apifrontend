@@ -23,6 +23,8 @@ import Test from './views/Estadistica2';
 import { FaRegUserCircle } from "react-icons/fa";
 import { FaUserCog } from "react-icons/fa";
 import { IoMdNotificationsOutline } from "react-icons/io";
+import Notify from './views/Notify.js';
+
 
 
 
@@ -130,7 +132,7 @@ class SideBar extends Component{
 
             <Nav.Item >
               <Tooltip title="Notificaciones" placement="top" style ={{fontSize: 20}}> 
-                <Nav.Link  href="#features" style={{ color: '#FFFFFF' }} >
+                <Nav.Link  href="/popover" style={{ color: '#FFFFFF' }} >
                   <IoMdNotificationsOutline  />
                 </Nav.Link>
               </Tooltip>
@@ -221,6 +223,7 @@ class SideBar extends Component{
              <Route path="/cursosDetalle" component={props => <CursoDetalle location={props.location}/>} />
              <Route path="/adminusers" component={props => <AdministrarUsuarios location={props.location}/>} />
              <Route path="/asigncoord" component={props => <AsignCoord/>} />
+             <Route path="/popover" component={props => <Notify/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 
              </Route>
