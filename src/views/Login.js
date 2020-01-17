@@ -42,6 +42,7 @@ verify(email){
     
 }
 
+
 handleSubmit = event => {    
     if (this.state.mail === "" ) {
         window.alert('Debe ingresar el mail institucional')
@@ -61,6 +62,8 @@ handleChange = event => {
 
 responseGoogle = (response) => {
     window.alert('Bienvenido(a)')
+    const test = true;
+    this.props.onVarLogin(test);
     console.log(response.profileObj);
 
  }

@@ -16,7 +16,6 @@ import Perfil from './views/Perfil';
 import CursoDetalle from './views/CursoDetalle';
 import Inicio from './views/Inicio';
 import AsignCoord from './views/AsignCoordinador';
-import Login from './views/Login';
 import AdministrarProfs from './views/AdminProfesores';
 import AdministrarUsuarios from './views/AdminUsers';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -248,7 +247,6 @@ class SideBar extends Component{
              <Route path="/adminusers" component={props => <AdministrarUsuarios location={props.location}/>} />
              <Route path="/asigncoord" component={props => <AsignCoord/>} />
              <Route path="/detalleNotify" component={props => <Notify/>} />
-             <Route path="/login" component={props => <Login/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 
              </Route>
