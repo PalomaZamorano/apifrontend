@@ -18,7 +18,7 @@ import { Form, Button } from 'react-bootstrap';
 
 
 class AdminProfesores extends Component {
-
+    _isMounted = false;
     constructor(props){
         super(props);
         this.state={
@@ -47,6 +47,7 @@ class AdminProfesores extends Component {
 
 
     componentDidMount() {
+        this._isMounted = true;
 
         axios.get(`http://localhost:3000/user_tables.json`)
         .then(res => {
@@ -58,12 +59,18 @@ class AdminProfesores extends Component {
             )
             );
           }
-          const ready = true;  
-          this.setState({ ready });
+          const ready = true; 
+          if (this._isMounted) {   
+            this.setState({ ready });
+          }
          
         })
     } 
 
+    componentWillUnmount() {
+      this._isMounted = false;
+    } 
+    
     createData1(index,id,name,mail,rol,cargo) {
         if(cargo === 0){
             cargo = "Subdirector(a)"

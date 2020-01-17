@@ -17,7 +17,7 @@ import  {Button}  from 'react-bootstrap';
 
 
 class AsigCoordinador extends Component {
-
+    _isMounted = false;
     constructor(props){
         super(props);
         this.state={
@@ -44,10 +44,13 @@ class AsigCoordinador extends Component {
 
 componentDidMount() {
 
+    this._isMounted = true;
     axios.get(`http://localhost:3000/asignaturas.json`)
         .then(res => {
           const asignaturas = res.data;
-          this.setState({asignaturas});
+          if (this._isMounted) { 
+            this.setState({asignaturas});
+          }  
           
           axios.get(`http://localhost:3000/profesors.json`)
             .then(res => {
@@ -56,13 +59,18 @@ componentDidMount() {
             profesors.map(profesor =>
                 this.state.profesores.push(profesor.prof_nombre_corto)
             )
-            
-            this.setState({ready});
+            if (this._isMounted) {     
+              this.setState({ready});
+            }
             //console.log(this.state.profesores)
         })
          
         })
        
+} 
+
+componentWillUnmount() {
+  this._isMounted = false;
 } 
 
 asign(nombres){

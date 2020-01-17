@@ -1,6 +1,6 @@
 import React, { Component }  from 'react';
 import axios from 'axios';
-import { Form, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import Paper from '@material-ui/core/Paper';
 import { Grid } from '@material-ui/core';
 import GoogleLogin from 'react-google-login';
@@ -64,6 +64,7 @@ responseGoogle = (response) => {
     window.alert('Bienvenido(a)')
     const test = true;
     this.props.onVarLogin(test);
+    this.props.onUser(response.profileObj);
     console.log(response.profileObj);
 
  }

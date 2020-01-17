@@ -22,7 +22,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 
 class AdminProfesores extends Component {
-
+    _isMounted = false;
     constructor(props){
         super(props);
         this.state={
@@ -60,6 +60,7 @@ class AdminProfesores extends Component {
 
 
     componentDidMount() {
+        this._isMounted = true;
 
         axios.get(`http://localhost:3000/profesors.json`)
         .then(res => {
@@ -75,7 +76,9 @@ class AdminProfesores extends Component {
            
             const ready = true;  
             //console.log(this.state.rows2[0][1])
-            this.setState({ ready });
+            if (this._isMounted) {  
+              this.setState({ ready });
+            }
          
         })
 } 
@@ -166,6 +169,9 @@ class AdminProfesores extends Component {
       }  
     };  
     
+    componentWillUnmount() {
+      this._isMounted = false;
+    }  
 
    
   render() {
