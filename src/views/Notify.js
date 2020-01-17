@@ -5,6 +5,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {FaQuestionCircle}  from "react-icons/fa";
 import Tooltip from '@material-ui/core/Tooltip'
 import {Button } from 'react-bootstrap';
+import { Grid } from '@material-ui/core';
+
 
 
 
@@ -25,7 +27,7 @@ class Notify extends Component {
     axios.get(`http://localhost:3000/profsInfo.json`)
     .then(res => {
       const results = res.data;
-      console.log(results)
+     // console.log(results)
        this.state.rows2.push(results.map((result,index) =>
             
             this.createData1(index,result.prof_nombre_corto,result.prof_e_mail,result.prof_proms_d1,
@@ -57,45 +59,56 @@ render(){
   else{
 
         return (
-        <MaterialTable 
-          columns={[
-            { title: 'Nombre', field: 'name' },
-            { title: 'Mail', field: 'mail' },
-            { title: 'D1', field: 'd1' },
-            { title: 'D2', field: 'd2' },
-            { title: 'D3', field: 'd3' },
-            { title: 'D4', field: 'd4' },
-            { title: 'Promedio', field: 'prom' }
 
-          ]}
-          data={this.state.rows2[0]}
-          components={{
-            Toolbar: props => (
-              <div>
-                <MTableToolbar {...props} />
-                <div >
-                <Tooltip title="D1:Planificación de actividades docentes  
-                                D2:Ejecución de actividades docentes 
-                                D3:Evaluación de aprendizajes 
-                                D4:Relación con los estudiantes" 
-                        placement="top" style ={{fontSize: 20}}> 
-                            <Button  variant="outline-secondary" size="sm"  
-                            style={{float: 'right', marginRight:20}} >
-                                <FaQuestionCircle  style={{ fontSize: '1.50em' }}/>
-                            </Button>
-                        </Tooltip> 
-                        <br/> 
-                </div>
-              </div>
-            ),
-          }}
-          options={{
-            sorting: true
-          
-          }}
-          title="Detalle profesores con nota menor a 3.5"
-          
-        />
+            <div  style = {{marginTop : 60}}>
+                <Grid container 
+                    direction="column"
+                    alignItems="center"
+                    justify="center"
+                >
+                    <Grid item  xs={6} md={12} >   
+                        <MaterialTable 
+                        columns={[
+                            { title: 'Nombre', field: 'name' },
+                            { title: 'Mail', field: 'mail' },
+                            { title: 'D1', field: 'd1' },
+                            { title: 'D2', field: 'd2' },
+                            { title: 'D3', field: 'd3' },
+                            { title: 'D4', field: 'd4' },
+                            { title: 'Promedio', field: 'prom' }
+
+                        ]}
+                        data={this.state.rows2[0]}
+                        components={{
+                            Toolbar: props => (
+                            <div>
+                                <MTableToolbar {...props} />
+                                <div >
+                                <Tooltip title="D1:Planificación de actividades docentes  
+                                                D2:Ejecución de actividades docentes 
+                                                D3:Evaluación de aprendizajes 
+                                                D4:Relación con los estudiantes" 
+                                        placement="top" style ={{fontSize: 20}}> 
+                                            <Button  variant="outline-secondary" size="sm"  
+                                            style={{float: 'right', marginRight:20}} >
+                                                <FaQuestionCircle  style={{ fontSize: '1.50em' }}/>
+                                            </Button>
+                                        </Tooltip> 
+                                        <br/> 
+                                </div>
+                            </div>
+                            ),
+                        }}
+                        options={{
+                            sorting: true
+                        
+                        }}
+                        title="Detalle profesores"
+                        
+                        />
+                    </Grid>
+                </Grid>
+                </div>    
         
         );
  }

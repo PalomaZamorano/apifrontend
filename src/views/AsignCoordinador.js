@@ -16,11 +16,6 @@ import Typography from '@material-ui/core/Typography';
 import  {Button}  from 'react-bootstrap';
 
 
-
-
-import Tooltip from '@material-ui/core/Tooltip';
-
-
 class AsigCoordinador extends Component {
 
     constructor(props){
@@ -131,7 +126,6 @@ handleChangeSelect = event => {
             direction="column"
             alignItems="center"
             justify="center"
-            style={{ minHeight: '100vh' }}
           >
           <Grid item  xs={8} md={12}  >
             <Paper >

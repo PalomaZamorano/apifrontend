@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 
 
 class Inicio extends Component{
+    _isMounted = false;
     constructor(props){
         super(props);
         
@@ -51,12 +52,19 @@ class Inicio extends Component{
 
     componentDidMount() {
 
+        this._isMounted = true;
         axios.get(`http://localhost:3000/profesorsPromGeneral.json`)
         .then(res => {
           const results = res.data;
-          this.setState({ results });
+          if (this._isMounted) {
+            this.setState({ results });
+          }
         })
       }     
+    
+      componentWillUnmount() {
+        this._isMounted = false;
+      }  
 
     render() {
       const percentage = 100;

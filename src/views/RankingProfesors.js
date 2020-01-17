@@ -10,21 +10,27 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 class Ranking extends Component {
 
+  _isMounted = false;
   state = {
     profesors: [],
     sums: []
   }
   
   componentDidMount() {
-
+    this._isMounted = true;
     axios.get(`http://localhost:3000/profesorsRanking.json`)
     .then(res => {
       const profesors = res.data;
-      this.setState({ profesors });
+      if (this._isMounted) {
+        this.setState({ profesors });
+      }
        
     })
   }   
-  
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
 render(){
   
