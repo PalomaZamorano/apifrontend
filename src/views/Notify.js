@@ -15,7 +15,7 @@ import { Grid } from '@material-ui/core';
 
 
 class Notify extends Component {
-
+  _isMounted = false;
   state = {
     results: [],
     sums: [],
@@ -23,7 +23,7 @@ class Notify extends Component {
   }
   
   componentDidMount() {
-
+    this._isMounted = true;
     axios.get(`http://localhost:3000/profsInfo.json`)
     .then(res => {
       const results = res.data;
@@ -34,10 +34,16 @@ class Notify extends Component {
                 result.prof_proms_d2,result.prof_proms_d2,result.prof_proms_d3,result.prof_proms_d4,result.prof_proms_results)
             )
          );
-      this.setState({ results });
+         if (this._isMounted) {        
+          this.setState({ results });
+         }
        
     })
-  }   
+  } 
+  
+  componentWillUnmount() {
+    this._isMounted = false;
+  } 
 
   createData1(index,name,mail,d1,d2,d3,d4,prom) {
 

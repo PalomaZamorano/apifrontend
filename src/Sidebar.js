@@ -18,6 +18,7 @@ import Inicio from './views/Inicio';
 import AsignCoord from './views/AsignCoordinador';
 import AdministrarProfs from './views/AdminProfesores';
 import AdministrarUsuarios from './views/AdminUsers';
+import Login from './views/Login';
 import Tooltip from '@material-ui/core/Tooltip';
 import Test from './views/Estadistica2';
 import { FaRegUserCircle } from "react-icons/fa";
@@ -26,11 +27,18 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import Notify from './views/Notify.js';
 import Badge from '@material-ui/core/Badge';
 import axios from 'axios';
+//Redux
+import {Provider} from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import reducers from './reducers';
+import reduxThunk from 'redux-thunk';
 
 
 
 
 
+const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
+const store1 = createStoreWithMiddleware(reducers);
 
 
 
@@ -181,7 +189,8 @@ class SideBar extends Component{
 
        
         <div >
-        <Router>
+        <Provider store = {store1}>    
+          <Router>
             <Route render={({ location, history }) => (
              <React.Fragment>
              <SideNav id="side-nav"
@@ -247,6 +256,7 @@ class SideBar extends Component{
              <Route path="/adminusers" component={props => <AdministrarUsuarios location={props.location}/>} />
              <Route path="/asigncoord" component={props => <AsignCoord/>} />
              <Route path="/detalleNotify" component={props => <Notify/>} />
+             <Route path="/login" component={props => <Login/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 
              </Route>
@@ -261,6 +271,7 @@ class SideBar extends Component{
 
        
         </Router>
+        </Provider>
         </div>              
 
 

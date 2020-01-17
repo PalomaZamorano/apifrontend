@@ -5,8 +5,13 @@ import Paper from '@material-ui/core/Paper';
 import { Grid } from '@material-ui/core';
 import GoogleLogin from 'react-google-login';
 import { GoogleLogout } from 'react-google-login';
-import TextField from '@material-ui/core/TextField';
+//import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+//redux
+import { Field, reduxForm } from 'redux-form';
+import { signInAction } from '../actions/actionSign';
+import { connect } from 'react-redux';
+
 
 
 
@@ -24,39 +29,23 @@ class Login extends Component {
   
  
 
-verify(email){
-    const verify ={
-        user_mail : email
-    }
-    axios.post('http://localhost:3000/verification/', verify)
-    .then(res => {
-          console.log(res.data)
-          if(res.data.length > 0){  
-            const veri = true
-            window.alert('Redirigiendo...')
-            this.setState({veri})
-
-          } 
-        
-    })
-    
-}
-
-
-handleSubmit = event => {    
-    if (this.state.mail === "" ) {
+handleSubmit = (values) => {    
+    console.log(values)
+    if (!values.user_mail ) {
         window.alert('Debe ingresar el mail institucional')
-        event.preventDefault();
-        event.stopPropagation();
     }
-    else{
-      this.setState({ validated: true });  
-      this.verify(this.state.mail);
+   else{
+     this.props.signInAction(values, this.props.history);
+     const veri = true
+     window.alert('Redirigiendo...')
+     this.setState({veri})
+     
     }  
 };
 
 handleChange = event => {
     const mail = event.target.value
+    console.log(mail)
     this.setState({mail});
   };
 
@@ -73,7 +62,21 @@ logout = (response) => {
     window.alert('Se ha cerrado la sesión con éxito')
     console.log(response);
 }
+
+errorMessage() {
+    if (this.props.errorMessage) {
+      return (
+        <div className="info-red">
+          {this.props.errorMessage}
+        </div>
+      );
+    }
+  }
+
+
 render(){
+
+ const { handleSubmit } = this.props;  
     
  if(this.state.veri === true){
   return(
@@ -123,23 +126,22 @@ render(){
                 justify="center"    >
 
             <Grid item md={12} xs ={12}   >   
-                <Paper style = {{height:190,width:300}}> 
+                <Paper > 
                 <Typography variant="h6" component="h2">
                     Ingresar con correo institucional
                 </Typography>
                     <br/>
-                    <TextField
-                        id="filled-multiline-flexible"
-                        label="Mail"
-                        value={this.state.mail}
-                        onChange={this.handleChange}
-                        variant="outlined"
+                    <Field name="user_mail"
+                           component="input"
+                            type="text"
+                            placeholder="Ingrese mail" 
                     />
                     <br/>
                     <br/>
-                    <Button variant="outline-secondary" size="sm" onClick = {this.handleSubmit}>
+                    <Button variant="outline-secondary" size="sm" onClick = {handleSubmit(this.handleSubmit)}>
                         Enviar    
                     </Button>
+                    {this.errorMessage()}    
                 </Paper>
             </Grid>
         </Grid>
@@ -149,4 +151,13 @@ render(){
     }
 }
 
-export default Login;
+function mapStateToProps(state) {
+    return { errorMessage: state.auth.error };
+   }
+   
+const reduxFormSignin = reduxForm({
+     form: 'Login'
+})(Login);
+   
+
+export default connect(mapStateToProps, {signInAction})(reduxFormSignin);

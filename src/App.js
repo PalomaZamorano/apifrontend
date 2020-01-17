@@ -26,25 +26,6 @@ handleUser = (userlog) => {
 
 render(){ 
 
-  console.log(this.state.loggin)
-  console.log(this.state.user)
-  if(this.state.isloggin===false){
-
-    return (
-      <div className="App">
-        <header className="App-header">
-          <Login 
-            onVarLogin={this.handleLog}
-            onUser = {this.handleUser}
-          />
-        </header>
-        
-      </div>
-    );
-
-
-  }
-  else{
     return (
       <div className="App">
         <header className="App-header">
@@ -54,8 +35,7 @@ render(){
       </div>
     );
     } 
-  }
-  
+
 }  
 
 export default App;
