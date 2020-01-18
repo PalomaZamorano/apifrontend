@@ -13,18 +13,19 @@ export function signInAction( mail , history) {
   return async (dispatch) => {
     const res = await axios.post(`${URL}`,mail);
     if(res.data.length > 0){
-
-      dispatch({ type: AUTHENTICATED });
-      localStorage.setItem('user', true);    
+      console.log("bienvenido...")
+      dispatch({ type: AUTHENTICATED, payload: '' });
+      localStorage.setItem('token', true);    
       localStorage.setItem('userId', res.data[0].id);
       localStorage.setItem('user_mail',res.data[0].user_mail);
       localStorage.setItem('user_rol',res.data[0].user_rol);
       localStorage.setItem('user_cargo',res.data[0].user_cargo);   
     } else {
+      localStorage.setItem('token', false);
+      console.log("No se encuentra")
       dispatch({
         type: AUTHENTICATION_ERROR,
         payload: 'El mail ingresado no se encuentra registrado'
-      
       })
    }
   }

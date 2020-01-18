@@ -8,13 +8,13 @@ export default function (ComposedComponent) {
       
     componentWillMount() {
       if (!this.props.authenticated) {
-        this.props.history.push('/portada');
+        this.props.history.push('/login');
       }
     }
 //si es que no se ha autenticado
     componentWillUpdate(nextProps) {
       if (!nextProps.authenticated) {
-        this.props.history.push('/portada');
+        this.props.history.push('/login');
       }
     }
 

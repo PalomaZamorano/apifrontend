@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SideNav, { NavItem, NavIcon} from '@trendmicro/react-sidenav';
-import { Navbar, Image,Nav,NavDropdown} from 'react-bootstrap';
+import { Navbar, Image,Nav,NavDropdown,Button} from 'react-bootstrap';
 import {CSSTransition} from 'react-transition-group';
 import { FaChalkboardTeacher}  from "react-icons/fa";
 import { IoIosStats}  from "react-icons/io";
@@ -32,6 +32,10 @@ import {Provider} from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './reducers';
 import reduxThunk from 'redux-thunk';
+import requireAuth from './hoc/requireAuth';
+import { AUTHENTICATED } from './actions/actionSign';
+import { GoogleLogout } from 'react-google-login';
+import { signOutAction } from './actions/signOutLogin';
 
 
 
@@ -39,8 +43,10 @@ import reduxThunk from 'redux-thunk';
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store1 = createStoreWithMiddleware(reducers);
-
-
+const user = localStorage.getItem('token');
+if(user ) {
+  store1.dispatch({ type: AUTHENTICATED });
+}
 
 class SideBar extends Component{
     _isMounted = false;
@@ -88,6 +94,12 @@ class SideBar extends Component{
       this._isMounted = false;
     }  
 
+    logout = (response) => {
+      window.alert('Se ha cerrado la sesión con éxito')
+      signOutAction() 
+      window.location.href = "/portada";
+    }
+
 
     Change() {
       if (this.state.select === false){  
@@ -130,6 +142,8 @@ class SideBar extends Component{
 
     render() {
        const viewHeigth = window.outerHeight;
+       const image = localStorage.getItem('google');
+       console.log(image)
       return (
         <div className="shopping-list">
 
@@ -170,9 +184,20 @@ class SideBar extends Component{
             </Nav.Item>
 
             <Nav.Item>
-              <Tooltip title="Iniciar sesión" placement="top" style ={{fontSize: 20}}>   
-                <Nav.Link  href="#features" style={{ color: '#FFFFFF' }} >
-                  <FaRegUserCircle  />
+              <Tooltip title="Cerrar sesión" placement="top" style ={{fontSize: 20}}>   
+                <Nav.Link  href="#features"  >
+                <GoogleLogout
+                        clientId="71019110674-e1sd6ad8opdi7qdnjpjss6gkt4f8ffjh.apps.googleusercontent.com"
+                        render={renderProps => (
+                          <Button onClick={renderProps.onClick} disabled={renderProps.disabled} variant="linkt"
+                            style={{backgroundColor: "#2859DE", color: "#2859DE"}}>
+                            <Image src={image} roundedCircle   style ={{width:40,height:30}}/>
+                          </Button>
+                        )}
+                        buttonText="Salir"
+                        onLogoutSuccess={this.logout}
+                 >
+                </GoogleLogout>
                 </Nav.Link>
               </Tooltip>
             </Nav.Item>
@@ -254,7 +279,7 @@ class SideBar extends Component{
              <Route path="/admprofs" component={props => <AdministrarProfs/>} />
              <Route path="/cursosDetalle" component={props => <CursoDetalle location={props.location}/>} />
              <Route path="/adminusers" component={props => <AdministrarUsuarios location={props.location}/>} />
-             <Route path="/asigncoord" component={props => <AsignCoord/>} />
+             <Route path="/asigncoord" component={requireAuth(AsignCoord)}/>
              <Route path="/detalleNotify" component={props => <Notify/>} />
              <Route path="/login" component={props => <Login/>} />
              <Route exact path="/">
