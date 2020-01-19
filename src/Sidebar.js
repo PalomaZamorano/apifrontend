@@ -20,7 +20,7 @@ import AdministrarProfs from './views/AdminProfesores';
 import AdministrarUsuarios from './views/AdminUsers';
 import Login from './views/Login';
 import Tooltip from '@material-ui/core/Tooltip';
-import Test from './views/Estadistica2';
+//import Test from './views/Estadistica2';
 import { FaRegUserCircle } from "react-icons/fa";
 import { FaUserCog } from "react-icons/fa";
 import { IoMdNotificationsOutline } from "react-icons/io";
@@ -44,6 +44,7 @@ import { signOutAction } from './actions/signOutLogin';
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store1 = createStoreWithMiddleware(reducers);
 const user = localStorage.getItem('token');
+console.log(user)
 if(user ) {
   store1.dispatch({ type: AUTHENTICATED });
 }
@@ -97,7 +98,7 @@ class SideBar extends Component{
     logout = (response) => {
       window.alert('Se ha cerrado la sesión con éxito')
       signOutAction() 
-      window.location.href = "/portada";
+      window.location.href = "/login";
     }
 
 
@@ -143,7 +144,6 @@ class SideBar extends Component{
     render() {
        const viewHeigth = window.outerHeight;
        const image = localStorage.getItem('google');
-       console.log(image)
       return (
         <div className="shopping-list">
 
@@ -160,7 +160,8 @@ class SideBar extends Component{
             <Navbar.Brand  href="/portada" >Encuesta docente</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
-
+          
+            {user ?
             <Tooltip title="Administrar" placement="left" style ={{fontSize: 20}}> 
             <Nav.Item className="ml-auto">
                   <NavDropdown             
@@ -171,8 +172,8 @@ class SideBar extends Component{
                     <NavDropdown.Item href="/asigncoord" style ={{fontSize: 15}} > Asignar Coordinación </NavDropdown.Item>
                   </NavDropdown>
             </Nav.Item>
-            </Tooltip>
-
+            </Tooltip> : <div></div>}
+            {user ?
             <Nav.Item >
               <Tooltip title={`Hay ${this.state.cantidad} profesores(as) con nota inferior a 3.5`} placement="top" style ={{fontSize: 20}}> 
                 <Nav.Link  href="/detalleNotify" style={{ color: '#FFFFFF' }} >
@@ -181,11 +182,12 @@ class SideBar extends Component{
                   </Badge>
                 </Nav.Link>
               </Tooltip>
-            </Nav.Item>
+            </Nav.Item>  : <div></div>}
 
+          {image ? 
             <Nav.Item>
               <Tooltip title="Cerrar sesión" placement="top" style ={{fontSize: 20}}>   
-                <Nav.Link  href="#features"  >
+                <Nav.Link >
                 <GoogleLogout
                         clientId="71019110674-e1sd6ad8opdi7qdnjpjss6gkt4f8ffjh.apps.googleusercontent.com"
                         render={renderProps => (
@@ -201,6 +203,14 @@ class SideBar extends Component{
                 </Nav.Link>
               </Tooltip>
             </Nav.Item>
+            :
+            <Nav.Item  className="ml-auto">
+            <Tooltip title="Iniciar Sesión" placement="top" style ={{fontSize: 20}}> 
+              <Nav.Link  href="/login" style={{ color: '#FFFFFF' }} >
+                  <FaRegUserCircle  />
+              </Nav.Link>
+            </Tooltip>
+          </Nav.Item>}
 
            
 
@@ -228,10 +238,18 @@ class SideBar extends Component{
                     }}
              >
                
+
+
+              {!user ? 
+                
+                <SideNav.Nav >
+                  <Image src={require('./Icono.png')} rounded   style ={{width:45,height:40, marginTop:5}}/>
+                  </SideNav.Nav>
+              
+                 :
+                
                 <SideNav.Nav >
                 <Image src={require('./Icono.png')} rounded   style ={{width:45,height:40, marginTop:5}}/>
-
-
                 <NavItem eventKey="inicio"> 
                 <Tooltip title="Generales" placement="right-start" style ={{fontSize: 20}}> 
                     <NavItem>     
@@ -263,24 +281,25 @@ class SideBar extends Component{
                     </NavItem>
                 </Tooltip> 
                  </NavItem >
+                 </SideNav.Nav> 
+                 }
 
-                </SideNav.Nav>
+                
              </SideNav>
              
             <main>
             
-             <Route path="/inicio" component={props => <Inicio/>} />
-             <Route path="/profesores" component={props => <ProfesorsList/>} />
-             <Route path="/portada" component={props => <Dashboard/>} />
-             <Route path="/estadistica" component={props => <Estadistica location={props.location}/>} />
-             <Route path="/perfil" component={props => <Perfil location={props.location}/>} />
-             <Route path="/prueba" component={props => <Test/>} />
-             <Route path="/asignaturas" component={props => <Asignaturas/>} />
-             <Route path="/admprofs" component={props => <AdministrarProfs/>} />
-             <Route path="/cursosDetalle" component={props => <CursoDetalle location={props.location}/>} />
-             <Route path="/adminusers" component={props => <AdministrarUsuarios location={props.location}/>} />
+             <Route path="/inicio" component={requireAuth(props => <Inicio/>)} />
+             <Route path="/profesores" component={requireAuth(props => <ProfesorsList/>)} />
+             <Route path="/portada" component={requireAuth(props => <Dashboard/>)} />
+             <Route path="/estadistica" component={requireAuth(props => <Estadistica location={props.location}/>)} />
+             <Route path="/perfil" component={requireAuth(props => <Perfil location={props.location}/>)} />
+             <Route path="/asignaturas" component={requireAuth(props => <Asignaturas/>)} />
+             <Route path="/admprofs" component={requireAuth(AdministrarProfs)} />
+             <Route path="/cursosDetalle" component={requireAuth(props => <CursoDetalle location={props.location}/>)} />
+             <Route path="/adminusers" component={requireAuth(AdministrarUsuarios)} />
              <Route path="/asigncoord" component={requireAuth(AsignCoord)}/>
-             <Route path="/detalleNotify" component={props => <Notify/>} />
+             <Route path="/detalleNotify" component={requireAuth(Notify)} />
              <Route path="/login" component={props => <Login/>} />
              <Route exact path="/">
                  <Redirect to="/portada" /> 

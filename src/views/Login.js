@@ -24,14 +24,14 @@ class Login extends Component {
   
  
 
-responseGoogle = (response) => {
+responseGoogle = async(response) => {
     console.log(response.w3.Paa)
     localStorage.setItem('google', response.w3.Paa);
     const userObject ={
         user_mail:response.w3.U3
     }
         window.alert('Verificando...')
-        this.props.signInAction( userObject, this.props.history);
+       await this.props.signInAction( userObject, this.props.history);
         const token = localStorage.getItem('token');
         console.log(token)
 

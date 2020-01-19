@@ -24,7 +24,7 @@ import CardContent from '@material-ui/core/CardContent';
 
 
 class Perfil extends Component {
-
+    _isMounted = false;
     constructor(props){
         super(props);
         this.state={
@@ -73,8 +73,8 @@ class Perfil extends Component {
 
 
 componentDidMount() {
-        console.log(this.props.location.state.id)
-      
+       // console.log(this.props.location.state.id)
+        this._isMounted = true;
         axios.get('http://localhost:3000/profesors/' + this.props.location.state.id + '.json')
         .then(res => {
             const profesors = res.data; 
@@ -84,7 +84,9 @@ componentDidMount() {
             if(profesors.if_pendiente === 1){
                pend = true
             }
-            this.setState({ready,profesors, obs, pend });
+            if (this._isMounted) {
+              this.setState({ready,profesors, obs, pend });
+            }  
 
             profesors.cursos.map((curso,index) =>
             this.nommbreAsign(curso.curso_cod)
@@ -92,6 +94,10 @@ componentDidMount() {
             
       })
     } 
+  
+  componentWillUnmount() {
+      this._isMounted = false;
+  }   
 
   nommbreAsign(code){
 
