@@ -85,6 +85,8 @@ class ChartDemo extends Component {
 
     // Cursor
     chart.cursor = new am4charts.XYCursor();
+    }).catch(error => {
+      console.log(error.response)
     })
   }
 

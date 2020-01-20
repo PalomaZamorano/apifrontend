@@ -157,7 +157,7 @@ class SideBar extends Component{
         >   
         
         <Navbar  variant="dark" collapseOnSelect  style={this.state.style} >
-            <Navbar.Brand  href="/portada" >Encuesta docente</Navbar.Brand>
+            <Navbar.Brand  href="/portada" >Departamento de Ingeniería Informática</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
           

@@ -70,6 +70,8 @@ class ChartBarra extends Component {
             columnTemplate.strokeOpacity = 1;    
             this.forceUpdate()
 
+        }).catch(error => {
+          console.log(error.response)
         })   
     }
   

@@ -59,7 +59,8 @@ export default function Dashboard() {
           <br/>
           <Typography variant="subtitle1" color="textSecondary">
             A continuación podrás conocer todas las estádisticas relacionadas a los resultados
-            de la encuesta docente por profesor, coordinacion y curso. Cantidad de encuestas, últimas notas por dimensión del profesor durante el semestre, entre otros.
+            de la encuesta docente respondida por estudiantes para el departamento de ingeniería informática; por profesor, coordinacion y curso, además de
+            la cantidad de encuestas, últimas notas por dimensión del profesor durante el semestre, entre otros.
           </Typography>
           <br/> 
           <Button className={classes.button} variant="contained" color="primary" href="/inicio">Comenzar</Button>

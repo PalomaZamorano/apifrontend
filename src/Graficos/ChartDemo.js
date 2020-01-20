@@ -16,7 +16,6 @@ class ChartDemo extends Component {
   }
 
   componentDidMount() {
-
     axios.get(`http://localhost:3000/profesorsPromGeneral.json`)
     .then(res => {
       const dimensiones = res.data;
@@ -87,8 +86,12 @@ class ChartDemo extends Component {
 
     // Cursor
     chart.cursor = new am4charts.XYCursor();
+    }).catch(error => {
+      console.log(error.response)
     })
   }
+
+  
 
   componentWillUnmount() {
     if (this.chart) {
@@ -110,7 +113,7 @@ class ChartDemo extends Component {
     }
     else{
     return (
-      <div id="chartdiv" style={{  height: "320px",width:"100%" }}></div>
+      <div id="chartdiv" style={{  height: "320px",width:"100%" }}></div> 
     );
     }
   }
