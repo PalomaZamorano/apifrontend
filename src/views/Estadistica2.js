@@ -26,12 +26,13 @@ import Button from '@material-ui/core/Button';
 
 import { Table } from 'react-bootstrap';
 import Tooltip from '@material-ui/core/Tooltip';
+import {FaQuestionCircle}  from "react-icons/fa";
 
 
 
 
 class Estadistica2 extends Component {
-
+    _isMounted = false;
     constructor(props){
         super(props);
         this.state={
@@ -97,31 +98,36 @@ class Estadistica2 extends Component {
 
 
     componentDidMount() {
+        this._isMounted = true;
         axios.get('http://localhost:3000/profesors/' + this.props.id + '.json')
         .then(res => {
             const profesors = res.data; 
             const ready = true;  
             const proms = Math.round(profesors.prof_proms_results)
-
-            profesors.cursos.map(curso =>{
-                 profesors.resultado_encuestum.some(res =>{
-                    if(curso.curso_cod === res.result_asign){
-                        this.state.asignaturas.push(res.result_nombre)
-                        return res.result_nombre
+            if (this._isMounted) {
+                profesors.cursos.map(curso =>{
+                    profesors.resultado_encuestum.some(res =>{
+                        if(curso.curso_cod === res.result_asign){
+                            this.state.asignaturas.push(res.result_nombre)
+                            return res.result_nombre
+                        }
                     }
-                 }
 
-                 )
-                }
-            )
+                    )
+                    }
+                )
             
 
-            this.handleChange2(profesors.cursos[0].curso_cod,profesors.cursos[0].curso_agno,
-                profesors.cursos[0].curso_aprobados,profesors.cursos[0].curso_reprobados,profesors.cursos[0].curso_promedio )
-            this.setState({ ready, profesors, proms });
+                this.handleChange2(profesors.cursos[0].curso_cod,profesors.cursos[0].curso_agno,
+                    profesors.cursos[0].curso_aprobados,profesors.cursos[0].curso_reprobados,profesors.cursos[0].curso_promedio )
+                this.setState({ ready, profesors, proms });
+            }   
         })   
     } 
 
+    componentWillUnmount() {
+        this._isMounted = false;
+      } 
 
    
 
@@ -244,7 +250,17 @@ class Estadistica2 extends Component {
                 <Typography variant="h4" component="h2">
                 {this.state.resultAsign[0].result_nombre}
                 </Typography>
-                : <div></div>}    
+                : <div></div>}  
+
+                <Tooltip title="Los valores presentados son resultado de la agrupación
+                de los cursos que poseen igual código, nombre y profesor" 
+                placement="top" style ={{fontSize: 20}}> 
+                    <Button  variant="outlined" size="small"  
+                        style={{float: 'right', marginRight:20}} >
+                        <FaQuestionCircle  style={{ fontSize: '1.50em' }}/>
+                    </Button>
+                </Tooltip> 
+                
                 <br/>
                 <br/>   
                     <Grid container spacing={2} >
@@ -470,7 +486,7 @@ class Estadistica2 extends Component {
 
                         <Paper className={this.state.useStyles.paper2}>
                         <Typography variant="h6" component="h2">
-                            Valores del curso
+                        {`Valores del curso ${this.state.profesors.cursos[this.state.curso].curso_coord} - ${this.state.profesors.cursos[this.state.curso].curso_secc}`} 
                         </Typography> 
                         <ListGroup horizontal >
                             <ListGroup.Item>

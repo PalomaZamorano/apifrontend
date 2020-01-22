@@ -3,12 +3,13 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import MaterialTable from 'material-table'
+import MaterialTable from 'material-table';
 import {Link}  from "react-router-dom"; 
 import Tooltip from '@material-ui/core/Tooltip';
 import {FaChalkboardTeacher}  from "react-icons/fa";
 import Card from '@material-ui/core/Card';
-
+import {FaQuestionCircle}  from "react-icons/fa";
+import {Button } from 'react-bootstrap';
 
 
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
@@ -17,6 +18,7 @@ import Typography from '@material-ui/core/Typography';
 
 
 class CursoDetalle extends Component{
+    _isMounted = false;
     constructor(props){
         super(props);
 
@@ -30,21 +32,26 @@ class CursoDetalle extends Component{
       
 
     componentDidMount() {
-
+        this._isMounted = true;
        // console.log(this.props.location.state.cursos)
         axios.get('http://localhost:3000/resultCurso/' + this.props.location.state.cursos[0].curso_cod + '/' + this.props.location.state.cursos[0].curso_agno + '/' + this.props.location.state.cursos[0].curso_sem)
         .then(res => {
           const results= res.data[0];
-          this.setState({ results });
-          this.props.location.state.cursos.map(curso =>{
-                this.cursos(curso.id)
-          }
-          )
-         
+           if (this._isMounted) { 
+              this.setState({ results });
+              this.props.location.state.cursos.map(curso =>{
+                    this.cursos(curso.id)
+              }
+              )
+           }
         })
         
          //console.log(this.state.profesors.profesors)
       } 
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }   
 
     cursos(cod){
 
@@ -125,6 +132,17 @@ class CursoDetalle extends Component{
                         <Typography variant="h6" component="h2">
                             Promedio encuesta por dimensión de la asignatura
                         </Typography> 
+                        <Tooltip title="D1:Planificación de actividades docentes  
+                                              D2:Ejecución de actividades docentes 
+                                              D3:Evaluación de aprendizajes 
+                                              D4:Relación con los estudiantes" 
+                                      placement="top" style ={{fontSize: 20}}> 
+                                          <Button  variant="outline-secondary" size="sm"  
+                                          style={{float: 'right', marginRight:20}} >
+                                              <FaQuestionCircle  style={{ fontSize: '1.50em' }}/>
+                                          </Button>
+                                      </Tooltip> 
+
                         <Grid container spacing={3}>
 
                         <Grid item xs={3}  md={3}>
@@ -266,8 +284,7 @@ class CursoDetalle extends Component{
                           )
                       }    
                         ]}
-                        data={this.state.profesors}
-                        
+                        data={this.state.profesors}                        
                         title='Cursos'
                         
                     />:<div><CircularProgress size={30} color="secondary" /></div>}

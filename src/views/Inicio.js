@@ -13,6 +13,9 @@ import 'react-circular-progressbar/dist/styles.css';
 import ChartDimension from '../Graficos/ChartDemo'
 import Typography from '@material-ui/core/Typography';
 
+import Tooltip from '@material-ui/core/Tooltip';
+import {FaQuestionCircle}  from "react-icons/fa";
+import Button from '@material-ui/core/Button';
 
 class Inicio extends Component{
     _isMounted = false;
@@ -88,15 +91,23 @@ class Inicio extends Component{
       <Grid container spacing={1}   className={this.state.useStyles.root} 
         justify='center' >
         
-        
-
 
         <Grid item  xs={5} md={10} >
           <Paper className={this.state.useStyles.paper}>
+          <Tooltip title="Los valores presentados corresponden a todos los profesores
+          que componen el sistema" 
+                placement="top" style ={{fontSize: 20}}> 
+                    <Button  variant="outlined" size="small"  
+                        style={{float: 'right', marginRight:20}} >
+                        <FaQuestionCircle  style={{ fontSize: '1.50em' }}/>
+                    </Button>
+                </Tooltip> 
           <Typography variant="h6" component="h2">
               Promedios por dimensión.
           </Typography>
           <ChartDimension/>
+
+          
   
         </Paper>
         </Grid>  

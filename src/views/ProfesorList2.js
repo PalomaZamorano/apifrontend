@@ -11,7 +11,7 @@ import {MdPermContactCalendar}  from "react-icons/md";
 
 
 class ProfesorList2 extends Component {
-
+    _isMounted = false;
     constructor(props){
         super(props);
         this.state={
@@ -24,24 +24,29 @@ class ProfesorList2 extends Component {
 
 
     componentDidMount() {
-
+        this._isMounted = true;
         axios.get(`http://localhost:3000/profesors.json`)
         .then(res => {
           const profesors = res.data;
-        
-          if(profesors.length !== 0){
-            this.state.rows2.push(profesors.map((profesor,index) =>  
-            this.createData1(profesor.prof_nombre_corto, profesor.id),
-            )
-            );
-          }
+          if (this._isMounted) {
+            if(profesors.length !== 0){
+              this.state.rows2.push(profesors.map((profesor,index) =>  
+              this.createData1(profesor.prof_nombre_corto, profesor.id),
+              )
+              );
+            }
            
             const ready = true;  
-         //   console.log(this.state.rows2[0])
+            // console.log(this.state.rows2[0])
             this.setState({ ready });
+          }  
          
         })
-} 
+  }
+  
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
 createData1(name,id) {
 
@@ -52,7 +57,7 @@ createData1(name,id) {
    
   render() {
 
-    if(this.state.ready === false){
+    if(this.state.ready === false && !this._isMounted){
     
         return(
           <div>

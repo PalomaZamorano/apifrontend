@@ -85,12 +85,11 @@ componentDidMount() {
                pend = true
             }
             if (this._isMounted) {
-              this.setState({ready,profesors, obs, pend });
-            }  
-
-            profesors.cursos.map((curso,index) =>
-            this.nommbreAsign(curso.curso_cod)
-            )
+                this.setState({ready,profesors, obs, pend });
+                profesors.cursos.map((curso,index) =>
+                this.nommbreAsign(curso.curso_cod)
+              )
+            }
             
       })
     } 
