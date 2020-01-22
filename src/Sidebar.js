@@ -44,7 +44,7 @@ import { signOutAction } from './actions/signOutLogin';
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store1 = createStoreWithMiddleware(reducers);
 const user = localStorage.getItem('token');
-console.log(user)
+//console.log(user)
 if(user ) {
   store1.dispatch({ type: AUTHENTICATED });
 }
