@@ -40,7 +40,8 @@ class CursoDetalle extends Component{
            if (this._isMounted) { 
               this.setState({ results });
               this.props.location.state.cursos.map(curso =>{
-                    this.cursos(curso.id)
+                return  this.cursos(curso.id)
+                    
               }
               )
            }

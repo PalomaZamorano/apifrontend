@@ -7,6 +7,7 @@ import axios from 'axios';
 
 
 am4core.useTheme(am4themes_animated);
+let chartReg = {};
 
 class ChartDemo extends Component {
  _isMounted = false; 
@@ -28,7 +29,8 @@ class ChartDemo extends Component {
       
 
           // Create chart instance
-          let chart = am4core.create("chartdiv", am4charts.XYChart);
+          let chart = this.createChart("chartdiv", am4charts.XYChart)
+         //let chart = am4core.create("chartdiv", am4charts.XYChart);
           chart.scrollbarX = new am4core.Scrollbar();
     
         // Add data
@@ -93,7 +95,7 @@ class ChartDemo extends Component {
         chart.cursor = new am4charts.XYCursor();
       
     }).catch(error => {
-      console.log(error.response)
+      //console.log(error.response)
     })
     
   }
@@ -102,8 +104,23 @@ class ChartDemo extends Component {
 
   componentWillUnmount() {
     this._isMounted = false;
+    this.maybeDisposeChart("chartdiv");
   }
 
+  createChart(chartdiv, charttype) {
+    // Check if the chart instance exists
+     this.maybeDisposeChart(chartdiv);  
+    // Create new chart
+     chartReg[chartdiv] = am4core.create(chartdiv, charttype);
+     return chartReg[chartdiv];
+  }
+
+  maybeDisposeChart(chartdiv) {
+    if (chartReg[chartdiv]) {
+      chartReg[chartdiv].dispose();
+      delete chartReg[chartdiv];
+    }
+  }
   render() {
     
     if(this.state.dimensiones.length === 0 &&  !this._isMounted){

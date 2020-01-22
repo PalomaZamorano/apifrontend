@@ -7,6 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 am4core.useTheme(am4themes_animated);
+let chartReg = {};
 
 class ChartBarra extends Component {
 
@@ -24,9 +25,9 @@ class ChartBarra extends Component {
             const ready = true;
             this.setState({results, code,ready});
 
-        //Gráfico 
-
-            let chart = am4core.create("chartdiv2", am4charts.XYChart);
+           //Gráfico 
+            let chart = this.createChart("chartdiv2", am4charts.XYChart)
+           // let chart = am4core.create("chartdiv2", am4charts.XYChart);
             const year = new Date().getFullYear()   
 
             // Add data
@@ -71,15 +72,29 @@ class ChartBarra extends Component {
             this.forceUpdate()
 
         }).catch(error => {
-          console.log(error.response)
+          //console.log(error.response)
         })   
     }
   
-    UNSAFE_componentWillUnmount() {
-      if (this.chart) {
-        this.chart.dispose();
+    componentWillUnmount() {
+      this.maybeDisposeChart("chartdiv2");
+    }
+  
+    createChart(chartdiv, charttype) {
+      // Check if the chart instance exists
+       this.maybeDisposeChart(chartdiv);  
+      // Create new chart
+       chartReg[chartdiv] = am4core.create(chartdiv, charttype);
+       return chartReg[chartdiv];
+    }
+
+    maybeDisposeChart(chartdiv) {
+      if (chartReg[chartdiv]) {
+        chartReg[chartdiv].dispose();
+        delete chartReg[chartdiv];
       }
     }
+
 
     handleChange(){
 
@@ -91,8 +106,8 @@ class ChartBarra extends Component {
             this.setState({results, code, ready});
 
             //Gráfico 
-
-            let chart = am4core.create("chartdiv2", am4charts.XYChart);
+            let chart = this.createChart("chartdiv2", am4charts.XYChart)
+           // let chart = am4core.create("chartdiv2", am4charts.XYChart);
             const year = new Date().getFullYear()   
 
             // Add data

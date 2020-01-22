@@ -105,16 +105,17 @@ class Estadistica2 extends Component {
             const ready = true;  
             const proms = Math.round(profesors.prof_proms_results)
             if (this._isMounted) {
-                profesors.cursos.map(curso =>{
+                profesors.cursos.forEach(curso =>{
                     profesors.resultado_encuestum.some(res =>{
                         if(curso.curso_cod === res.result_asign){
-                            this.state.asignaturas.push(res.result_nombre)
-                            return res.result_nombre
+                           return  this.state.asignaturas.push(res.result_nombre)
                         }
+                        return console.log("")
                     }
 
                     )
                     }
+                    
                 )
             
 
@@ -140,7 +141,7 @@ class Estadistica2 extends Component {
             const preguntas2 = []
             //console.log(preguntas);
             if(preguntas.length >= 25){
-                preguntas.map((pregunta,index) =>{
+                preguntas.forEach((pregunta,index) =>{
                    if (pregunta.preg_profs === this.state.profesors.cursos[this.state.curso].curso_profesores ){
                     preguntas2.push(pregunta)
                    } 

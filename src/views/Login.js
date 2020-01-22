@@ -2,14 +2,11 @@ import React, { Component }  from 'react';
 import Paper from '@material-ui/core/Paper';
 import { Grid } from '@material-ui/core';
 import GoogleLogin from 'react-google-login';
-import { GoogleLogout } from 'react-google-login';
-//import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 //redux
-import { Field, reduxForm } from 'redux-form';
+import {reduxForm } from 'redux-form';
 import { signInAction } from '../actions/actionSign';
 import { connect } from 'react-redux';
-import { signOutAction } from '../actions/signOutLogin';
 
 
 class Login extends Component {
@@ -65,7 +62,6 @@ errorMessage() {
 
 render(){
 
- const { handleSubmit } = this.props;  
  return (
      <div style={{ marginTop:60 }}> 
         <Grid container spacing={0}
