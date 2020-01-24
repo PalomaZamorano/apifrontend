@@ -36,7 +36,7 @@ class ChartBarra extends Component {
             "visits":0
             }, {
             "country": `${year-1}`,
-            "visits": this.state.results[0].result_prom_general
+            "visits": (this.state.results[0].result_prom_general*1).toFixed(1)
             }, {
             "country": `${year}`,
             "visits": 0
@@ -116,7 +116,7 @@ class ChartBarra extends Component {
             "visits":0
             }, {
             "country": `${year-1}`,
-            "visits": this.state.results[0].result_prom_general
+            "visits": (this.state.results[0].result_prom_general*1).toFixed(1)
             }, {
             "country": `${year}`,
             "visits": 0

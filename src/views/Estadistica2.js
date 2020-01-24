@@ -277,7 +277,7 @@ class Estadistica2 extends Component {
                         <CircularProgressbar
                             style = {{width:5, height:5}}
                             value={percentage}
-                            text={`${this.state.resultAsign[0].result_prom_general}`}
+                            text={`${(this.state.resultAsign[0].result_prom_general*1).toFixed(1)}`}
                             styles={buildStyles({
                             // Text size
                             textSize: '16px',
@@ -316,7 +316,7 @@ class Estadistica2 extends Component {
                         <CircularProgressbar
                             style = {{width:10, height:10}}
                             value={percentage}
-                            text={`${this.state.resultAsign[0].result_promg1n}`}
+                            text={`${(this.state.resultAsign[0].result_promg1n*1).toFixed(1)}`}
                             styles={buildStyles({
                             // Text size
                             textSize: '16px',
@@ -339,7 +339,7 @@ class Estadistica2 extends Component {
                         <CircularProgressbar
                             style = {{width:10, height:10}}
                             value={percentage}
-                            text={`${this.state.resultAsign[0].result_promg2n}`}
+                            text={`${(this.state.resultAsign[0].result_promg2n*1).toFixed(1)}`}
                             styles={buildStyles({
                             // Text size
                             textSize: '16px',
@@ -360,7 +360,7 @@ class Estadistica2 extends Component {
                         <CircularProgressbar
                             style = {{width:10, height:10}}
                             value={percentage}
-                            text={`${this.state.resultAsign[0].result_promg3n}`}
+                            text={`${(this.state.resultAsign[0].result_promg3n*1).toFixed(1)}`}
                             styles={buildStyles({
                             // Text size
                             textSize: '16px',
@@ -382,7 +382,7 @@ class Estadistica2 extends Component {
                         <CircularProgressbar
                             style = {{width:10, height:10}}
                             value={percentage}
-                            text={`${this.state.resultAsign[0].result_promg4n}`}
+                            text={`${(this.state.resultAsign[0].result_promg4n*1).toFixed(1)}`}
                             styles={buildStyles({
                             // Text size
                             textSize: '16px',
