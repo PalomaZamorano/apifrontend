@@ -25,7 +25,7 @@ class ProfesorList2 extends Component {
 
     componentDidMount() {
         this._isMounted = true;
-        axios.get(`http://localhost:3000/profesors.json`)
+        axios.get(`http://localhost:3000/profsInfor.json`)
         .then(res => {
           const profesors = res.data;
           if (this._isMounted) {

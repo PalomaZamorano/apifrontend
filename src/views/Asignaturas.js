@@ -26,14 +26,14 @@ class Asignaturas extends Component {
 
 componentDidMount() {
 
-    axios.get(`http://localhost:3000/asignaturas.json`)
+    axios.get(`http://localhost:3000/asignInfo.json`)
         .then(res => {
           const asignaturas = res.data;
           const ready = true
           this.setState({asignaturas, ready});
          
         })
-        //console.log(this.state.asignaturas.cursos)
+        console.log(this.state.asignaturas.cursos)
 } 
 
 createData1(name,id) {

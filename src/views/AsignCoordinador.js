@@ -45,14 +45,14 @@ class AsigCoordinador extends Component {
 componentDidMount() {
 
     this._isMounted = true;
-    axios.get(`http://localhost:3000/asignaturas.json`)
+    axios.get(`http://localhost:3000/asignInfo.json`)
         .then(res => {
           const asignaturas = res.data;
           if (this._isMounted) { 
             this.setState({asignaturas});
           }  
           
-          axios.get(`http://localhost:3000/profesors.json`)
+          axios.get(`http://localhost:3000/profsInfor.json`)
             .then(res => {
             const profesors = res.data;
             const ready = true
@@ -74,11 +74,10 @@ componentWillUnmount() {
 } 
 
 asign(nombres){
-
     const id = this.state.asignaturas[this.state.index].id;
     const nombre = this.state.asignaturas[this.state.index].asign_nombre;
 
-    //console.log(this.state.id)
+    //console.log(id)
     const asign = {
       asign_coordinadores : nombres
       };

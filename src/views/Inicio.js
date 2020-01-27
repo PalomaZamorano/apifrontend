@@ -125,7 +125,7 @@ class Inicio extends Component{
           <Typography variant="h6" component="h2">
               Promedio General
           </Typography>
-          <CircularProgressbar value={percentage} text={`${this.state.results[0].promGeneral}.0 `}
+          <CircularProgressbar value={percentage} text={`${(this.state.results[0].promGeneral*1).toFixed(1)} `}
           styles={buildStyles({
             // Text size
             textSize: '13px'

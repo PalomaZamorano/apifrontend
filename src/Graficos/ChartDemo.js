@@ -36,20 +36,20 @@ class ChartDemo extends Component {
         // Add data
         chart.data = [{
         "dimension": "D1",
-        "promedio": this.state.dimensiones[0].promD1,
+        "promedio": (this.state.dimensiones[0].promD1*1).toFixed(1),
         "dis": "Planificación de actividades docentes"
 
         }, {
         "dimension": "D2",
-        "promedio": this.state.dimensiones[0].promD2,
+        "promedio": (this.state.dimensiones[0].promD2*1).toFixed(1),
         "dis": "Ejecución de actividades docentes"
         }, {
         "dimension": "D3",
-        "promedio": this.state.dimensiones[0].promD3,
+        "promedio": (this.state.dimensiones[0].promD3*1).toFixed(1),
         "dis": "Evaluación de aprendizajes"
         }, {
         "dimension": "D4",
-        "promedio": this.state.dimensiones[0].promD4,
+        "promedio": (this.state.dimensiones[0].promD4*1).toFixed(1),
         "dis": "Relación con los estudiantes"
         }];
 
