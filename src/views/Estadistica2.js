@@ -136,7 +136,7 @@ class Estadistica2 extends Component {
     detalle(){
         axios.get('http://localhost:3000/pregResult/' + this.state.profesors.cursos[this.state.curso].curso_cod + '/' + this.state.profesors.cursos[this.state.curso].curso_coord  
         + '/' + this.state.profesors.cursos[this.state.curso].curso_secc + '/' + this.state.profesors.cursos[this.state.curso].curso_agno + '/'
-         + this.state.profesors.cursos[this.state.curso].curso_sem + '.json')
+         + this.state.profesors.cursos[this.state.curso].curso_sem  + '/' + this.state.profesors.cursos[this.state.curso].curso_elect + '.json')
         .then(res => {
             const preguntas = res.data; 
             const preguntas2 = []

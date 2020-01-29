@@ -431,6 +431,7 @@ componentDidMount() {
                                           <th  style={{ fontSize:18 }} >Código</th>
                                           <th style={{ fontSize:18 }} >Coordinación</th>
                                           <th style={{ fontSize:18 }} >Sección</th>
+                                          <th style={{ fontSize:18 }} >Electivo</th>
                                           <th style={{ fontSize:18 }} >Semestre</th>
                                           <th style={{ fontSize:18 }} >Año</th>
                                           
@@ -445,6 +446,7 @@ componentDidMount() {
                                           <td  style={{ fontSize:15 }} >{curso.curso_cod}</td>
                                           <td style={{ fontSize:15 }} >{curso.curso_coord}</td>
                                           <td style={{ fontSize:15 }} >{curso.curso_secc}</td>
+                                          <td style={{ fontSize:15 }} >{curso.curso_elect}</td>
                                           <td style={{ fontSize:15 }} >{curso.curso_sem}</td>
                                           <td style={{ fontSize:15 }} >{curso.curso_agno}</td>
                                           
