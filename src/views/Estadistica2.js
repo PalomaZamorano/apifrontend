@@ -121,6 +121,7 @@ class Estadistica2 extends Component {
 
                 this.handleChange2(profesors.cursos[0].curso_cod,profesors.cursos[0].curso_agno,
                     profesors.cursos[0].curso_aprobados,profesors.cursos[0].curso_reprobados,profesors.cursos[0].curso_promedio )
+                
                 this.setState({ ready, profesors, proms });
             }   
         })   
@@ -142,8 +143,9 @@ class Estadistica2 extends Component {
             //console.log(preguntas);
             if(preguntas.length >= 25){
                 preguntas.forEach((pregunta,index) =>{
-                   if (pregunta.preg_profs === this.state.profesors.cursos[this.state.curso].curso_profesores ){
-                    preguntas2.push(pregunta)
+                   if (pregunta.preg_profs === this.state.profesors.cursos[this.state.curso].curso_profesores 
+                    && preguntas2.length < 25){
+                        preguntas2.push(pregunta)
                    } 
 
                 })
@@ -165,11 +167,14 @@ class Estadistica2 extends Component {
 
 
     handleChange2 = (cod,agno) =>{
+       // console.log(cod,agno,this.props.id)
         axios.get('http://localhost:3000/profsAsign/'  + this.props.id + '/' + cod + '/' + agno)
         .then(res => {
             const resultAsign = res.data;
+         //   console.log(res.data.length)
+            
              this.setState({resultAsign});
-            // console.log(this.state.resultAsign[0].result_prom_general)
+            
             
         })    
     }  
@@ -198,7 +203,7 @@ class Estadistica2 extends Component {
 
     const percentage = 100; 
 
-    if(this.state.ready === false ){
+    if(this.state.ready === false){
     
         return(
           <div>
@@ -222,7 +227,6 @@ class Estadistica2 extends Component {
                 <FormControl  className={this.state.useStyles.formControl} style={{marginLeft:30  }}>
                 <InputLabel htmlFor="curso-native-helper">Curso</InputLabel>
                 <NativeSelect
-                style={{width: 400 }}
                 value={this.state.curso}
                 onChange ={this.handleChange.bind(this)}            
                 inputProps={{
@@ -231,7 +235,7 @@ class Estadistica2 extends Component {
                 }}
                 >
                 { this.state.profesors.cursos.map((curso,index) =>       
-                    <option key= {curso.id} value={index}>  {this.state.asignaturas[index]} - {curso.curso_coord} - {curso.curso_secc}</option>
+                    <option key= {curso.id} value={index}>  {this.state.asignaturas[index]} - {curso.curso_coord} - {curso.curso_secc} - {curso.curso_elect} - {curso.curso_agno}</option>
                 )}
                 </NativeSelect>
                 <FormHelperText>  Seleccione el curso del que desea conocer resultados</FormHelperText>
@@ -254,7 +258,7 @@ class Estadistica2 extends Component {
                 : <div></div>}  
 
                 <Tooltip title="Los valores presentados son resultado de la agrupación
-                de los cursos que poseen igual código, nombre y profesor" 
+                de los cursos que poseen igual código, nombre, profesor y año" 
                 placement="top" style ={{fontSize: 20}}> 
                     <Button  variant="outlined" size="small"  
                         style={{float: 'right', marginRight:20}} >
@@ -487,7 +491,7 @@ class Estadistica2 extends Component {
 
                         <Paper className={this.state.useStyles.paper2}>
                         <Typography variant="h6" component="h2">
-                        {`Valores del curso ${this.state.profesors.cursos[this.state.curso].curso_coord} - ${this.state.profesors.cursos[this.state.curso].curso_secc}`} 
+                        {`Valores del curso ${this.state.profesors.cursos[this.state.curso].curso_coord} - ${this.state.profesors.cursos[this.state.curso].curso_secc} - ${this.state.profesors.cursos[this.state.curso].curso_elect} - ${this.state.profesors.cursos[this.state.curso].curso_agno}`} 
                         </Typography> 
                         <ListGroup horizontal >
                             <ListGroup.Item>

@@ -78,14 +78,14 @@ class ProfesorList2 extends Component {
 
 
     componentDidMount() {
-      //  console.log(this.props.location.state.id)
+      // console.log(this.props.location.state.id)
       
         axios.get('http://localhost:3000/profesors/' + this.props.location.state.id + '.json')
         .then(res => {
             const profesors = res.data; 
             const ready = true;  
            // console.log(profesors)
-            const proms = Math.round(profesors.prof_proms_results)
+            const proms = (profesors.prof_proms_results*1).toFixed(1)
             this.setState({ ready, profesors, proms });
      })
     } 

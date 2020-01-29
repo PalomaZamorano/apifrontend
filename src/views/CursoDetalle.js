@@ -253,8 +253,9 @@ class CursoDetalle extends Component{
                         { title: 'Código Curso', field: 'curso_cod' },
                         { title: 'Coordinación', field: 'curso_coord' },
                         { title: 'Sección', field: 'curso_secc' },
-                        { title: 'Año', field: 'curso_agno' },
+                        { title: 'Electivo', field: 'curso_elect' },
                         { title: 'Semestre', field: 'curso_sem' },
+                        { title: 'Año', field: 'curso_agno' },
                         { title: 'Profesor(es)',field: 'curso_profesores'},
                         {
                             title: '',

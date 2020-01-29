@@ -14,11 +14,12 @@ class ChartBarra extends Component {
     state = {
       results:[],
       ready:false,
-      code:0
+      code:0,
+      prom1: 0
     }
-  
+
     componentDidMount() {
-        axios.get('http://localhost:3000/profsAsign/'+ this.props.id + '/' + this.props.cod + '/' + this.props.agno)
+        axios.get('http://localhost:3000/profsAsignLastYears/'+ this.props.id + '/' + this.props.cod )
         .then(res => {
             const results = res.data; 
             const code =  this.props.cod; 
@@ -28,20 +29,19 @@ class ChartBarra extends Component {
            //Gráfico 
             let chart = this.createChart("chartdiv2", am4charts.XYChart)
            // let chart = am4core.create("chartdiv2", am4charts.XYChart);
-            const year = new Date().getFullYear()   
-
+           const year = results[0].result_agno1 
             // Add data
             chart.data = [{
             "country": `${year-2}`,
-            "visits":0
+            "visits": (results[0].result_prom_general2*1).toFixed(1)
             }, {
             "country": `${year-1}`,
-            "visits": (this.state.results[0].result_prom_general*1).toFixed(1)
+            "visits": (results[0].result_prom_general1*1).toFixed(1)
             }, {
             "country": `${year}`,
-            "visits": 0
+            "visits": (results[0].result_prom_general*1).toFixed(1)
             }];
-
+            
             // Create axes
 
             let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
@@ -97,8 +97,8 @@ class ChartBarra extends Component {
 
 
     handleChange(){
-
-        axios.get('http://localhost:3000/profsAsign/'+ this.props.id + '/' + this.props.cod + '/' + this.props.agno)
+       // console.log(this.props.id)
+        axios.get('http://localhost:3000/profsAsignLastYears/'+ this.props.id + '/' + this.props.cod)
         .then(res => {
             const results = res.data; 
             const code =  this.props.cod; 
@@ -108,19 +108,18 @@ class ChartBarra extends Component {
             //Gráfico 
             let chart = this.createChart("chartdiv2", am4charts.XYChart)
            // let chart = am4core.create("chartdiv2", am4charts.XYChart);
-            const year = new Date().getFullYear()   
-
-            // Add data
-            chart.data = [{
-            "country": `${year-2}`,
-            "visits":0
-            }, {
-            "country": `${year-1}`,
-            "visits": (this.state.results[0].result_prom_general*1).toFixed(1)
-            }, {
-            "country": `${year}`,
-            "visits": 0
-            }];
+           const year = results[0].result_agno1 
+           // Add data
+           chart.data = [{
+           "country": `${year-2}`,
+           "visits": (results[0].result_prom_general2*1).toFixed(1)
+           }, {
+           "country": `${year-1}`,
+           "visits": (results[0].result_prom_general1*1).toFixed(1)
+           }, {
+           "country": `${year}`,
+           "visits": (results[0].result_prom_general*1).toFixed(1)
+           }];
 
             // Create axes
 

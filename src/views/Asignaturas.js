@@ -33,7 +33,7 @@ componentDidMount() {
           this.setState({asignaturas, ready});
          
         })
-        console.log(this.state.asignaturas.cursos)
+      //  console.log(this.state.asignaturas.cursos)
 } 
 
 createData1(name,id) {
