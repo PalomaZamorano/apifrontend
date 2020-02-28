@@ -8,6 +8,8 @@ export function signOutAction() {
   localStorage.removeItem('user_rol');
   localStorage.removeItem('user_cargo');
   localStorage.removeItem('google');
+  localStorage.removeItem('userPerfil');
+  localStorage.removeItem('userGoogle');
   console.log('adios...');
   /*localStorage.clear();*/
   

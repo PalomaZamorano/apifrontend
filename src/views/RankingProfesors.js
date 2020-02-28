@@ -18,14 +18,44 @@ class Ranking extends Component {
   
   componentDidMount() {
     this._isMounted = true;
-    axios.get(`http://localhost:3000/profesorsRanking.json`)
-    .then(res => {
-      const profesors = res.data;
-      if (this._isMounted) {
-        this.setState({ profesors });
-      }
-       
-    })
+
+    const rol = localStorage.getItem('user_cargo');
+    if(rol === '1'){
+
+      axios.get(`http://localhost:3000/profesorsRankingCivil.json`)
+      .then(res => {
+        const profesors = res.data;
+        if (this._isMounted) {
+          this.setState({ profesors });
+        }
+        
+      })
+
+    }
+    if(rol === '3'){
+
+      axios.get(`http://localhost:3000/profesorsRankingEjecu.json`)
+      .then(res => {
+        const profesors = res.data;
+        if (this._isMounted) {
+          this.setState({ profesors });
+        }
+        
+      })
+
+
+
+    }
+    else{
+        axios.get(`http://localhost:3000/profesorsRanking.json`)
+        .then(res => {
+          const profesors = res.data;
+          if (this._isMounted) {
+            this.setState({ profesors });
+          }
+          
+        })
+    }
   }   
 
   componentWillUnmount() {

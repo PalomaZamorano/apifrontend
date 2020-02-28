@@ -56,13 +56,38 @@ class Inicio extends Component{
     componentDidMount() {
 
         this._isMounted = true;
-        axios.get(`http://localhost:3000/profesorsPromGeneral.json`)
-        .then(res => {
-          const results = res.data;
-          if (this._isMounted) {
-            this.setState({ results });
-          }
-        })
+
+        const rol = localStorage.getItem('user_cargo');
+        if(rol === '1'){
+
+            axios.get(`http://localhost:3000/profesorsPromGeneralCivil.json`)
+              .then(res => {
+                const results = res.data;
+                if (this._isMounted) {
+                  this.setState({ results });
+                }
+              })
+        }
+        if(rol === '3'){
+
+            axios.get(`http://localhost:3000/profesorsPromGeneralEjecu.json`)
+              .then(res => {
+                const results = res.data;
+                if (this._isMounted) {
+                  this.setState({ results });
+                }
+              })
+        }
+        else{
+          
+            axios.get(`http://localhost:3000/profesorsPromGeneral.json`)
+            .then(res => {
+              const results = res.data;
+              if (this._isMounted) {
+                this.setState({ results });
+              }
+            })
+        }
       }     
     
       componentWillUnmount() {
@@ -103,7 +128,7 @@ class Inicio extends Component{
                     </Button>
                 </Tooltip> 
           <Typography variant="h6" component="h2">
-              Promedios por dimensión.
+              Promedios por dimensión
           </Typography>
           <ChartDimension/>
 
@@ -114,7 +139,7 @@ class Inicio extends Component{
         <Grid item  xs={5} md={6} >
           <Paper className={this.state.useStyles.fixsize} >
           <Typography variant="h6" component="h2">
-              Ranking promedios profesores.
+              Ranking promedios profesores
           </Typography>
           <Ranking/>
           </Paper>

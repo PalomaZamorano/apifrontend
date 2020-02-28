@@ -137,8 +137,8 @@ class AdminProfesores extends Component {
         emailValid = data.get('mail').match(/^([\w.%+-]+)@(usach)+([\w]{2,})$/i);
         const error = emailValid ? '' : ' is invalid';
 
-        if (form.checkValidity() === false ||  error === false || (data.get('mail') === "" || data.get('depto')  === "" ||  this.state.jorna === "" || this.state.area  === "") ) {
-          window.alert('Debe rellenar todos los espacios e ingresar mail usach, inténtalo nuevamente')
+        if (form.checkValidity() === false ||  error === false || (data.get('mail') === "" ||  this.state.jorna === "" ) ) {
+          window.alert('Debe ingresar a lo menos mail usach y jornada, inténtalo nuevamente')
           event.preventDefault();
           event.stopPropagation();
         }

@@ -107,7 +107,7 @@ class CursoDetalle extends Component{
                             </Typography>
                         <CircularProgressbar
                             value={percentage}
-                            text={`${this.state.results.resultadoGeneral}`}
+                            text={`${(this.state.results.resultadoGeneral*1).toFixed(1)}`}
                             styles={buildStyles({
                             // Text size
                             textSize: '16px',
@@ -151,7 +151,7 @@ class CursoDetalle extends Component{
                         <CircularProgressbar
                             style = {{width:10, height:10}}
                             value={percentage}
-                            text={`${this.state.results.promsd1}`}
+                            text={`${(this.state.results.promsd1*1).toFixed(1)}`}
                             styles={buildStyles({
                             // Text size
                             textSize: '16px',
@@ -174,7 +174,7 @@ class CursoDetalle extends Component{
                         <CircularProgressbar
                             style = {{width:10, height:10}}
                             value={percentage}
-                            text={`${this.state.results.promsd2}`}
+                            text={`${(this.state.results.promsd2*1).toFixed(1)}`}
                             styles={buildStyles({
                             // Text size
                             textSize: '16px',
@@ -195,7 +195,7 @@ class CursoDetalle extends Component{
                         <CircularProgressbar
                             style = {{width:10, height:10}}
                             value={percentage}
-                            text={`${this.state.results.promsd3}`}
+                            text={`${(this.state.results.promsd3*1).toFixed(1)}`}
                             styles={buildStyles({
                             // Text size
                             textSize: '16px',
@@ -217,7 +217,7 @@ class CursoDetalle extends Component{
                         <CircularProgressbar
                             style = {{width:10, height:10}}
                             value={percentage}
-                            text={`${this.state.results.promsd4}`}
+                            text={`${(this.state.results.promsd4*1).toFixed(1)}`}
                             styles={buildStyles({
                             // Text size
                             textSize: '16px',

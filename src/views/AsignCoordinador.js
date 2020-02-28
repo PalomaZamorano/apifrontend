@@ -165,7 +165,7 @@ handleChangeSelect = event => {
             </Grid>
             <br/>
             {/* Grida 2 */}
-            <Grid item  xs={12} md={12} style={{width:300}}>    
+            <Grid item  xs={12} md={12} >    
               {this.state.profesores.length>0 ?                  
                     <FormControl>
                     <InputLabel id="profs-native-simple">Profesores</InputLabel>

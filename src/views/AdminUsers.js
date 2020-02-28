@@ -76,8 +76,10 @@ class AdminProfesores extends Component {
             cargo = "Subdirector(a)"
         }
         if(cargo === 1){
-            cargo = "Jefe(a) de carrera"
-
+            cargo = "Jefe(a) de carrera: civil"
+        }
+        if(cargo === 3){
+          cargo = "Jefe(a) de carrera: ejecución"
         }
         if(cargo === 2){
             cargo = "Coordinador(a) docente"
@@ -86,7 +88,7 @@ class AdminProfesores extends Component {
             rol = "Administrador(a)"
         }
         if(rol === 1){
-            rol = "Usuario"
+            rol = "Usuario Natural"
         }    
 
         return {index,id,name,mail,rol,cargo};
@@ -110,8 +112,11 @@ class AdminProfesores extends Component {
         if(cargo === "Subdirecto(a)"){
            cargo = 0
         }
-        if(cargo === "Jefe(a) de carrera"){
+        if(cargo === "Jefe(a) de carrera: civil"){
             cargo = 1
+        }
+        if(cargo === "Jefe(a) de carrera: ejecución"){
+          cargo = 3
         }
         if(cargo === "Coordinador(a) docente"){
             cargo = 2
@@ -119,7 +124,7 @@ class AdminProfesores extends Component {
         if(rol === "Administrador(a)"){
             rol = 0
         }
-        if(rol === "Usuario Natural "){
+        if(rol === "Usuario Natural"){
             rol = 1
         }
         
@@ -171,19 +176,23 @@ class AdminProfesores extends Component {
 
     Create(name,mail,rol,cargo){
 
+
         if(cargo === "Subdirecto(a)"){
            cargo = 0
         }
-        if(cargo === "Jefe(a) de carrera"){
+        if(cargo === "Jefe(a) de carrera: civil"){
             cargo = 1
         }
         if(cargo === "Coordinador(a) docente"){
             cargo = 2
         }
+        if(cargo === "Jefe(a) de carrera: ejecución"){
+          cargo = 3
+        }
         if(rol === "Administrador(a)"){
             rol = 0
         }
-        if(rol === "Usuario Natural "){
+        if(rol === "Usuario Natural"){
             rol = 1
         }
         
@@ -293,7 +302,8 @@ class AdminProfesores extends Component {
                     <Form.Label>Cargo</Form.Label>
                     <Form.Control name="cargo" as="select">
                         <option>Subdirector(a)</option>
-                        <option>Jefe(a) de carrera</option>
+                        <option>Jefe(a) de carrera: civil</option>
+                        <option>Jefe(a) de carrera: ejecución</option>
                         <option>Coordinador(a) docente</option>
                         <option>Director(a)</option>
                     </Form.Control>
@@ -356,7 +366,8 @@ class AdminProfesores extends Component {
                     <Form.Label>Cargo</Form.Label>
                     <Form.Control name="cargo1" as="select">
                         <option>Subdirector(a)</option>
-                        <option>Jefe(a) de carrera</option>
+                        <option>Jefe(a) de carrera: civil</option>
+                        <option>Jefe(a) de carrera: ejecución</option>
                         <option>Coordinador(a) docente</option>
                         <option>Director(a)</option>
                     </Form.Control>

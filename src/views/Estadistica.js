@@ -84,9 +84,10 @@ class ProfesorList2 extends Component {
         .then(res => {
             const profesors = res.data; 
             const ready = true;  
-           // console.log(profesors)
+            //console.log(profesors)
+            const obs  = profesors.prof_observaciones
             const proms = (profesors.prof_proms_results*1).toFixed(1)
-            this.setState({ ready, profesors, proms });
+            this.setState({ ready, profesors, proms, obs });
      })
     } 
 
@@ -190,7 +191,7 @@ class ProfesorList2 extends Component {
                 </DialogContentText>:
                 <div>
                   <DialogContentText id="alert-dialog-description">
-                  El profesor no posee observaciones actualmente
+                  El profesor no posee observaciones actualmente 
                   </DialogContentText>
                 </div>
               }  

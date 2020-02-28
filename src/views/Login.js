@@ -22,28 +22,31 @@ class Login extends Component {
  
 
 responseGoogle = async(response) => {
-    console.log(response.w3.Paa)
-    localStorage.setItem('google', response.w3.Paa);
-    const userObject ={
-        user_mail:response.w3.U3
-    }
-        window.alert('Verificando...')
-       await this.props.signInAction( userObject, this.props.history);
-        const token = localStorage.getItem('token');
-        console.log(token)
-
-        if (token === "false") {
-
-            window.alert('El mail no se encuentra registrado')
-            const auth2 = window.gapi.auth2.getAuthInstance() 
-            auth2.signOut().then(
-                auth2.disconnect().then(this.props.onLogoutSuccess)
-            )
+    
+       // console.log(response.profileObj)
+        localStorage.setItem('google', response.profileObj.imageUrl);
+        localStorage.setItem('nombre', response.profileObj.name); 
+        const userObject ={
+            user_mail:response.profileObj.email
         }
-        else{
-            window.alert('Bienvenido(a): ' + response.w3.ofa)
-            window.location.href = "/portada";
-        }
+            window.alert('Verificando...')
+        await this.props.signInAction( userObject, this.props.history);
+            const token = localStorage.getItem('token');
+           // console.log(token)
+        
+            if (token === "false") {
+
+                window.alert('El mail no se encuentra registrado')
+                const auth2 = window.gapi.auth2.getAuthInstance() 
+                auth2.signOut().then(
+                    auth2.disconnect().then(this.props.onLogoutSuccess)
+                )
+            }
+            else{
+                window.alert('Bienvenido(a): ' + response.profileObj.name)
+                window.location.href = "/portada";
+            }
+          
     console.log(response)
 }
 

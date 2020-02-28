@@ -25,23 +25,68 @@ class ProfesorList2 extends Component {
 
     componentDidMount() {
         this._isMounted = true;
-        axios.get(`http://localhost:3000/profsInfor.json`)
-        .then(res => {
-          const profesors = res.data;
-          if (this._isMounted) {
-            if(profesors.length !== 0){
-              this.state.rows2.push(profesors.map((profesor,index) =>  
-              this.createData1(profesor.prof_nombre_corto, profesor.id),
-              )
-              );
-            }
-           
-            const ready = true;  
-            // console.log(this.state.rows2[0])
-            this.setState({ ready });
-          }  
-         
-        })
+        const rol = localStorage.getItem('user_cargo');
+
+        if(rol === '1'){
+          
+            axios.get(`http://localhost:3000/profsCivil.json`)
+              .then(res => {
+                const profesors = res.data;
+                if (this._isMounted) {
+                  if(profesors.length !== 0){
+                    this.state.rows2.push(profesors.map((profesor,index) =>  
+                    this.createData1(profesor.prof_nombre_corto, profesor.id),
+                    )
+                    );
+                  }
+                
+                  const ready = true;  
+                  // console.log(this.state.rows2[0])
+                  this.setState({ ready });
+                }  
+              
+              })
+          }
+        if(rol === '3'){
+
+              axios.get(`http://localhost:3000/profsEjecu.json`)
+                  .then(res => {
+                    const profesors = res.data;
+                    if (this._isMounted) {
+                      if(profesors.length !== 0){
+                        this.state.rows2.push(profesors.map((profesor,index) =>  
+                        this.createData1(profesor.prof_nombre_corto, profesor.id),
+                        )
+                        );
+                      }
+                    
+                      const ready = true;  
+                      // console.log(this.state.rows2[0])
+                      this.setState({ ready });
+                    }  
+                  
+                  })
+        }
+        else{
+
+            axios.get(`http://localhost:3000/profsInfor.json`)
+            .then(res => {
+              const profesors = res.data;
+              if (this._isMounted) {
+                if(profesors.length !== 0){
+                  this.state.rows2.push(profesors.map((profesor,index) =>  
+                  this.createData1(profesor.prof_nombre_corto, profesor.id),
+                  )
+                  );
+                }
+              
+                const ready = true;  
+                // console.log(this.state.rows2[0])
+                this.setState({ ready });
+              }  
+            
+            })
+        }
   }
   
   componentWillUnmount() {

@@ -25,15 +25,45 @@ class Asignaturas extends Component {
 
 
 componentDidMount() {
+  const rol = localStorage.getItem('user_cargo');
 
-    axios.get(`http://localhost:3000/asignInfo.json`)
-        .then(res => {
-          const asignaturas = res.data;
-          const ready = true
-          this.setState({asignaturas, ready});
-         
-        })
-      //  console.log(this.state.asignaturas.cursos)
+  if(rol === '1'){
+
+      axios.get(`http://localhost:3000/asignCivil.json`)
+      .then(res => {
+        const asignaturas = res.data;
+        const ready = true
+        this.setState({asignaturas, ready});
+      
+      })
+    //  console.log(this.state.asignaturas.cursos)
+
+  }
+  if(rol === '3'){
+
+      axios.get(`http://localhost:3000/asignEjecu.json`)
+            .then(res => {
+              const asignaturas = res.data;
+              const ready = true
+              this.setState({asignaturas, ready});
+            
+            })
+          //  console.log(this.state.asignaturas.cursos)
+
+
+  }
+  else{
+
+      axios.get(`http://localhost:3000/asignInfo.json`)
+          .then(res => {
+            const asignaturas = res.data;
+            const ready = true
+            this.setState({asignaturas, ready});
+          
+          })
+        //  console.log(this.state.asignaturas.cursos)
+
+    }  
 } 
 
 createData1(name,id) {
@@ -82,7 +112,7 @@ createData1(name,id) {
             ]}
             data={this.state.asignaturas}
             
-            title="Profesores"
+            title="Asignaturas"
             
           />
   

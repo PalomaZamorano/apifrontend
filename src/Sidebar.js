@@ -141,9 +141,29 @@ class SideBar extends Component{
       }  
     }
 
+    rol(cargo){
+
+      if(cargo === '0'){
+        cargo = "Subdirector(a)"
+      }
+      if(cargo === '1'){
+          cargo = "Jefe(a) de carrera: civil"
+      }
+      if(cargo === '3'){
+        cargo = "Jefe(a) de carrera: ejecución"
+      }
+      if(cargo === '2'){
+          cargo = "Coordinador(a) docente"
+      } 
+      return cargo
+    }
+
     render() {
        const viewHeigth = window.outerHeight;
        const image = localStorage.getItem('google');
+       const rol = this.rol(localStorage.getItem('user_cargo'));
+       const rol2 = localStorage.getItem('user_rol');
+       const name =  localStorage.getItem('nombre');
       return (
         <div className="shopping-list">
 
@@ -157,11 +177,13 @@ class SideBar extends Component{
         >   
         
         <Navbar  variant="dark" collapseOnSelect  style={this.state.style} >
-            <Navbar.Brand  href="/portada" >Departamento de Ingeniería Informática</Navbar.Brand>
+      <Navbar.Brand  href="/portada" >Departamento de Ingeniería Informática - {rol}</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
           
-            {user ?
+            {user && rol2 === '0' ?
+
+            
             <Tooltip title="Administrar" placement="left" style ={{fontSize: 20}}> 
             <Nav.Item className="ml-auto">
                   <NavDropdown             
@@ -172,9 +194,22 @@ class SideBar extends Component{
                     <NavDropdown.Item href="/asigncoord" style ={{fontSize: 15}} > Asignar Coordinación </NavDropdown.Item>
                   </NavDropdown>
             </Nav.Item>
-            </Tooltip> : <div></div>}
-            {user ?
-            <Nav.Item >
+            </Tooltip>
+            : <div></div>}
+
+            {user  && rol2 === '0'?
+            <Nav.Item>
+              <Tooltip title={`Hay ${this.state.cantidad} profesores(as) con nota inferior a 3.5`} placement="top" style ={{fontSize: 20}}> 
+                <Nav.Link  href="/detalleNotify" style={{ color: '#FFFFFF' }} >
+                  <Badge badgeContent={this.state.cantidad} color="secondary">
+                    <IoMdNotificationsOutline  />
+                  </Badge>
+                </Nav.Link>
+              </Tooltip>
+            </Nav.Item>  : <div></div>}
+
+            {user  && rol2 === '1'?
+            <Nav.Item className="ml-auto">
               <Tooltip title={`Hay ${this.state.cantidad} profesores(as) con nota inferior a 3.5`} placement="top" style ={{fontSize: 20}}> 
                 <Nav.Link  href="/detalleNotify" style={{ color: '#FFFFFF' }} >
                   <Badge badgeContent={this.state.cantidad} color="secondary">
@@ -186,7 +221,7 @@ class SideBar extends Component{
 
           {image ? 
             <Nav.Item>
-              <Tooltip title="Cerrar sesión" placement="top" style ={{fontSize: 20}}>   
+              <Tooltip title={`Cerrar sesión - ${name}`} placement="top" style ={{fontSize: 20}}>   
                 <Nav.Link >
                 <GoogleLogout
                         clientId="71019110674-e1sd6ad8opdi7qdnjpjss6gkt4f8ffjh.apps.googleusercontent.com"

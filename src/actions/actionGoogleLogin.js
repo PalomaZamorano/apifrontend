@@ -12,7 +12,7 @@ export function signInGoogle( mail , history) {
   return async (dispatch) => {
     const res = await axios.post(`${URL}`,mail);
     if(res.data.length > 0){
-      console.log(res.data.profileObj)
+  //    console.log(res.data.profileObj)
       dispatch({ type: AUTHENTICATED });
       localStorage.setItem('userGoogle', true);
       localStorage.setItem('userPerfil', res.data.profileObj); 
